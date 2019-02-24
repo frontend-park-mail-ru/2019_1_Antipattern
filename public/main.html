@@ -3,53 +3,30 @@
 <head>
   <meta charset="utf-8">
   <title></title>
-  <style type="text/css">
-
-    .justify-around {
-      justify-content: space-around;
-    }
-
-    .font-sm {
-      font-size: 12px;
-    }
-
-    .font-md {
-      font-size: 24px;
-    }
-
-    .font-lg {
-      font-size: 34px;
-    }
-
-    .font-street-gathering {
-      font-style: "Street Gathering";
-    }
-
-    .font-lazer84 {
-      font-style: "Lazer 84";
-    }
-
-    </style>
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/neon.css">
+  <link rel="stylesheet" href="css/fonts.css">
 </head>
 <body>
-  <div class="container">
-    <div class="menu">
-      <div class="top-menu justify-center justify-around">
-        <div class="about">
+  <div class="container align-items-center text-center font-street-gathering font-lg">
+    <div id="menu">
+      <div class="top-menu justify-around">
+        <div class="about neon-button-blue">
         <p><a href=#>About</a></p>
         </div>
-      <div class="logo">
+      <div class="logo neon-button-blue">
         <p><a href=#>KPACUBO</a></p>
+        <div class="font-street-gathering">Hello!</div>
       </div>
-        <div class="user-form">
-        <p><a href=#>Signup</a></p>
-        <p><a href=#>Login</a></p>
+        <div id="user-form" class="neon-button-blue">
+        <p neon-button-blue><a href=#>Signup</a></p>
+        <p neon-button-blue><a href=#>Login</a></p>
         </div>
         </div>
-        <div class="main-menu justify-center">
-          <p><a href=#>Single</a></p>
-          <p><a href=#>Multiplayer</a></p>
-          <p><a href=#>Leaderboard</a></p>
+        <div class="main-menu justify-center neon-button-blue">
+          <div id="single"><p><a href=#>Single</a></p>
+          <div id="multiplayer"><p><a href=#>Multiplayer</a></p></div>
+          <div id="leaderboard"><p><a href=#>Leaderboard</a></p></div>
           </div>
       </div>
     </div>

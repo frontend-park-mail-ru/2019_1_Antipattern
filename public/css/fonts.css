@@ -1,0 +1,25 @@
+.font-sm {
+  font-size: 22px;
+}
+
+.font-md {
+  font-size: 34px;
+}
+
+.font-lg {
+  font-size: 54px;
+}
+
+@font-face {
+font-family: "Street Gathering";
+src: url("../fonts/Street_Gathering.eot");
+src:
+url("../fonts/Street_Gathering.woff") format("woff"),
+url("../fonts/Street_Gathering.otf") format("opentype"),
+url("../fonts/Street_Gathering.svg") format("svg");
+}
+
+.font-street-gathering {
+  font-family: "Street Gathering";
+  letter-spacing: 4px;
+}
