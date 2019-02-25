@@ -7,7 +7,7 @@
 }
 
 .neon-button-black {
-  border: 1px solid #333;
+  border: 3px outset #333;
   color: #333;
   background: none;
   outline: none;
@@ -22,7 +22,7 @@
 
 
 .neon-button-blue {
-  border: 1px solid #228DFF;
+  border: 3px outset #228DFF;
   color: #228DFF;
   background: none;
   outline: none;
@@ -36,7 +36,7 @@
 }
 
 .neon-button-green {
-  border: 1px solid #adff03;
+  border: 3px outset #adff03;
   color: #adff03;
   background: none;
   outline: none;
@@ -51,7 +51,7 @@
 
 
 .neon-button-cyan {
-  border: 1px solid #0abdc6;
+  border: 3px outset #0abdc6;
   color: #0abdc6;
   background: none;
   outline: none;
@@ -66,7 +66,7 @@
 
 
 .neon-button-red {
-  border: 1px solid #FF1177;
+  border: 3px outset #FF1177;
   color: #FF1177;
   background: none;
   outline: none;
@@ -80,7 +80,7 @@
 
 
 .neon-button-purple {
-  border: 1px solid #9400D3;
+  border: 3px outset #9400D3;
   color: #9400D3;
   background: none;
   outline: none;
@@ -97,7 +97,7 @@
 
 
 .neon-button-yellow {
-  border: 1px solid #FFDD1B;
+  border: 3px outset #FFDD1B;
   color: #FFDD1B;
   background: none;
   outline: none;
@@ -111,7 +111,7 @@
 }
 
 .neon-button-white {
-  border: 1px solid #FFFFFF;
+  border: 3px outset #FFFFFF;
   color: #FFFFFF;
   background: none;
   outline: none;
