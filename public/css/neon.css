@@ -192,6 +192,7 @@
 }
 body {
   background-image: url("../vhs.jpeg");
+  background-size: contain;
 }
 .neon-text-cyan {
   color: #0abdc6;
