@@ -9,6 +9,9 @@
 .font-lg {
   font-size: 54px;
 }
+.font-xl {
+  font-size: 120px;
+}
 
 @font-face {
 font-family: "Street Gathering";
