@@ -37,3 +37,18 @@ url("../fonts/Street_Gathering.svg") format("svg");
   font-family: "Hacked";
   letter-spacing: 4px;
 }
+
+@font-face {
+font-family: 'Brandon Grotesque Regular';
+src: url('../fonts/BrandonGrotesque-Regular.eot');
+src: url('../fonts/BrandonGrotesque-Regular.eot?#iefix') format('embedded-opentype'),
+url('../fonts/BrandonGrotesque-Regular.woff') format('woff'),
+url('../fonts/BrandonGrotesque-Regular.ttf') format('truetype');
+font-weight: normal;
+font-style: normal;
+}
+
+.font-brandon {
+  font-family: 'Brandon Grotesque Regular';
+  letter-spacing: 8px;
+}

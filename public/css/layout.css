@@ -35,6 +35,13 @@ a, a:hover {
   justify-content: space-around !important;
 }
 
+.justify-end {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between !important;
+}
+
 .d-flex-column {
     display: flex;
     flex-direction: column;
@@ -184,6 +191,12 @@ a, a:hover {
 }
 
 input {
-  padding: 10px;
+  padding-top: 16px;
   margin: 15px;
+  font-family: hacked;
+}
+
+label {
+  letter-spacing: 0;
+
 }
