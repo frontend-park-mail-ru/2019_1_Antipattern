@@ -197,6 +197,9 @@ body {
 .neon-text-cyan {
   color: #0abdc6;
 }
+.blur {
+  filter: blur(1px)
+}
 
 .neon-text-cyan:hover {
   animation: neon-cyan 1.5s ease-in-out infinite alternate;
@@ -368,4 +371,17 @@ body::after {
   z-index: 2;
   pointer-events: none;
   animation: flicker 3s infinite;
+}
+.input-dark:focus {
+  transform: translate(0);
+  box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FF1177, 0 0 35px #FF1177, 0 0 40px #FF1177, 0 0 50px #FF1177, 0 0 75px #FF1177;
+  /*text-shadow: 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #228DFF, 0 0 1px #228DFF, 0 0 2px #228DFF, 0 0 1px #228DFF, 0 0 1px #228DFF;*/
+}
+
+.input-dark {
+  background-color: #333333;
+  border: 2px outset #FF1177;
+  color: #cfcfcfcf;
+  font-size: 16px;
+  padding: 10px;
 }
