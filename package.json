@@ -1,0 +1,23 @@
+{
+  "name": "2019_1_deathpacito-front",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2019_1_DeathPacito.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontend-park-mail-ru/2019_1_DeathPacito/issues"
+  },
+  "homepage": "https://github.com/frontend-park-mail-ru/2019_1_DeathPacito#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
