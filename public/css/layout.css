@@ -182,3 +182,8 @@ a, a:hover {
     top: 0;
     left: 0;
 }
+
+input {
+  padding: 10px;
+  margin: 15px;
+}
