@@ -1,34 +1,64 @@
 
 const AjaxModule = window.AjaxModule;
 
-const root = document.getElementById("root");
+let root = document.getElementById("root");
 
-function createMainMenu () {
-
+function temp(xhr) {
+  let raw = xhr.responseText;
+  let compiled = Handlebars.compile(raw);
+  root.innerHTML = compiled();
 };
 
-createMainMenu();
-
-function temp(template) {
-  document.getElementById("menu").innerHTML += template();
-};
-
-function loadHandlebarsTemplate(url, callback) {
-    if (url == '/') {
-      url = '/menu.html';
-    }
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var raw = xhr.responseText;
-            var compiled = Handlebars.compile(raw);
-            callback(compiled);
-        }
-    };
-    xhr.send();
+function createPage(pageName) {
+  AjaxModule.doGet(
+    {callback:temp,
+    path:pages[pageName],
+  });
+  window.history.pushState("object or string", "Title", "" + pageName);
 }
 
-let tempUrl = '/menu.html'
+const pages = {
+  menu: '/menu.html',
+  login: '/login.html',
+  signUp: '/signup.html',
+  leaders: '/leaderboard.html',
+	me: '/profile.html'
+};
 
-loadHandlebarsTemplate(tempUrl, temp);
+createPage('menu');
+
+root.addEventListener('click', function (event) {
+	if (!(event.target instanceof HTMLAnchorElement)) {
+		return;
+	}
+
+	event.preventDefault();
+	const link = event.target;
+
+	console.log({
+		href: link.name,
+		dataHref: link.dataset.href
+	});
+  createPage(link.name);
+});
+
+window.onpopstate = function( e ) {
+    e.preventDefault();
+    let returnLocation = window.history.location || document.location;
+    // console.log(returnLocation.pathname);
+    createPage( returnLocation.pathname.substr(1));
+}
+
+window.onpushstate = function( e ) {
+    e.preventDefault();
+    let returnLocation = window.history.location || document.location;
+    console.log(returnLocation.pathname);
+    createPage( returnLocation.pathname.substr(1));
+}
+
+window.onload = function( e ) {
+    e.preventDefault();
+    let returnLocation = window.history.location || document.location;
+    console.log(returnLocation.pathname);
+    createPage( returnLocation.pathname.substr(1));
+}
