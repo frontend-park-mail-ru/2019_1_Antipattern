@@ -42,6 +42,12 @@ a, a:hover {
   justify-content: space-between !important;
 }
 
+.justify-start {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
 .d-flex-column {
     display: flex;
     flex-direction: column;
@@ -101,6 +107,22 @@ a, a:hover {
 .my-4 {
     margin-top: 20px;
     margin-bottom: 20px;
+}
+.mx-1 {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.mx-2 {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.mx-3 {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.mx-4 {
+    margin-left: 20px;
+    margin-right: 20px;
 }
 .top-menu {
     margin-bottom: 20%;
@@ -188,6 +210,30 @@ a, a:hover {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.img-avatar {
+    min-width: 200px;
+    min-height: 200px;
+
+    height: 3em;
+    width: 3em;
+    border-radius: 7em;
+}
+
+.img-icon {
+    height: 40px;
+    width: 40px;
+    filter: invert(1);
+}
+
+.menu-button {
+    border-radius: 1em;
+    padding: 5px 10px 5px;
+}
+
+.fill-width {
+    width: 100vh;
 }
 
 input {
