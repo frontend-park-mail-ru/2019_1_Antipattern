@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 (function() {
-	const noop = () => null;
+  const noop = () => null;
   const ajax = window.AjaxModule;
   const apiPreffix = "";
 	class API {
@@ -17,7 +17,7 @@
       }, apiPreffix + url, body);
     }
 
-		register(login, email, password, name, callback) {
+    register(login, email, password, name, callback) {
       const url = '/api/register';
       const data = {
         login : login,
@@ -29,7 +29,7 @@
     }
 
     authorize(login, password, callback) {
-      url = '/api/auth';
+      const url = '/api/auth';
       const data = {
         login : login,
         password : password
@@ -38,16 +38,16 @@
     }
 
     updateProfile(login, password, callback) {
-      url = '/api/update';
+      const url = '/api/update';
     }
     
     getUserInfo(login, password, callback) {
-      url = '/api/get_info'
+      const url = '/api/get_info'
     
     }
     
     isAuthorized(callback) {
-      url = '/api/is_authorized'
+      const url = '/api/is_authorized'
 
     }
 	}
