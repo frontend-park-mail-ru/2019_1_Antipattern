@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 (function() {
 	const noop = () => null;
@@ -6,15 +6,29 @@
   const apiPreffix = "";
 	class API {
     _sendRequest(url, body, callback) {
-      ajax.doPost(
-        (xhr) => {
-          const object = JSON.parse(xhr.response);
+      ajax.doPost( {
+       callback: (xhr) => {
+          try {
+            const object = JSON.parse(xhr.response);
+          }
+          catch (SyntaxError) {
+            if (callback) {
+              callback('broken_response', null);
+            }
+            
+          }
+          if (!callback) {
+            return
+          }
           if (object.type != 'reg') {
             callback('wrong_response', null)
             return
           }
           callback(object.status, object.payload);
-      }, apiPreffix + url, body);
+        }, 
+        path : apiPreffix + url, 
+        body : body 
+      });
     }
 
 		register(login, email, password, name, callback) {
@@ -25,7 +39,7 @@
         password : password,
         name : name
       };
-      _sendRequest(url, data, callback)
+      this._sendRequest(url, data, callback)
     }
 
     authorize(login, password, callback) {
@@ -34,7 +48,7 @@
         login : login,
         password : password
       };
-      _sendRequest(url, data, callback)
+      this._sendRequest(url, data, callback)
     }
 
     updateProfile(login, password, callback) {
