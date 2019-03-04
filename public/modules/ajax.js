@@ -10,18 +10,18 @@
 		} = {}) {
 			const xhr = new XMLHttpRequest();
 			xhr.open(method, path, true);
-			// xhr.withCredentials = true;
+			xhr.withCredentials = true;
 
-			// if (body) {
-			// 	xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-			// }
+			if (body) {
+				xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+			}
 
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState !== 4) {
 					return;
 				}
 
-				callback(xhr);				
+				callback(xhr);
 			};
 
 			if (body) {

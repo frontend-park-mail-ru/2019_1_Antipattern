@@ -14,6 +14,7 @@ function createPage(pageName) {
     {callback:temp,
     path:pages[pageName],
   });
+  window.history.pushState("object or string", "Title", "" + pageName);
 }
 
 const pages = {
@@ -40,3 +41,24 @@ root.addEventListener('click', function (event) {
 	});
   createPage(link.name);
 });
+
+window.onpopstate = function( e ) {
+    e.preventDefault();
+    let returnLocation = window.history.location || document.location;
+    // console.log(returnLocation.pathname);
+    createPage( returnLocation.pathname.substr(1));
+}
+
+window.onpushstate = function( e ) {
+    e.preventDefault();
+    let returnLocation = window.history.location || document.location;
+    console.log(returnLocation.pathname);
+    createPage( returnLocation.pathname.substr(1));
+}
+
+window.onload = function( e ) {
+    e.preventDefault();
+    let returnLocation = window.history.location || document.location;
+    console.log(returnLocation.pathname);
+    createPage( returnLocation.pathname.substr(1));
+}
