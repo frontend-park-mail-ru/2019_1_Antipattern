@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2019_1_DeathPacito#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "handlebars": "^4.1.0"
   }
 }
