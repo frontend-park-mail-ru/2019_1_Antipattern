@@ -1,0 +1,24 @@
+.button-sm {
+	border-radius: 0.7em;
+	padding: 0.02em 0.2em 0.02em;
+	font-size: 1.375em;
+}
+
+.button-md {
+	border-radius: 0.7em;
+	padding: 0.08em 0.32em 0.08em;
+	font-size: 2.125em;
+}
+
+.button-lg {
+	border-radius: 0.7em;
+	padding: 0.2em 0.7em 0.2em;
+	font-size: 3.375em;
+}
+
+.button-xl {
+	border-radius: 1em;
+	padding: 0.35em 0.9em 0.35em;
+	font-size: 7.500em;
+}
+

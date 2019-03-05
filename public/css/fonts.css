@@ -1,16 +1,16 @@
 .font-sm {
-  font-size: 22px;
+  font-size: 1.375em;
 }
 
 .font-md {
-  font-size: 34px;
+  font-size: 2.125em;
 }
 
 .font-lg {
-  font-size: 54px;
+  font-size: 3.375em;
 }
 .font-xl {
-  font-size: 120px;
+  font-size: 7.500em;
 }
 
 @font-face {

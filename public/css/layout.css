@@ -68,6 +68,30 @@ a, a:hover {
     display: block;
 }
 
+.scroll {
+    overflow: scroll;
+}
+
+.fill-width {
+    width: 100vh;
+}
+
+.height-sm {
+    max-height: 10.000em;
+}
+
+.height-md {
+    max-height: 17.500em;
+}
+
+.height-lg {
+    max-height: 25.000em;
+}
+
+.height-xl {
+    max-height: 32.500em;
+}
+
 /*
     Paddings and margins
 */
@@ -227,13 +251,10 @@ a, a:hover {
     filter: invert(1);
 }
 
-.menu-button {
-    border-radius: 1em;
-    padding: 5px 10px 5px;
-}
-
-.fill-width {
-    width: 100vh;
+#leaderboard {
+    padding: 0.5em;
+    border-bottom: none;
+    border-top: none;
 }
 
 input {
@@ -244,5 +265,5 @@ input {
 
 label {
   letter-spacing: 0;
-
 }
+
