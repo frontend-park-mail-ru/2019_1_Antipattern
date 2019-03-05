@@ -69,7 +69,14 @@ a, a:hover {
 }
 
 .scroll {
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+
+.scroll::-webkit-scrollbar { 
+    display: none;
 }
 
 .fill-width {
