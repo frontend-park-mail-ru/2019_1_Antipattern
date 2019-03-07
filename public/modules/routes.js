@@ -132,10 +132,33 @@
         }
     };
 
+    class AboutRoute{
+        constructor(rootEl, router) {
+            if (!(rootEl instanceof Node)) {
+                throw TypeError('rootEl must be Node');
+            }
+            if (!(router instanceof Router)) {
+                throw TypeError('router must be Router');
+            }
+
+            this._rootEl = rootEl;
+            this._router = router;
+        }
+
+        init() {
+            this._rootEl.innerHTML = Handlebars.templates['about.html']();
+        }
+
+        deinit() {
+            this._rootEl.innerHTML = '';
+        }
+    };
+
     window.IndexRoute = IndexRoute;
     window.LoginRoute = LoginRoute;
     window.LeaderBoardRoute = LeaderBoardRoute;
     window.SignUpRoute = SignUpRoute;
     window.ProfileRoute = ProfileRoute;
     window.SettingsRoute = SettingsRoute;
+    window.AboutRoute = AboutRoute;
 })();

@@ -9,6 +9,7 @@
         router.addRoute('/settings', wrapConstructorToFactory(SettingsRoute));
         router.addRoute('/signup', wrapConstructorToFactory(SignUpRoute));
         router.addRoute('/leaderboard', wrapConstructorToFactory(LeaderBoardRoute));
+        router.addRoute('/about', wrapConstructorToFactory(AboutRoute));
         router.setDefaultRoute('/');
 
         router.init();
