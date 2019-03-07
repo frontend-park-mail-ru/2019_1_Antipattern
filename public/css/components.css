@@ -25,6 +25,9 @@
 .menu-button {
 	width: var(--width);
 	height: calc(var(--width) / 10 * 3);
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .menu-button-sm {
