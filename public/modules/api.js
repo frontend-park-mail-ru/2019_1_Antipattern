@@ -56,8 +56,14 @@
             this._sendRequest(url, data, callback, 'auth')
         }
 
-        updateProfile(login, password, callback) {
+        updateProfile(newName, newPassword, callback) {
             const url = '/api/update';
+            const data = {
+                name : login,
+                password : password
+            };
+
+            this._sendRequest(url, data, callback, 'auth')
         }
 
         getUserInfo(login, password, callback) {
