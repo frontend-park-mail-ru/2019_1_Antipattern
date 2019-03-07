@@ -56,17 +56,3 @@ window.onpopstate = function( e ) {
     // console.log(returnLocation.pathname);
     createPage( returnLocation.pathname.substr(1));
 };
-
-window.onpushstate = function( e ) {
-    e.preventDefault();
-    let returnLocation = window.history.location || document.location;
-    console.log(returnLocation.pathname);
-    createPage( returnLocation.pathname.substr(1));
-};
-
-window.onload = function( e ) {
-    e.preventDefault();
-    let returnLocation = window.history.location || document.location;
-    console.log(returnLocation.pathname);
-    createPage( returnLocation.pathname.substr(1));
-};
