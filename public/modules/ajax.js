@@ -1,7 +1,15 @@
 (function() {
 	const noop = () => null;
-
+	/** class performing Ajax requests with following callbacks. */
 	class AjaxModule {
+
+		/**
+     * Make an ajax request.
+     * @param {function} callback - Function to perform on xhr object.
+     * @param {string} method - GET/POST method.
+		 * @param {string} path - URL path for making a xhr request.
+		 * @param {Object} body - context object for callbacks.
+     */
 		_ajax({
 			callback = noop,
 			method = 'GET',
@@ -31,6 +39,10 @@
 			}
 		}
 
+		/**
+     * Decorator with POST request logic.
+     * @param {Object} - Same params as _ajax({}) func.
+     */
 		doGet({
 			callback = noop,
 			path = '/',
@@ -44,6 +56,10 @@
 			});
 		}
 
+		/**
+     *  Decorator with POST request logic.
+     * @param {Object} - Same params as _ajax({}) func.
+     */
 		doPost({
 			callback = noop,
 			path = '/',
