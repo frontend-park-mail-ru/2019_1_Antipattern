@@ -1,15 +1,22 @@
-import * as Handlebars from "./js/handlebars-v4.1.0";
+// import {} as Handlebars from './js/handlebars-v4.1.0.js';
 
 const AjaxModule = window.AjaxModule;
 
 let root = document.getElementById("root");
-
+/**
+ * Callback function for xhr object to compile into handlebars template.
+ * @param {function} callback - Function to perform on xhr object.
+ */
 function temp(xhr) {
     let raw = xhr.responseText;
     let compiled = Handlebars.compile(raw);
     root.innerHTML = compiled();
 }
 
+/**
+ * Callback function for xhr object to compile into handlebars template.
+ * @param {function} callback - Function to perform on xhr object.
+ */
 function createPage(pageName) {
     AjaxModule.doGet({
         callback: temp,
