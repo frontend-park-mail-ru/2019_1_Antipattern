@@ -24,25 +24,52 @@
 
 .menu-button {
 	width: var(--width);
-	height: calc(var(--width) / 10 * 3);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-.menu-button-sm {
-	--width: 90px;
+@media only screen and (max-width: 768px) {
+	.menu-button {
+		height: calc(var(--width) / 10 * 3);
+	}
+
+	.menu-button-sm {
+		--width: 90px;
+	}
+
+	.menu-button-md {
+		--width: 130px;
+	}
+
+	.menu-button-lg {
+		--width: 190px;
+	}
+
+	.menu-button-xl {
+		--width: 250px;
+	}
 }
 
-.menu-button-md {
-	--width: 130px;
-}
+@media only screen and (min-width: 768px) {
+	.menu-button {
+		height: calc(var(--width) / 10 * 4);
+	}
 
-.menu-button-lg {
-	--width: 190px;
-}
+	.menu-button-sm {
+		--width: 110px;
+	}
 
-.menu-button-xl {
-	--width: 250px;
+	.menu-button-md {
+		--width: 140px;
+	}
+
+	.menu-button-lg {
+		--width: 210px;
+	}
+
+	.menu-button-xl {
+		--width: 280px;
+	}
 }
 
