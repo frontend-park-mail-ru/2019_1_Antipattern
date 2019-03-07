@@ -21,3 +21,25 @@
 	padding: 0.35em 0.9em 0.35em;
 	font-size: 4.000em;
 }
+
+.menu-button {
+	width: var(--width);
+	height: calc(var(--width) / 10 * 3);
+}
+
+.menu-button-sm {
+	--width: 90px;
+}
+
+.menu-button-md {
+	--width: 130px;
+}
+
+.menu-button-lg {
+	--width: 190px;
+}
+
+.menu-button-xl {
+	--width: 250px;
+}
+
