@@ -139,57 +139,28 @@
 }
 
 .neon-text-black:hover {
-  animation: neon-black 1.5s ease-in-out infinite alternate;
-  -webkit-animation: neon-black 1.5s ease-in-out infinite alternate;
-  -moz-animation: neon-black 1.5s ease-in-out infinite alternate;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #333, 0 0 35px #333, 0 0 40px #333, 0 0 50px #333, 0 0 75px #333;
 }
 
-@keyframes neon-black {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #333, 0 0 70px #333, 0 0 80px #333, 0 0 100px #333, 0 0 150px #333;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #333, 0 0 35px #333, 0 0 40px #333, 0 0 50px #333, 0 0 75px #333;
-  }
-}
 
 .neon-text-blue {
   color: #228DFF;
 }
 
 .neon-text-blue:hover {
-  animation: neon-blue 1.5s ease-in-out infinite alternate;
-  -webkit-animation: neon-blue 1.5s ease-in-out infinite alternate;
-  -moz-animation: neon-blue 1.5s ease-in-out infinite alternate;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
 }
 
-@keyframes neon-blue {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #228DFF, 0 0 70px #228DFF, 0 0 80px #228DFF, 0 0 100px #228DFF, 0 0 150px #228DFF;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
-  }
-}
 
 .neon-text-green {
   color: #adff03;
 }
 
 .neon-text-green:hover {
-  animation: neon-green 1.5s ease-in-out infinite alternate;
-  -webkit-animation: neon-green 1.5s ease-in-out infinite alternate;
-  -moz-animation: neon-green 1.5s ease-in-out infinite alternate;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #adff03, 0 0 35px #adff03, 0 0 40px #adff03, 0 0 50px #adff03, 0 0 75px #adff03;
+
 }
 
-@keyframes neon-green {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #adff03, 0 0 70px #adff03, 0 0 80px #adff03, 0 0 100px #adff03, 0 0 150px #adff03;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #adff03, 0 0 35px #adff03, 0 0 40px #adff03, 0 0 50px #adff03, 0 0 75px #adff03;
-  }
-}
 body {
   background-image: url("../vhs.jpeg");
   /*background-size: contain;*/
@@ -206,18 +177,8 @@ body {
 }
 
 .neon-text-cyan:hover {
-  animation: neon-cyan 1.5s ease-in-out infinite alternate;
-  -webkit-animation: neon-cyan 1.5s ease-in-out infinite alternate;
-  -moz-animation: neon-cyan 1.5s ease-in-out infinite alternate;
-}
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #0abdc6, 0 0 35px #0abdc6, 0 0 40px #0abdc6, 0 0 50px #0abdc6, 0 0 75px #0abdc6;
 
-@keyframes neon-cyan {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #0abdc6, 0 0 70px #0abdc6, 0 0 80px #0abdc6, 0 0 100px #0abdc6, 0 0 150px #0abdc6;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #0abdc6, 0 0 35px #0abdc6, 0 0 40px #0abdc6, 0 0 50px #0abdc6, 0 0 75px #0abdc6;
-  }
 }
 
 .neon-text-red {
@@ -225,37 +186,17 @@ body {
 }
 
 .neon-text-red:hover {
-  animation: neon-red 1.5s ease-in-out infinite alternate;
-  -webkit-animation: neon-red 1.5s ease-in-out infinite alternate;
-  -moz-animation: neon-red 1.5s ease-in-out infinite alternate;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FF1177, 0 0 35px #FF1177, 0 0 40px #FF1177, 0 0 50px #FF1177, 0 0 75px #FF1177;
 }
 
-@keyframes neon-red {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FF1177, 0 0 70px #FF1177, 0 0 80px #FF1177, 0 0 100px #FF1177, 0 0 150px #FF1177;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FF1177, 0 0 35px #FF1177, 0 0 40px #FF1177, 0 0 50px #FF1177, 0 0 75px #FF1177;
-  }
-}
 
 .neon-text-purple {
   color: #9400D3;
 }
 
 .neon-text-purple:hover {
-  animation: neon-purple 1.5s ease-in-out infinite alternate;
-  -webkit-animation: neon-purple 1.5s ease-in-out infinite alternate;
-  -moz-animation: neon-purple 1.5s ease-in-out infinite alternate;
-}
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #9400D3, 0 0 35px #9400D3, 0 0 40px #9400D3, 0 0 50px #9400D3, 0 0 75px #9400D3;
 
-@keyframes neon-purple {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #9400D3, 0 0 70px #9400D3, 0 0 80px #9400D3, 0 0 100px #9400D3, 0 0 150px #9400D3;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #9400D3, 0 0 35px #9400D3, 0 0 40px #9400D3, 0 0 50px #9400D3, 0 0 75px #9400D3;
-  }
 }
 
 .neon-text-yellow {
@@ -263,38 +204,19 @@ body {
 }
 
 .neon-text-yellow:hover {
-  animation: neon-yellow 1.5s ease-in-out infinite alternate;
-  -webkit-animation: neon-yellow 1.5s ease-in-out infinite alternate;
-  -moz-animation: neon-yellow 1.5s ease-in-out infinite alternate;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFDD1B, 0 0 35px #FFDD1B, 0 0 40px #FFDD1B, 0 0 50px #FFDD1B, 0 0 75px #FFDD1B;
 }
 
-@keyframes neon-yellow {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #FFDD1B, 0 0 70px #FFDD1B, 0 0 80px #FFDD1B, 0 0 100px #FFDD1B, 0 0 150px #FFDD1B;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #FFDD1B, 0 0 35px #FFDD1B, 0 0 40px #FFDD1B, 0 0 50px #FFDD1B, 0 0 75px #FFDD1B;
-  }
-}
 
 .neon-text-white {
   color: #FFFFFF;
 }
 
 .neon-text-white:hover {
-  animation: neon-white 1.5s ease-in-out infinite alternate;
-  -webkit-animation: neon-white 1.5s ease-in-out infinite alternate;
-  -moz-animation: neon-white 1.5s ease-in-out infinite alternate;
+  text-shadow: 0 0 5px #000000, 0 0 10px #000000, 0 0 15px #000000, 0 0 20px #FFFFFF, 0 0 35px #FFFFFF, 0 0 40px #FFFFFF, 0 0 50px #FFFFFF, 0 0 75px #FFFFFF;
+
 }
 
-@keyframes neon-white {
-  from {
-    text-shadow: 0 0 10px #000000, 0 0 20px #000000, 0 0 30px #000000, 0 0 40px #FFFFFF, 0 0 70px #FFFFFF, 0 0 80px #FFFFFF, 0 0 100px #FFFFFF, 0 0 150px #FFFFFF;
-  }
-  to {
-    text-shadow: 0 0 5px #000000, 0 0 10px #000000, 0 0 15px #000000, 0 0 20px #FFFFFF, 0 0 35px #FFFFFF, 0 0 40px #FFFFFF, 0 0 50px #FFFFFF, 0 0 75px #FFFFFF;
-  }
-}
 
 @keyframes flicker {
   0% {
