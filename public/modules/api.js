@@ -70,22 +70,21 @@
             this._sendRequest('POST', url, data, callback, 'log')
         }
 
-        updateProfile(newName, newPassword, callback) {
+        updateUserInfo(newName, newPassword, callback) {
             // Success:
             // {"type":"usinfo","status":"success","payload":{"login":"fake_user_login","email":"mail@mail.ru","name":"new name"}}
             // Errors:
             // Not implemeted yet
             const url = '/api/profile';
             const data = {
-                name : login,
-                password : password
+                name : newName,
+                password : newPassword
             };
             
-            this._sendRequest('PUT', url, data, callback, 'auth')
+            this._sendRequest('PUT', url, data, callback, 'usinfo')
         }
 
-        getUserInfo(login, password, callback) {
-            // TODO(indiagolph99):
+        getUserInfo(callback) {
             // Request:
             // Method: "GET"
             // Url: /api/profile
@@ -97,8 +96,17 @@
             //expectedBody := ``  or
             //expectedBody := ``
            
-            const url = '/api/profile'
-            
+            const url = '/api/profile';
+            const data = {};
+
+            this._sendRequest('GET', url, data, callback, 'usinfo')
+        }
+
+        getUsers(page, callback) {
+            const url = '/api/leaderboard/' + page;
+            const data = {};
+
+            this._sendRequest('GET', url, data, callback, 'uslist')
         }
         
     }
