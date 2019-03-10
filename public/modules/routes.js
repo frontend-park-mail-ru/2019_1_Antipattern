@@ -182,7 +182,7 @@
                 let password = form.elements["password"].value;
                 let repassword = form.elements["repeat_password"].value;
 
-                let errorStruct = this.invalidate(login, username, email, password, repassword);
+                let errorStruct = window.BaseValidator.validateLogReg(login, password, username, email, repassword);
                 let error = errorStruct.error;
                 let errorField = errorStruct.errorField;
 
@@ -204,63 +204,7 @@
             });
         }
 
-        invalidate(login, username, email, password, repassword) {
-            let validator = window.BaseValidator;
-            if (!validator.correctLogin(login)) {
-                return {
-                    error: "Login is incorrect",
-                    errorField: "login"
-                };
-            }
 
-            if (!validator.correctLength(login)) {
-                return {
-                    error: "Login should be from 4 to 25 symbols long",
-                    errorField: "login"
-                };
-            }
-
-
-            if (!validator.correctUsername(username)) {
-                return {
-                    error: "Name should consist on a-z, A-Z and 0-9",
-                    errorField: "name"
-                };
-            }
-
-            if (!validator.correctLength(username)) {
-                return {
-                    error: "Name should be from 4 to 25 symbols long",
-                    errorField: "name"
-                };
-            }
-
-            if (!validator.correctEmail(email)) {
-                return {
-                    error: "Email is incorrect",
-                    errorField: "email"
-                };
-            }            
-
-            if (!validator.correctLength(password)) {
-                return {
-                    error: "Password should be from 4 to 25 symbols long",
-                    errorField: "password"
-                };
-            }
-
-            if (password !== repassword) {
-                return {
-                    error: "Passwords do not match",
-                    errorField: "repassword"
-                };
-            }
-
-            return {
-                error: null,
-                errorField: null
-            };
-        }
     };
 
     class LeaderBoardRoute{
