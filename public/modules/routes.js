@@ -14,7 +14,9 @@
         }
 
         init() {
-            this._rootEl.innerHTML = Handlebars.templates['menu.html']();
+            this._rootEl.innerHTML = Handlebars.templates['menu.html']({
+                isAuthorized: window.User,
+            });
         }
 
         deinit() {
