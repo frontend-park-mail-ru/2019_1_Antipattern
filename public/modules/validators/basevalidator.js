@@ -18,8 +18,16 @@
         }
 
         correctUsername(username) {
-            const username_regexp = /^[a-zA-Z0-9]+$/;
+            const username_regexp = /^[a-zA-Z0-9 .-_]+$/;
             if (!username.match(username_regexp)) {
+                return false;
+            }
+            return true;
+        }
+
+        correctLogin(login) {
+            const login_regexp = /^[a-zA-Z0-9_]+$/;
+            if (!login.match(login_regexp)) {
                 return false;
             }
             return true;

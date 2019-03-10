@@ -134,32 +134,30 @@
 
         validate(login, username, email, password, repassword) {
             let validator = window.BaseValidator;
-            if (!validator.correctLength(login)) {
-                alert("Login");
-                return false;
+            if (!validator.correctLogin(login) || !validator.correctLength(login)) {
+                return "login";
             }
 
             if (!validator.correctUsername(username) || !validator.correctLength(username)) {
-                alert("name");
-                return false;
+                return "username";
             }
 
             if (!validator.correctEmail(email)) {
                 alert("email");
-                return false;
+                return "email";
             }            
 
             if (!validator.correctLength(password)) {
                 alert("pas");
-                return false;
+                return "password";
             }
 
             if (password !== repassword) {
                 alert("rpas");
-                return false;
+                return "repeat_password";
             }
 
-            return true;
+            return null;
         }
     };
 
