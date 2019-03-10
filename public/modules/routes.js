@@ -103,10 +103,63 @@
 
         init() {
             this._rootEl.innerHTML = Handlebars.templates['signup.html']();
+            this.addListeners();
         }
 
         deinit() {
             this._rootEl.innerHTML = '';
+        }
+
+        addListeners() {
+            this._rootEl.addEventListener("submit", (event) => {
+                event.preventDefault();
+                let form = event.target;
+
+                let username = form.elements["username"].value;
+                let login = form.elements["login"].value;
+                let email = form.elements["email"].value;
+                let password = form.elements["password"].value;
+                let repassword = form.elements["repeat_password"].value;
+                if (!this.validate(login, username, email, password, repassword)) {
+                    alert("invalid");
+                    return;
+                }
+
+                window.API.register(login, email, password, username, (status, object) => {
+                    console.log(status);
+                    console.log(object);
+                });
+            });
+        }
+
+        validate(login, username, email, password, repassword) {
+            let validator = window.BaseValidator;
+            if (!validator.correctLength(login)) {
+                alert("Login");
+                return false;
+            }
+
+            if (!validator.correctUsername(username) || !validator.correctLength(username)) {
+                alert("name");
+                return false;
+            }
+
+            if (!validator.correctEmail(email)) {
+                alert("email");
+                return false;
+            }            
+
+            if (!validator.correctLength(password)) {
+                alert("pas");
+                return false;
+            }
+
+            if (password !== repassword) {
+                alert("rpas");
+                return false;
+            }
+
+            return true;
         }
     };
 
