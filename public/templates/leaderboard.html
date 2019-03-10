@@ -5,42 +5,41 @@
 		</div>
 		<div class="align-items-center d-flex-column scroll height-md">
 			<!-- TODO(Xenobyte): адаптация font-size под мобилки -->
-			<table class="neon-text-yellow font-md font-brandon" id="leaderboard">
-				<tr>
+			<table class="font-md font-brandon" id="leaderboard">
+				<tr class="neon-text-blue">
 					<th>Nickname</th>
 					<th>Scores</th>
 				</tr>
 			{{#each users}}
-			<tr>
+			<tr class="neon-text-yellow">
 				<th>{{this.name}}</th>
 				<th>{{this.score}}</th>
 			</tr>
 			{{/each}}
 			</table>
 		</div>
-		<div class="font-brandon neon-text-blue font-md">
-
+		<div class="font-brandon font-md">
 			{{#pagination currentPage pageCount size}}
-<div class="pagination">
-  {{#unless startFromFirstPage}}
-    <a href="#">&lt;</a>
-  {{/unless}}
+			<div class="pagination">
+				{{#unless startFromFirstPage}}
+					<a href="#">&lt;</a>
+				{{/unless}}
 
-  {{#each pages}}
-    {{#if isCurrent}}
-      <a href="/{{page}}">{{page}}</a>
-    {{/if}}
-		<a href="/{{page}}">{{page}}</a>
-    {{#unless isCurrent}}
-      <a href="/{{page}}">{{page}}</a>
-    {{/unless}}
-  {{/each}}
+				{{#each pages}}
+					{{#if isCurrent}}
+						<a class="neon-text-blue" href="/{{page}}">{{page}}</a>
+					{{/if}}
+					<a class="neon-text-blue" href="/{{page}}">{{page}}</a>
+					{{#unless isCurrent}}
+						<a class="neon-text-blue" href="/{{page}}">{{page}}</a>
+					{{/unless}}
+				{{/each}}
 
-  {{#unless endAtLastPage}}
-    <a href="#">&gt;</a>
-  {{/unless}}
-</div>
-{{/pagination}}
+				{{#unless endAtLastPage}}
+					<a class="neon-text-blue" href="#">&gt;</a>
+				{{/unless}}
+			</div>
+			{{/pagination}}
 
 		</div>
 	</div>
