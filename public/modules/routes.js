@@ -203,52 +203,6 @@
                 });
             });
         }
-
-
-<<<<<<< HEAD
-
-            if (!validator.correctUsername(username)) {
-                return {
-                    error: "Name should consist on a-z, A-Z and 0-9",
-                    errorField: "name"
-                };
-            }
-
-            if (!validator.correctLength(username)) {
-                return {
-                    error: "Name should be from 4 to 25 symbols long",
-                    errorField: "name"
-                };
-            }
-
-            if (!validator.correctEmail(email)) {
-                return {
-                    error: "Email is incorrect",
-                    errorField: "email"
-                };
-            }
-
-            if (!validator.correctLength(password)) {
-                return {
-                    error: "Password should be from 4 to 25 symbols long",
-                    errorField: "password"
-                };
-            }
-
-            if (password !== repassword) {
-                return {
-                    error: "Passwords do not match",
-                    errorField: "repassword"
-                };
-            }
-
-            return {
-                error: null,
-                errorField: null
-            };
-        }
-=======
->>>>>>> 3f9e912c41e9be7f21a65f41c1f04e0a74dbdc4b
     };
 
     class LeaderBoardRoute{
@@ -265,16 +219,12 @@
         }
 
         init() {
-            let users = {};
             window.API.getUsers(1,(status, object) => {
               if (status === 'success') {
-                users = [{name: "rk6_student"}, {name: "indiagolph99"}];
-                // users = JSON.parse(object.users);
-                console.log(object.users);
-                console.log(users)
+                this._rootEl.innerHTML = Handlebars.templates['leaderboard.html']({users:object.users});
               }
-            })
-            this._rootEl.innerHTML = Handlebars.templates['leaderboard.html']({users:users});
+            });
+
         }
 
         deinit() {
