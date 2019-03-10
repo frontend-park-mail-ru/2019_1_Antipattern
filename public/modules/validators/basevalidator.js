@@ -9,6 +9,10 @@
             return text.length >= MIN_LEN && text.length <= MAX_LEN;
         }
 
+        _correctLengthOrEmpty(text) {
+            return this._correctLength(text) || text.length === 0
+        }
+
         _correctEmail(email) {
             const email_regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return email.match(email_regexp);
@@ -18,7 +22,10 @@
         _correctUsername(username) {
             const username_regexp = /^[a-zA-Z0-9 .-_]+$/;
             return username.match(username_regexp);
+        }
 
+        _correctUsernameOrEmpty(username) {
+            return username.length === 0 || this._correctUsername(username)
         }
 
         _correctLogin(login) {
@@ -80,6 +87,45 @@
                 }
             }
 
+
+            return {
+                error: null,
+                errorField: null
+            };
+        }
+
+        validateUpdate(username, password, repassword) {
+            console.log(username);
+            console.log(password);
+            console.log(repassword);
+            let validator = window.BaseValidator;
+            if (!validator._correctUsernameOrEmpty(username)) {
+                return {
+                    error: "New login is incorrect",
+                    errorField: "login"
+                };
+            }
+
+            if (!validator._correctLengthOrEmpty(username)) {
+                return {
+                    error: "Login should be empty or from 4 to 25 symbols long",
+                    errorField: "login"
+                };
+            }
+
+            if (!validator._correctLengthOrEmpty(password)) {
+                return {
+                    error: "Password should be from 4 to 25 symbols long",
+                    errorField: "password"
+                };
+            }
+
+            if (password !== repassword) {
+                return {
+                    error: "Passwords do not match",
+                    errorField: "repassword"
+                };
+            }
 
             return {
                 error: null,
