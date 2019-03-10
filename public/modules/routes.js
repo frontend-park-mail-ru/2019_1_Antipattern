@@ -39,10 +39,41 @@
 
         init() {
             this._rootEl.innerHTML = Handlebars.templates['login.html']();
+            this.addListeners();
         }
 
         deinit() {
             this._rootEl.innerHTML = '';
+        }
+
+        addListeners() {
+            this._rootEl.addEventListener("submit", (event) => {
+                event.preventDefault();
+                let form = event.target;
+
+                let login = form.elements["login"].value;
+                let password = form.elements["password"].value;
+
+                let errorStruct = window.BaseValidator.validateLogReg(login, password);
+                let error = errorStruct.error;
+                let errorField = errorStruct.errorField;
+
+                if (error !== null) {
+                    // TODO: reimplement the next line
+                    alert(error);
+                    return;
+                }
+
+                window.API.authorize(login, password, (status, object) => {
+                    if (status === 'success') {
+                        let image = object.avatar || null;
+                        window.User = new window.UserModel(object.name, object.email, object.login, image);
+                        this._router.routeTo('/')
+                    } else {
+                        alert(object.message);
+                    }
+                });
+            });
         }
     };
 
