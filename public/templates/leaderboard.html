@@ -20,7 +20,6 @@
 		</div>
 		<div class="font-brandon font-md">
 			{{#pagination currentPage pageCount size}}
-<<<<<<< HEAD
 <div class="pagination" id="pagination">
   {{#unless startFromFirstPage}}
     <a href="#">&lt;</a>
@@ -31,22 +30,6 @@
       <a href="{{page}}">{{page}}</a>
     {{/unless}}
   {{/each}}
-=======
-			<div class="pagination">
-				{{#unless startFromFirstPage}}
-					<a href="#">&lt;</a>
-				{{/unless}}
-
-				{{#each pages}}
-					{{#if isCurrent}}
-						<a class="neon-text-blue" href="/{{page}}">{{page}}</a>
-					{{/if}}
-					<a class="neon-text-blue" href="/{{page}}">{{page}}</a>
-					{{#unless isCurrent}}
-						<a class="neon-text-blue" href="/{{page}}">{{page}}</a>
-					{{/unless}}
-				{{/each}}
->>>>>>> f6174ee6520c745e52ff5a15f5a92961ce85d975
 
 				{{#unless endAtLastPage}}
 					<a class="neon-text-blue" href="#">&gt;</a>
