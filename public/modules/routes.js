@@ -14,7 +14,9 @@
         }
 
         init() {
-            this._rootEl.innerHTML = Handlebars.templates['menu.html']();
+            this._rootEl.innerHTML = Handlebars.templates['menu.html']({
+                isAuthorized: window.User,
+            });
         }
 
         deinit() {
@@ -131,7 +133,7 @@
         init() {
             if (window.User !== undefined) {
                 /* TODO(everyone): make settings file */
-                let avatar_path = window.User.getImg() || "../img/avatar.jpg";
+                let avatar_path = window.User.getImg() || "public/img/avatar.jpg";
                 this._rootEl.innerHTML = Handlebars.templates['profile.html']({
                     username: window.User.getUsername(),
                     email: window.User.getEmail(),
