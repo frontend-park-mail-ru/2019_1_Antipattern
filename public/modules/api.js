@@ -11,7 +11,6 @@
                 callback: (xhr) => {
                     let object;
                     try {
-                        alert(xhr.response);
                         object = JSON.parse(xhr.response);
                     }
                     catch (SyntaxError) {

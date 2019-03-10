@@ -120,44 +120,86 @@
                 let email = form.elements["email"].value;
                 let password = form.elements["password"].value;
                 let repassword = form.elements["repeat_password"].value;
-                if (!this.validate(login, username, email, password, repassword)) {
-                    alert("invalid");
+
+
+                let errorStruct = this.invalidate(login, username, email, password, repassword);
+                let error = errorStruct.error;
+                let errorField = errorStruct.errorField;
+
+                if (error !== null) {
+                    // TODO: reimplement the next line
+                    alert(error);
                     return;
                 }
 
                 window.API.register(login, email, password, username, (status, object) => {
-                    console.log(status);
-                    console.log(object);
+                    if (status === 'success') {
+                        let image = object.avatar || null;
+                        window.User = new window.UserModel(object.name, object.email, object.login, image);
+                        this._router.routeTo('/')
+                    } else {
+                        alert(object.message);
+                    }
                 });
             });
         }
 
-        validate(login, username, email, password, repassword) {
+        invalidate(login, username, email, password, repassword) {
             let validator = window.BaseValidator;
-            if (!validator.correctLogin(login) || !validator.correctLength(login)) {
-                return "login";
+            if (!validator.correctLogin(login)) {
+                return {
+                    error: "Login is incorrect",
+                    errorField: "login"
+                };
             }
 
-            if (!validator.correctUsername(username) || !validator.correctLength(username)) {
-                return "username";
+            if (!validator.correctLength(login)) {
+                return {
+                    error: "Login should be from 4 to 25 symbols long",
+                    errorField: "login"
+                };
+            }
+
+
+            if (!validator.correctUsername(username)) {
+                return {
+                    error: "Name should consist on a-z, A-Z and 0-9",
+                    errorField: "name"
+                };
+            }
+
+            if (!validator.correctLength(username)) {
+                return {
+                    error: "Name should be from 4 to 25 symbols long",
+                    errorField: "name"
+                };
             }
 
             if (!validator.correctEmail(email)) {
-                alert("email");
-                return "email";
+                return {
+                    error: "Email is incorrect",
+                    errorField: "email"
+                };
             }            
 
             if (!validator.correctLength(password)) {
-                alert("pas");
-                return "password";
+                return {
+                    error: "Password should be from 4 to 25 symbols long",
+                    errorField: "password"
+                };
             }
 
             if (password !== repassword) {
-                alert("rpas");
-                return "repeat_password";
+                return {
+                    error: "Passwords do not match",
+                    errorField: "repassword"
+                };
             }
 
-            return null;
+            return {
+                error: null,
+                errorField: null
+            };
         }
     };
 
