@@ -88,12 +88,11 @@
 
             this._rootEl = rootEl;
             this._router = router;
-
-            this.addListeners();
         }
 
         init() {
             this._rootEl.innerHTML = Handlebars.templates['settings.html']();
+            this.addListeners();
         }
 
         deinit() {
@@ -106,44 +105,32 @@
                 let form = event.target;
 
                 let username = form.elements["username"].value;
-                let password = form.elements["pass"].value;
-                let repassword = form.elements["repeat_pass"].value;
+                let password = form.elements["password"].value;
+                let rePassword = form.elements["repeat_password"].value;
+                console.log(username);
+                console.log(password);
+                console.log(rePassword);
 
-                let failedField, errorMsg = this.invalid(username, password, repassword)
-                if (failedField != null) {
-                    alert(errorMsg);
+                let errorStruct = window.BaseValidator.validateUpdate(username, password, rePassword);
+                let error = errorStruct.error;
+                let errorField = errorStruct.errorField;
+
+                if (error !== null) {
+                    // TODO: reimplement the next line
+                    alert(error);
                     return;
                 }
 
                 window.API.updateUserInfo(username, password, (status, object) => {
-                    /* Errors not implemented yet */
-
-                    if (status === "success") {
-                        window.User.updateUsername(object.name);
-                        this._router.routeTo('/profile');
+                    if (status === 'success') {
+                        let image = object.avatar || null;
+                        window.User = new window.UserModel(object.name, object.email, object.login, image);
+                        this._router.routeTo('/')
+                    } else {
+                        alert(object.message);
                     }
                 });
             });
-        }
-
-        invalid(username, password, repassword) {
-            let validator = window.BaseValidator;
-            if (username && !validator.correctUsername(username)) {
-                return "username", "Username contains extraneous characters. Use: a-z, A-Z, 0-9, \"_\".";
-            }
-
-            if (!validator.correctLength(username)) {
-                return "username", "Username must be >= 4 and <= 25 long.";
-            }
-
-            if (password && !validator.correctLength(password)) {
-                return "pass", "Password must be >= 4 and <= 25 long.";
-            }
-
-            if (!repassword || repassword !== password) {
-                return "repeat_pass", "Passwords do not match.";
-            }
-            return null, null;
         }
 
     };
