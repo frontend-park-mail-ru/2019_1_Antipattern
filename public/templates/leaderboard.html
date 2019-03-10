@@ -21,18 +21,14 @@
 		<div class="font-brandon neon-text-blue font-md">
 
 			{{#pagination currentPage pageCount size}}
-<div class="pagination">
+<div class="pagination" id="pagination">
   {{#unless startFromFirstPage}}
     <a href="#">&lt;</a>
   {{/unless}}
 
   {{#each pages}}
-    {{#if isCurrent}}
-      <a href="/{{page}}">{{page}}</a>
-    {{/if}}
-		<a href="/{{page}}">{{page}}</a>
     {{#unless isCurrent}}
-      <a href="/{{page}}">{{page}}</a>
+      <a href="{{page}}">{{page}}</a>
     {{/unless}}
   {{/each}}
 

@@ -242,12 +242,33 @@
                 this._rootEl.innerHTML =
                 Handlebars.templates['leaderboard.html']({
                   users: object.users,
-                  pageCount: object.count / 10,
+                  pageCount: Math.ceil(object.count / 10),
                   currentPage: '0',
                   size: '5'});
               }
             });
+            this.addListeners();
 
+        }
+
+        addListeners() {
+            this._rootEl.addEventListener("click", (event) => {
+                event.preventDefault();
+                let link = event.target;
+
+                let page = link.getAttribute('href');
+                window.API.getUsers(page.substr(1),(status, object) => {
+                  if (status === 'success') {
+                    this._rootEl.innerHTML = '';
+                    this._rootEl.innerHTML =
+                    Handlebars.templates['leaderboard.html']({
+                      users: object.users,
+                      pageCount: Math.ceil(object.count / 10),
+                      currentPage: '0',
+                      size: '5'});
+                  }
+                });
+            });
         }
 
         deinit() {
