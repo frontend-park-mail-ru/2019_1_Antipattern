@@ -19,9 +19,13 @@
                         }
                         return false;
                     }
-
+                    
                     if (!callback) {
                         return true;
+                    }
+                    if (xhr.status == 403) {
+                        callback("unauthorized", null);
+                        return false;
                     }
                     if (object.type !== type) {
                         callback('wrong_response', null);
