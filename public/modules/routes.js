@@ -77,13 +77,14 @@
                 let repassword = form.elements["repeat_pass"].value;
 
                 let failedField, errorMsg = this.invalid(username, password, repassword)
-                if (failedField !== null) {
+                if (failedField != null) {
                     alert(errorMsg);
                     return;
                 }
 
                 window.API.updateUserInfo(username, password, (status, object) => {
                     /* Errors not implemented yet */
+
                     if (status === "success") {
                         window.User.updateUsername(object.name);
                         this._router.routeTo('/profile');
@@ -94,8 +95,8 @@
 
         invalid(username, password, repassword) {
             let validator = window.BaseValidator;
-            if (username && !validator.checkUsername(username)) {
-                return "username", "Username contains extraneous characters. Use: a-z, A-Z, 0-9, "_".";
+            if (username && !validator.correctUsername(username)) {
+                return "username", "Username contains extraneous characters. Use: a-z, A-Z, 0-9, \"_\".";
             }
 
             if (!validator.correctLength(username)) {
