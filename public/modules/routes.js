@@ -55,6 +55,8 @@
 
             this._rootEl = rootEl;
             this._router = router;
+
+            this.addListeners();
         }
 
         init() {
@@ -64,6 +66,53 @@
         deinit() {
             this._rootEl.innerHTML = '';
         }
+
+        addListeners() {
+            this._rootEl.addEventListener("submit", (event) => {
+                event.preventDefault();
+                let form = event.target;
+
+                let username = form.elements["username"].value;
+                let password = form.elements["pass"].value;
+                let repassword = form.elements["repeat_pass"].value;
+
+                let failedField, errorMsg = this.invalid(username, password, repassword)
+                if (failedField != null) {
+                    alert(errorMsg);
+                    return;
+                }
+
+                window.API.updateUserInfo(username, password, (status, object) => {
+                    /* Errors not implemented yet */
+
+                    if (status === "success") {
+                        window.User.updateUsername(object.name);
+                        this._router.routeTo('/profile');
+                    }
+                });
+            });
+        }
+
+        invalid(username, password, repassword) {
+            let validator = window.BaseValidator;
+            if (username && !validator.correctUsername(username)) {
+                return "username", "Username contains extraneous characters. Use: a-z, A-Z, 0-9, \"_\".";
+            }
+
+            if (!validator.correctLength(username)) {
+                return "username", "Username must be >= 4 and <= 25 long.";
+            }
+
+            if (password && !validator.correctLength(password)) {
+                return "pass", "Password must be >= 4 and <= 25 long.";
+            }
+
+            if (!repassword || repassword !== password) {
+                return "repeat_pass", "Passwords do not match.";
+            }
+            return null, null;
+        }
+
     };
 
     class ProfileRoute {
@@ -80,7 +129,17 @@
         }
 
         init() {
-            this._rootEl.innerHTML = Handlebars.templates['profile.html']();
+            if (window.User !== undefined) {
+                /* TODO(everyone): make settings file */
+                let avatar_path = window.User.getImg() || "../img/avatar.jpg";
+                this._rootEl.innerHTML = Handlebars.templates['profile.html']({
+                    username: window.User.getUsername(),
+                    email: window.User.getEmail(),
+                    avatar_path: avatar_path,
+                });
+            } else {
+                this._router.routeTo('/');
+            }
         }
 
         deinit() {
@@ -120,7 +179,6 @@
                 let email = form.elements["email"].value;
                 let password = form.elements["password"].value;
                 let repassword = form.elements["repeat_password"].value;
-
 
                 let errorStruct = this.invalidate(login, username, email, password, repassword);
                 let error = errorStruct.error;
