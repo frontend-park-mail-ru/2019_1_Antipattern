@@ -257,15 +257,17 @@
                 let link = event.target;
 
                 let page = link.getAttribute('href');
-                window.API.getUsers(page.substr(1),(status, object) => {
+                window.API.getUsers(page,(status, object) => {
                   if (status === 'success') {
                     this._rootEl.innerHTML = '';
                     this._rootEl.innerHTML =
                     Handlebars.templates['leaderboard.html']({
                       users: object.users,
                       pageCount: Math.ceil(object.count / 10),
-                      currentPage: '0',
+                      currentPage: page,
                       size: '5'});
+                  } else {
+                    console.log(page);
                   }
                 });
             });
