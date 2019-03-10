@@ -129,7 +129,17 @@
         }
 
         init() {
-            this._rootEl.innerHTML = Handlebars.templates['profile.html']();
+            if (window.User !== undefined) {
+                /* TODO(everyone): make settings file */
+                let avatar_path = window.User.getImg() || "../img/avatar.jpg";
+                this._rootEl.innerHTML = Handlebars.templates['profile.html']({
+                    username: window.User.getUsername(),
+                    email: window.User.getEmail(),
+                    avatar_path: avatar_path,
+                });
+            } else {
+                this._router.routeTo('/');
+            }
         }
 
         deinit() {

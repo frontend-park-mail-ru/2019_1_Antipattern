@@ -9,6 +9,18 @@
 			this._img = img;
 		}
 
+		getUsername() {
+			return this._username;
+		}
+
+		getEmail() {
+			return this._email;
+		}
+
+		getImg() {
+			return this._img;
+		}
+
 		updateUsername(username) {
 			this._username = username
 		}
