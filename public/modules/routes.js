@@ -240,7 +240,7 @@
                     error: "Email is incorrect",
                     errorField: "email"
                 };
-            }            
+            }
 
             if (!validator.correctLength(password)) {
                 return {
@@ -277,7 +277,16 @@
         }
 
         init() {
-            this._rootEl.innerHTML = Handlebars.templates['leaderboard.html']();
+            let users = {};
+            window.API.getUsers(1,(status, object) => {
+              if (status === 'success') {
+                users = [{name: "rk6_student"}, {name: "indiagolph99"}];
+                // users = JSON.parse(object.users);
+                console.log(object.users);
+                console.log(users)
+              }
+            })
+            this._rootEl.innerHTML = Handlebars.templates['leaderboard.html']({users:users});
         }
 
         deinit() {

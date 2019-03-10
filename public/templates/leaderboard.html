@@ -12,26 +12,13 @@
 					<th>Nickname</th>
 					<th>Scores</th>
 				</tr>
-				<tr>
-					<td>Mayushi-desu</td>
-					<td>228</td>
-				</tr>
-				<tr>
-					<td>Mayushi-desu</td>
-					<td>228</td>
-				</tr>
-				<tr>
-					<td>Mayushi-desu</td>
-					<td>228</td>
-				</tr>
-				<tr>
-					<td>Mayushi-desu</td>
-					<td>228</td>
-				</tr>
-				<tr>
-					<td>Mayushi-desu</td>
-					<td>228</td>
-				</tr>
+				{{users}}
+			{{#each users}}
+			<tr>
+				<th>{{this.name}}</th>
+				<th>228</th>
+			</tr>
+			{{/each}}
 			</table>
 		</div>
 		<div class="font-brandon neon-text-blue font-md">
