@@ -252,7 +252,12 @@
         init() {
             window.API.getUsers(1,(status, object) => {
               if (status === 'success') {
-                this._rootEl.innerHTML = Handlebars.templates['leaderboard.html']({users:object.users});
+                this._rootEl.innerHTML =
+                Handlebars.templates['leaderboard.html']({
+                  users: object.users,
+                  pageCount: object.count / 10,
+                  currentPage: '0',
+                  size: '5'});
               }
             });
 
