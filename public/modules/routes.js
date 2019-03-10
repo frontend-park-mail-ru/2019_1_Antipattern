@@ -182,7 +182,7 @@
                 let password = form.elements["password"].value;
                 let repassword = form.elements["repeat_password"].value;
 
-                let errorStruct = this.invalidate(login, username, email, password, repassword);
+                let errorStruct = window.BaseValidator.validateLogReg(login, password, username, email, repassword);
                 let error = errorStruct.error;
                 let errorField = errorStruct.errorField;
 
@@ -204,22 +204,8 @@
             });
         }
 
-        invalidate(login, username, email, password, repassword) {
-            let validator = window.BaseValidator;
-            if (!validator.correctLogin(login)) {
-                return {
-                    error: "Login is incorrect",
-                    errorField: "login"
-                };
-            }
 
-            if (!validator.correctLength(login)) {
-                return {
-                    error: "Login should be from 4 to 25 symbols long",
-                    errorField: "login"
-                };
-            }
-
+<<<<<<< HEAD
 
             if (!validator.correctUsername(username)) {
                 return {
@@ -261,6 +247,8 @@
                 errorField: null
             };
         }
+=======
+>>>>>>> 3f9e912c41e9be7f21a65f41c1f04e0a74dbdc4b
     };
 
     class LeaderBoardRoute{
