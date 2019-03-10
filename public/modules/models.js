@@ -8,6 +8,10 @@
 			this._login = login;
 			this._img = img;
 		}
+
+		updateUsername(username) {
+			this._username = username
+		}
 	}
 
 	window.UserModel = UserModel;

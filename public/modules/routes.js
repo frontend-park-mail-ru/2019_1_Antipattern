@@ -55,6 +55,8 @@
 
             this._rootEl = rootEl;
             this._router = router;
+
+            this.addListeners();
         }
 
         init() {
@@ -64,6 +66,52 @@
         deinit() {
             this._rootEl.innerHTML = '';
         }
+
+        addListeners() {
+            this._rootEl.addEventListener("submit", (event) => {
+                event.preventDefault();
+                let form = event.target;
+
+                let username = form.elements["username"].value;
+                let password = form.elements["pass"].value;
+                let repassword = form.elements["repeat_pass"].value;
+
+                let failedField, errorMsg = this.invalid(username, password, repassword)
+                if (failedField !== null) {
+                    alert(errorMsg);
+                    return;
+                }
+
+                window.API.updateUserInfo(username, password, (status, object) => {
+                    /* Errors not implemented yet */
+                    if (status === "success") {
+                        window.User.updateUsername(object.name);
+                        this._router.routeTo('/profile');
+                    }
+                });
+            });
+        }
+
+        invalid(username, password, repassword) {
+            let validator = window.BaseValidator;
+            if (username && !validator.checkUsername(username)) {
+                return "username", "Username contains extraneous characters. Use: a-z, A-Z, 0-9, "_".";
+            }
+
+            if (!validator.correctLength(username)) {
+                return "username", "Username must be >= 4 and <= 25 long.";
+            }
+
+            if (password && !validator.correctLength(password)) {
+                return "pass", "Password must be >= 4 and <= 25 long.";
+            }
+
+            if (!repassword || repassword !== password) {
+                return "repeat_pass", "Passwords do not match.";
+            }
+            return null, null;
+        }
+
     };
 
     class ProfileRoute {
@@ -120,7 +168,7 @@
                 let email = form.elements["email"].value;
                 let password = form.elements["password"].value;
                 let repassword = form.elements["repeat_password"].value;
-                if (!this.validate(login, username, email, password, repassword)) {
+                if (this.validate(login, username, email, password, repassword)) {
                     alert("invalid");
                     return;
                 }
