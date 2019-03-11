@@ -10,33 +10,32 @@
 					<th>Nickname</th>
 					<th>Scores</th>
 				</tr>
-			{{#each users}}
-			<tr class="neon-text-yellow">
-				<th>{{this.name}}</th>
-				<th>{{this.score}}</th>
-			</tr>
-			{{/each}}
+				{{#each users}}
+					<tr class="neon-text-yellow">
+						<th>{{this.name}}</th>
+						<th>{{this.score}}</th>
+					</tr>
+				{{/each}}
 			</table>
 		</div>
 		<div class="font-brandon font-md">
 			{{#pagination currentPage pageCount size}}
-<div class="pagination" id="pagination">
-  {{#unless startFromFirstPage}}
-    <a href="#">&lt;</a>
-  {{/unless}}
+				<div class="pagination" id="pagination">
+					{{#unless startFromFirstPage}}
+						<a href="#">&lt;</a>
+					{{/unless}}
 
-  {{#each pages}}
-    {{#unless isCurrent}}
-      <a href="{{page}}">{{page}}</a>
-    {{/unless}}
-  {{/each}}
+					{{#each pages}}
+						{{#unless isCurrent}}
+							<a href="{{page}}">{{page}}</a>
+						{{/unless}}
+					{{/each}}
 
-				{{#unless endAtLastPage}}
-					<a class="neon-text-blue" href="#">&gt;</a>
-				{{/unless}}
-			</div>
+					{{#unless endAtLastPage}}
+						<a class="neon-text-blue" href="#">&gt;</a>
+					{{/unless}}
+				</div>
 			{{/pagination}}
-
 		</div>
 	</div>
 </div>
