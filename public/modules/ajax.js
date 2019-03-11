@@ -32,9 +32,8 @@
         callback(xhr);
       };
 
-      if (body && method !== 'GET') {
+      if (body) {
         xhr.send(JSON.stringify(body));
-      } else if (method === 'GET') {
         // TODO: if method == 'GET' convert body to query-params
       } else {
         xhr.send();
