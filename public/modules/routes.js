@@ -67,7 +67,7 @@
                 window.API.authorize(login, password, (status, object) => {
                     if (status === 'success') {
                         let image = object.avatar || null;
-                        window.User = new window.UserModel(object.name, object.email, object.login, image);
+                        window.User = new window.UserModel(object.name, object.email, object.login, object.score, image);
                         this._router.routeTo('/')
                     } else {
                         alert(object.message);
@@ -156,6 +156,7 @@
                     username: window.User.getUsername(),
                     email: window.User.getEmail(),
                     avatar_path: avatar_path,
+                    score: window.User.getScore(),
                 });
             } else {
                 this._router.routeTo('/');
@@ -213,7 +214,7 @@
                 window.API.register(login, email, password, username, (status, object) => {
                     if (status === 'success') {
                         let image = object.avatar || null;
-                        window.User = new window.UserModel(object.name, object.email, object.login, image);
+                        window.User = new window.UserModel(object.name, object.email, object.login, object.score, image);
                         this._router.routeTo('/')
                     } else {
                         alert(object.message);
