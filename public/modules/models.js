@@ -2,11 +2,12 @@
 
 (function() {
 	class UserModel {
-		constructor(username, email, login, img = null) {
+		constructor(username, email, login, score, img = null) {
 			this._username = username;
 			this._email = email;
 			this._login = login;
 			this._img = img;
+			this._score = score;
 		}
 
 		getUsername() {
@@ -19,6 +20,10 @@
 
 		getImg() {
 			return this._img;
+		}
+
+		getScore() {
+			return this._score;
 		}
 
 		updateUsername(username) {
