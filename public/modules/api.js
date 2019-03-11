@@ -10,6 +10,11 @@
             ajax.doAjax( {
                 callback: (xhr) => {
                     let object;
+
+                    if (!callback) {
+                        return true;
+                    }
+
                     try {
                         object = JSON.parse(xhr.response);
                     }
@@ -19,10 +24,7 @@
                         }
                         return false;
                     }
-                    
-                    if (!callback) {
-                        return true;
-                    }
+
                     if (xhr.status == 403) {
                         callback("unauthorized", null);
                         return false;
