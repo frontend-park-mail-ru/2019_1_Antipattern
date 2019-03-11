@@ -15,6 +15,12 @@
         router.init();
         initAnchorsRouting(root, router);
 
+        window.API.getUserInfo((status, object) => {
+            if (status === "success") {
+                let image = object.avatar || null;
+                window.User = new window.UserModel(object.name, object.email, object.login, image);
+                router.routeTo('/')
+            }
+        })
     };
-
 })();

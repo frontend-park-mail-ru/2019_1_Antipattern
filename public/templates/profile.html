@@ -1,10 +1,10 @@
 <div class="container align-items-center text-center">
 	<div id="menu">
-		<a href='/' class="neon-text-red font-lg font-brandon">Profile</a>
+		<a href='/' class="neon-text-red font-xl">Profile</a>
 		<div class="align-items-center d-flex-column font-brandon font-md">
-			<img src="public/img/avatar.jpg" class="img-avatar neon-button-white">
-			<p class="neon-text-white my-2">Login: Mayushi-desu</p>
-			<p class="neon-text-white my-2">Email: tuturu@mail.ru</p>
+			<img src="{{ avatar_path }}" class="img-avatar neon-button-white">
+			<p class="neon-text-white my-2">Username: {{ username }}</p>
+			<p class="neon-text-white my-2">Email: {{ email }}</p>
 			<p class="neon-text-white my-2">Scores: 228</p>
 			<a href="/settings" class="neon-button-white align-items-center button-md align-items-center">
 				<img src="public/img/settings.svg" class="img-icon">

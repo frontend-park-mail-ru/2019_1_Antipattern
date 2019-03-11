@@ -2,47 +2,41 @@
 	<div id="menu">
 		<a href="/" class="neon-text-red font-xl font-street-gathering">Leaderboard</a>
 		<div class="align-items-center d-flex-row">
-			<a href="/" class="neon-text-red font-lg font-brandon mx-4">Coop</a>
-			<a href="/" class="neon-text-red font-lg font-brandon mx-4">Pvp</a>
 		</div>
 		<div class="align-items-center d-flex-column scroll height-md">
 			<!-- TODO(Xenobyte): адаптация font-size под мобилки -->
-			<table class="neon-text-yellow font-md font-brandon" id="leaderboard">
-				<tr>
+			<table class="font-md font-brandon" id="leaderboard">
+				<tr class="neon-text-blue">
 					<th>Nickname</th>
 					<th>Scores</th>
 				</tr>
-				<tr>
-					<td>Mayushi-desu</td>
-					<td>228</td>
-				</tr>
-				<tr>
-					<td>Mayushi-desu</td>
-					<td>228</td>
-				</tr>
-				<tr>
-					<td>Mayushi-desu</td>
-					<td>228</td>
-				</tr>
-				<tr>
-					<td>Mayushi-desu</td>
-					<td>228</td>
-				</tr>
-				<tr>
-					<td>Mayushi-desu</td>
-					<td>228</td>
-				</tr>
+			{{#each users}}
+			<tr class="neon-text-yellow">
+				<th>{{this.name}}</th>
+				<th>{{this.score}}</th>
+			</tr>
+			{{/each}}
 			</table>
 		</div>
-		<div class="font-brandon neon-text-blue font-md">
-			<a href="#">&laquo;</a>
-			<a href="#">1</a>
-			<a class="active" href="#">2</a>
-			<a href="#">3</a>
-			<a href="#">4</a>
-			<a href="#">5</a>
-			<a href="#">6</a>
-			<a href="#">&raquo;</a>
+		<div class="font-brandon font-md">
+			{{#pagination currentPage pageCount size}}
+<div class="pagination" id="pagination">
+  {{#unless startFromFirstPage}}
+    <a href="#">&lt;</a>
+  {{/unless}}
+
+  {{#each pages}}
+    {{#unless isCurrent}}
+      <a href="{{page}}">{{page}}</a>
+    {{/unless}}
+  {{/each}}
+
+				{{#unless endAtLastPage}}
+					<a class="neon-text-blue" href="#">&gt;</a>
+				{{/unless}}
+			</div>
+			{{/pagination}}
+
 		</div>
 	</div>
 </div>
