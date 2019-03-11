@@ -1,4 +1,4 @@
-/**!
+/** !
 
  @license
  handlebars v4.1.0
@@ -25,99 +25,100 @@ THE SOFTWARE.
 
 */
 (function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
-	else if(typeof define === 'function' && define.amd)
-		define([], factory);
-	else if(typeof exports === 'object')
-		exports["Handlebars"] = factory();
-	else
-		root["Handlebars"] = factory();
+  if (typeof exports === 'object' && typeof module === 'object') {
+    module.exports = factory();
+  } else if (typeof define === 'function' && define.amd) {
+    define([], factory);
+  } else if (typeof exports === 'object') {
+    exports['Handlebars'] = factory();
+  } else {
+    root['Handlebars'] = factory();
+  }
 })(this, function() {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
+  return /** ****/ (function(modules) { // webpackBootstrap
+    /** ****/ 	// The module cache
+    /** ****/ 	const installedModules = {};
 
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
+    /** ****/ 	// The require function
+    /** ****/ 	function __webpack_require__(moduleId) {
+      /** ****/ 		// Check if module is in cache
+      /** ****/ 		if (installedModules[moduleId])
+      /** ****/ 			{
+        return installedModules[moduleId].exports;
+      }
 
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
-/******/ 			return installedModules[moduleId].exports;
+      /** ****/ 		// Create a new module (and put it into the cache)
+      /** ****/ 		const module = installedModules[moduleId] = {
+        /** ****/ 			exports: {},
+        /** ****/ 			id: moduleId,
+        /** ****/ 			loaded: false,
+        /** ****/ 		};
 
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
-/******/ 		};
+      /** ****/ 		// Execute the module function
+      /** ****/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+      /** ****/ 		// Flag the module as loaded
+      /** ****/ 		module.loaded = true;
 
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
-
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
+      /** ****/ 		// Return the exports of the module
+      /** ****/ 		return module.exports;
+      /** ****/}
 
 
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
+    /** ****/ 	// expose the modules object (__webpack_modules__)
+    /** ****/ 	__webpack_require__.m = modules;
 
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
+    /** ****/ 	// expose the module cache
+    /** ****/ 	__webpack_require__.c = installedModules;
 
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+    /** ****/ 	// __webpack_public_path__
+    /** ****/ 	__webpack_require__.p = '';
 
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(0);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+    /** ****/ 	// Load entry module and return exports
+    /** ****/ 	return __webpack_require__(0);
+    /** ****/ })
+  /** **********************************************************************/
+  /** ****/ ([
+    /* 0 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-	'use strict';
+      const _interopRequireWildcard = __webpack_require__(1)['default'];
 
-	var _interopRequireWildcard = __webpack_require__(1)['default'];
+      const _interopRequireDefault = __webpack_require__(2)['default'];
 
-	var _interopRequireDefault = __webpack_require__(2)['default'];
+      exports.__esModule = true;
 
-	exports.__esModule = true;
+      const _handlebarsBase = __webpack_require__(3);
 
-	var _handlebarsBase = __webpack_require__(3);
+      const base = _interopRequireWildcard(_handlebarsBase);
 
-	var base = _interopRequireWildcard(_handlebarsBase);
+      // Each of these augment the Handlebars object. No need to setup here.
+      // (This is done to easily share code between commonjs and browse envs)
 
-	// Each of these augment the Handlebars object. No need to setup here.
-	// (This is done to easily share code between commonjs and browse envs)
+      const _handlebarsSafeString = __webpack_require__(20);
 
-	var _handlebarsSafeString = __webpack_require__(20);
+      const _handlebarsSafeString2 = _interopRequireDefault(_handlebarsSafeString);
 
-	var _handlebarsSafeString2 = _interopRequireDefault(_handlebarsSafeString);
+      const _handlebarsException = __webpack_require__(5);
 
-	var _handlebarsException = __webpack_require__(5);
+      const _handlebarsException2 = _interopRequireDefault(_handlebarsException);
 
-	var _handlebarsException2 = _interopRequireDefault(_handlebarsException);
+      const _handlebarsUtils = __webpack_require__(4);
 
-	var _handlebarsUtils = __webpack_require__(4);
+      const Utils = _interopRequireWildcard(_handlebarsUtils);
 
-	var Utils = _interopRequireWildcard(_handlebarsUtils);
+      const _handlebarsRuntime = __webpack_require__(21);
 
-	var _handlebarsRuntime = __webpack_require__(21);
+      const runtime = _interopRequireWildcard(_handlebarsRuntime);
 
-	var runtime = _interopRequireWildcard(_handlebarsRuntime);
+      const _handlebarsNoConflict = __webpack_require__(33);
 
-	var _handlebarsNoConflict = __webpack_require__(33);
+      const _handlebarsNoConflict2 = _interopRequireDefault(_handlebarsNoConflict);
 
-	var _handlebarsNoConflict2 = _interopRequireDefault(_handlebarsNoConflict);
-
-	// For compatibility and usage outside of module systems, make the Handlebars object a namespace
-	function create() {
-	  var hb = new base.HandlebarsEnvironment();
+      // For compatibility and usage outside of module systems, make the Handlebars object a namespace
+      function create() {
+	  const hb = new base.HandlebarsEnvironment();
 
 	  Utils.extend(hb, base);
 	  hb.SafeString = _handlebarsSafeString2['default'];
@@ -126,115 +127,109 @@ return /******/ (function(modules) { // webpackBootstrap
 	  hb.escapeExpression = Utils.escapeExpression;
 
 	  hb.VM = runtime;
-	  hb.template = function (spec) {
+	  hb.template = function(spec) {
 	    return runtime.template(spec, hb);
 	  };
 
 	  return hb;
-	}
+      }
 
-	var inst = create();
-	inst.create = create;
+      const inst = create();
+      inst.create = create;
 
-	_handlebarsNoConflict2['default'](inst);
+      _handlebarsNoConflict2['default'](inst);
 
-	inst['default'] = inst;
+      inst['default'] = inst;
 
-	exports['default'] = inst;
-	module.exports = exports['default'];
+      exports['default'] = inst;
+      module.exports = exports['default'];
+      /** */}),
+    /* 1 */
+    /** */ (function(module, exports) {
+      'use strict';
 
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-	"use strict";
-
-	exports["default"] = function (obj) {
+      exports['default'] = function(obj) {
 	  if (obj && obj.__esModule) {
 	    return obj;
 	  } else {
-	    var newObj = {};
+	    const newObj = {};
 
 	    if (obj != null) {
-	      for (var key in obj) {
+	      for (const key in obj) {
 	        if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
 	      }
 	    }
 
-	    newObj["default"] = obj;
+	    newObj['default'] = obj;
 	    return newObj;
 	  }
-	};
+      };
 
-	exports.__esModule = true;
+      exports.__esModule = true;
+      /** */}),
+    /* 2 */
+    /** */ (function(module, exports) {
+      'use strict';
 
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-	"use strict";
-
-	exports["default"] = function (obj) {
+      exports['default'] = function(obj) {
 	  return obj && obj.__esModule ? obj : {
-	    "default": obj
+	    'default': obj,
 	  };
-	};
+      };
 
-	exports.__esModule = true;
+      exports.__esModule = true;
+      /** */}),
+    /* 3 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+      const _interopRequireDefault = __webpack_require__(2)['default'];
 
-	'use strict';
+      exports.__esModule = true;
+      exports.HandlebarsEnvironment = HandlebarsEnvironment;
 
-	var _interopRequireDefault = __webpack_require__(2)['default'];
+      const _utils = __webpack_require__(4);
 
-	exports.__esModule = true;
-	exports.HandlebarsEnvironment = HandlebarsEnvironment;
+      const _exception = __webpack_require__(5);
 
-	var _utils = __webpack_require__(4);
+      const _exception2 = _interopRequireDefault(_exception);
 
-	var _exception = __webpack_require__(5);
+      const _helpers = __webpack_require__(9);
 
-	var _exception2 = _interopRequireDefault(_exception);
+      const _decorators = __webpack_require__(17);
 
-	var _helpers = __webpack_require__(9);
+      const _logger = __webpack_require__(19);
 
-	var _decorators = __webpack_require__(17);
+      const _logger2 = _interopRequireDefault(_logger);
 
-	var _logger = __webpack_require__(19);
+      const VERSION = '4.1.0';
+      exports.VERSION = VERSION;
+      const COMPILER_REVISION = 7;
 
-	var _logger2 = _interopRequireDefault(_logger);
-
-	var VERSION = '4.1.0';
-	exports.VERSION = VERSION;
-	var COMPILER_REVISION = 7;
-
-	exports.COMPILER_REVISION = COMPILER_REVISION;
-	var REVISION_CHANGES = {
+      exports.COMPILER_REVISION = COMPILER_REVISION;
+      const REVISION_CHANGES = {
 	  1: '<= 1.0.rc.2', // 1.0.rc.2 is actually rev2 but doesn't report it
 	  2: '== 1.0.0-rc.3',
 	  3: '== 1.0.0-rc.4',
 	  4: '== 1.x.x',
 	  5: '== 2.0.0-alpha.x',
 	  6: '>= 2.0.0-beta.1',
-	  7: '>= 4.0.0'
-	};
+	  7: '>= 4.0.0',
+      };
 
-	exports.REVISION_CHANGES = REVISION_CHANGES;
-	var objectType = '[object Object]';
+      exports.REVISION_CHANGES = REVISION_CHANGES;
+      const objectType = '[object Object]';
 
-	function HandlebarsEnvironment(helpers, partials, decorators) {
+      function HandlebarsEnvironment(helpers, partials, decorators) {
 	  this.helpers = helpers || {};
 	  this.partials = partials || {};
 	  this.decorators = decorators || {};
 
 	  _helpers.registerDefaultHelpers(this);
 	  _decorators.registerDefaultDecorators(this);
-	}
+      }
 
-	HandlebarsEnvironment.prototype = {
+      HandlebarsEnvironment.prototype = {
 	  constructor: HandlebarsEnvironment,
 
 	  logger: _logger2['default'],
@@ -280,49 +275,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  unregisterDecorator: function unregisterDecorator(name) {
 	    delete this.decorators[name];
-	  }
-	};
+	  },
+      };
 
-	var log = _logger2['default'].log;
+      const log = _logger2['default'].log;
 
-	exports.log = log;
-	exports.createFrame = _utils.createFrame;
-	exports.logger = _logger2['default'];
+      exports.log = log;
+      exports.createFrame = _utils.createFrame;
+      exports.logger = _logger2['default'];
+      /** */}),
+    /* 4 */
+    /** */ (function(module, exports) {
+      'use strict';
 
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	exports.__esModule = true;
-	exports.extend = extend;
-	exports.indexOf = indexOf;
-	exports.escapeExpression = escapeExpression;
-	exports.isEmpty = isEmpty;
-	exports.createFrame = createFrame;
-	exports.blockParams = blockParams;
-	exports.appendContextPath = appendContextPath;
-	var escape = {
+      exports.__esModule = true;
+      exports.extend = extend;
+      exports.indexOf = indexOf;
+      exports.escapeExpression = escapeExpression;
+      exports.isEmpty = isEmpty;
+      exports.createFrame = createFrame;
+      exports.blockParams = blockParams;
+      exports.appendContextPath = appendContextPath;
+      const escape = {
 	  '&': '&amp;',
 	  '<': '&lt;',
 	  '>': '&gt;',
 	  '"': '&quot;',
-	  "'": '&#x27;',
+	  '\'': '&#x27;',
 	  '`': '&#x60;',
-	  '=': '&#x3D;'
-	};
+	  '=': '&#x3D;',
+      };
 
-	var badChars = /[&<>"'`=]/g,
-	    possible = /[&<>"'`=]/;
+      const badChars = /[&<>"'`=]/g;
+	    const possible = /[&<>"'`=]/;
 
-	function escapeChar(chr) {
+      function escapeChar(chr) {
 	  return escape[chr];
-	}
+      }
 
-	function extend(obj /* , ...source */) {
-	  for (var i = 1; i < arguments.length; i++) {
-	    for (var key in arguments[i]) {
+      function extend(obj /* , ...source */) {
+	  for (let i = 1; i < arguments.length; i++) {
+	    for (const key in arguments[i]) {
 	      if (Object.prototype.hasOwnProperty.call(arguments[i], key)) {
 	        obj[key] = arguments[i][key];
 	      }
@@ -330,46 +323,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  return obj;
-	}
+      }
 
-	var toString = Object.prototype.toString;
+      const toString = Object.prototype.toString;
 
-	exports.toString = toString;
-	// Sourced from lodash
-	// https://github.com/bestiejs/lodash/blob/master/LICENSE.txt
-	/* eslint-disable func-style */
-	var isFunction = function isFunction(value) {
+      exports.toString = toString;
+      // Sourced from lodash
+      // https://github.com/bestiejs/lodash/blob/master/LICENSE.txt
+      /* eslint-disable func-style */
+      let isFunction = function isFunction(value) {
 	  return typeof value === 'function';
-	};
-	// fallback for older versions of Chrome and Safari
-	/* istanbul ignore next */
-	if (isFunction(/x/)) {
-	  exports.isFunction = isFunction = function (value) {
+      };
+      // fallback for older versions of Chrome and Safari
+      /* istanbul ignore next */
+      if (isFunction(/x/)) {
+	  exports.isFunction = isFunction = function(value) {
 	    return typeof value === 'function' && toString.call(value) === '[object Function]';
 	  };
-	}
-	exports.isFunction = isFunction;
+      }
+      exports.isFunction = isFunction;
 
-	/* eslint-enable func-style */
+      /* eslint-enable func-style */
 
-	/* istanbul ignore next */
-	var isArray = Array.isArray || function (value) {
+      /* istanbul ignore next */
+      const isArray = Array.isArray || function(value) {
 	  return value && typeof value === 'object' ? toString.call(value) === '[object Array]' : false;
-	};
+      };
 
-	exports.isArray = isArray;
-	// Older IE versions do not directly support indexOf so we must implement our own, sadly.
+      exports.isArray = isArray;
+      // Older IE versions do not directly support indexOf so we must implement our own, sadly.
 
-	function indexOf(array, value) {
-	  for (var i = 0, len = array.length; i < len; i++) {
+      function indexOf(array, value) {
+	  for (let i = 0, len = array.length; i < len; i++) {
 	    if (array[i] === value) {
 	      return i;
 	    }
 	  }
 	  return -1;
-	}
+      }
 
-	function escapeExpression(string) {
+      function escapeExpression(string) {
 	  if (typeof string !== 'string') {
 	    // don't escape SafeStrings, since they're already safe
 	    if (string && string.toHTML) {
@@ -390,9 +383,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return string;
 	  }
 	  return string.replace(badChars, escapeChar);
-	}
+      }
 
-	function isEmpty(value) {
+      function isEmpty(value) {
 	  if (!value && value !== 0) {
 	    return true;
 	  } else if (isArray(value) && value.length === 0) {
@@ -400,39 +393,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } else {
 	    return false;
 	  }
-	}
+      }
 
-	function createFrame(object) {
-	  var frame = extend({}, object);
+      function createFrame(object) {
+	  const frame = extend({}, object);
 	  frame._parent = object;
 	  return frame;
-	}
+      }
 
-	function blockParams(params, ids) {
+      function blockParams(params, ids) {
 	  params.path = ids;
 	  return params;
-	}
+      }
 
-	function appendContextPath(contextPath, id) {
+      function appendContextPath(contextPath, id) {
 	  return (contextPath ? contextPath + '.' : '') + id;
-	}
+      }
+      /** */}),
+    /* 5 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
+      const _Object$defineProperty = __webpack_require__(6)['default'];
 
-	'use strict';
+      exports.__esModule = true;
 
-	var _Object$defineProperty = __webpack_require__(6)['default'];
+      const errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
 
-	exports.__esModule = true;
-
-	var errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
-
-	function Exception(message, node) {
-	  var loc = node && node.loc,
-	      line = undefined,
-	      column = undefined;
+      function Exception(message, node) {
+	  const loc = node && node.loc;
+	      let line = undefined;
+	      let column = undefined;
 	  if (loc) {
 	    line = loc.start.line;
 	    column = loc.start.column;
@@ -440,10 +431,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    message += ' - ' + line + ':' + column;
 	  }
 
-	  var tmp = Error.prototype.constructor.call(this, message);
+	  const tmp = Error.prototype.constructor.call(this, message);
 
 	  // Unfortunately errors are not enumerable in Chrome (at least), so `for prop in tmp` doesn't work.
-	  for (var idx = 0; idx < errorProps.length; idx++) {
+	  for (let idx = 0; idx < errorProps.length; idx++) {
 	    this[errorProps[idx]] = tmp[errorProps[idx]];
 	  }
 
@@ -461,7 +452,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (_Object$defineProperty) {
 	        Object.defineProperty(this, 'column', {
 	          value: column,
-	          enumerable: true
+	          enumerable: true,
 	        });
 	      } else {
 	        this.column = column;
@@ -470,86 +461,78 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } catch (nop) {
 	    /* Ignore if the browser is very particular */
 	  }
-	}
+      }
 
-	Exception.prototype = new Error();
+      Exception.prototype = new Error();
 
-	exports['default'] = Exception;
-	module.exports = exports['default'];
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(7), __esModule: true };
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(8);
-	module.exports = function defineProperty(it, key, desc){
+      exports['default'] = Exception;
+      module.exports = exports['default'];
+      /** */}),
+    /* 6 */
+    /** */ (function(module, exports, __webpack_require__) {
+      module.exports = {'default': __webpack_require__(7), '__esModule': true};
+      /** */}),
+    /* 7 */
+    /** */ (function(module, exports, __webpack_require__) {
+      const $ = __webpack_require__(8);
+      module.exports = function defineProperty(it, key, desc) {
 	  return $.setDesc(it, key, desc);
-	};
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-	var $Object = Object;
-	module.exports = {
-	  create:     $Object.create,
-	  getProto:   $Object.getPrototypeOf,
-	  isEnum:     {}.propertyIsEnumerable,
-	  getDesc:    $Object.getOwnPropertyDescriptor,
-	  setDesc:    $Object.defineProperty,
-	  setDescs:   $Object.defineProperties,
-	  getKeys:    $Object.keys,
-	  getNames:   $Object.getOwnPropertyNames,
+      };
+      /** */}),
+    /* 8 */
+    /** */ (function(module, exports) {
+      const $Object = Object;
+      module.exports = {
+	  create: $Object.create,
+	  getProto: $Object.getPrototypeOf,
+	  isEnum: {}.propertyIsEnumerable,
+	  getDesc: $Object.getOwnPropertyDescriptor,
+	  setDesc: $Object.defineProperty,
+	  setDescs: $Object.defineProperties,
+	  getKeys: $Object.keys,
+	  getNames: $Object.getOwnPropertyNames,
 	  getSymbols: $Object.getOwnPropertySymbols,
-	  each:       [].forEach
-	};
+	  each: [].forEach,
+      };
+      /** */}),
+    /* 9 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
+      const _interopRequireDefault = __webpack_require__(2)['default'];
 
-	'use strict';
+      exports.__esModule = true;
+      exports.registerDefaultHelpers = registerDefaultHelpers;
 
-	var _interopRequireDefault = __webpack_require__(2)['default'];
+      const _helpersBlockHelperMissing = __webpack_require__(10);
 
-	exports.__esModule = true;
-	exports.registerDefaultHelpers = registerDefaultHelpers;
+      const _helpersBlockHelperMissing2 = _interopRequireDefault(_helpersBlockHelperMissing);
 
-	var _helpersBlockHelperMissing = __webpack_require__(10);
+      const _helpersEach = __webpack_require__(11);
 
-	var _helpersBlockHelperMissing2 = _interopRequireDefault(_helpersBlockHelperMissing);
+      const _helpersEach2 = _interopRequireDefault(_helpersEach);
 
-	var _helpersEach = __webpack_require__(11);
+      const _helpersHelperMissing = __webpack_require__(12);
 
-	var _helpersEach2 = _interopRequireDefault(_helpersEach);
+      const _helpersHelperMissing2 = _interopRequireDefault(_helpersHelperMissing);
 
-	var _helpersHelperMissing = __webpack_require__(12);
+      const _helpersIf = __webpack_require__(13);
 
-	var _helpersHelperMissing2 = _interopRequireDefault(_helpersHelperMissing);
+      const _helpersIf2 = _interopRequireDefault(_helpersIf);
 
-	var _helpersIf = __webpack_require__(13);
+      const _helpersLog = __webpack_require__(14);
 
-	var _helpersIf2 = _interopRequireDefault(_helpersIf);
+      const _helpersLog2 = _interopRequireDefault(_helpersLog);
 
-	var _helpersLog = __webpack_require__(14);
+      const _helpersLookup = __webpack_require__(15);
 
-	var _helpersLog2 = _interopRequireDefault(_helpersLog);
+      const _helpersLookup2 = _interopRequireDefault(_helpersLookup);
 
-	var _helpersLookup = __webpack_require__(15);
+      const _helpersWith = __webpack_require__(16);
 
-	var _helpersLookup2 = _interopRequireDefault(_helpersLookup);
+      const _helpersWith2 = _interopRequireDefault(_helpersWith);
 
-	var _helpersWith = __webpack_require__(16);
-
-	var _helpersWith2 = _interopRequireDefault(_helpersWith);
-
-	function registerDefaultHelpers(instance) {
+      function registerDefaultHelpers(instance) {
 	  _helpersBlockHelperMissing2['default'](instance);
 	  _helpersEach2['default'](instance);
 	  _helpersHelperMissing2['default'](instance);
@@ -557,22 +540,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _helpersLog2['default'](instance);
 	  _helpersLookup2['default'](instance);
 	  _helpersWith2['default'](instance);
-	}
+      }
+      /** */}),
+    /* 10 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
+      exports.__esModule = true;
 
-	'use strict';
+      const _utils = __webpack_require__(4);
 
-	exports.__esModule = true;
-
-	var _utils = __webpack_require__(4);
-
-	exports['default'] = function (instance) {
-	  instance.registerHelper('blockHelperMissing', function (context, options) {
-	    var inverse = options.inverse,
-	        fn = options.fn;
+      exports['default'] = function(instance) {
+	  instance.registerHelper('blockHelperMissing', function(context, options) {
+	    const inverse = options.inverse;
+	        const fn = options.fn;
 
 	    if (context === true) {
 	      return fn(this);
@@ -590,46 +571,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    } else {
 	      if (options.data && options.ids) {
-	        var data = _utils.createFrame(options.data);
+	        const data = _utils.createFrame(options.data);
 	        data.contextPath = _utils.appendContextPath(options.data.contextPath, options.name);
-	        options = { data: data };
+	        options = {data: data};
 	      }
 
 	      return fn(context, options);
 	    }
 	  });
-	};
+      };
 
-	module.exports = exports['default'];
+      module.exports = exports['default'];
+      /** */}),
+    /* 11 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
+      const _interopRequireDefault = __webpack_require__(2)['default'];
 
-	'use strict';
+      exports.__esModule = true;
 
-	var _interopRequireDefault = __webpack_require__(2)['default'];
+      const _utils = __webpack_require__(4);
 
-	exports.__esModule = true;
+      const _exception = __webpack_require__(5);
 
-	var _utils = __webpack_require__(4);
+      const _exception2 = _interopRequireDefault(_exception);
 
-	var _exception = __webpack_require__(5);
-
-	var _exception2 = _interopRequireDefault(_exception);
-
-	exports['default'] = function (instance) {
-	  instance.registerHelper('each', function (context, options) {
+      exports['default'] = function(instance) {
+	  instance.registerHelper('each', function(context, options) {
 	    if (!options) {
 	      throw new _exception2['default']('Must pass iterator to #each');
 	    }
 
-	    var fn = options.fn,
-	        inverse = options.inverse,
-	        i = 0,
-	        ret = '',
-	        data = undefined,
-	        contextPath = undefined;
+	    const fn = options.fn;
+	        const inverse = options.inverse;
+	        let i = 0;
+	        let ret = '';
+	        let data = undefined;
+	        let contextPath = undefined;
 
 	    if (options.data && options.ids) {
 	      contextPath = _utils.appendContextPath(options.data.contextPath, options.ids[0]) + '.';
@@ -657,21 +636,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      ret = ret + fn(context[field], {
 	        data: data,
-	        blockParams: _utils.blockParams([context[field], field], [contextPath + field, null])
+	        blockParams: _utils.blockParams([context[field], field], [contextPath + field, null]),
 	      });
 	    }
 
 	    if (context && typeof context === 'object') {
 	      if (_utils.isArray(context)) {
-	        for (var j = context.length; i < j; i++) {
+	        for (let j = context.length; i < j; i++) {
 	          if (i in context) {
 	            execIteration(i, i, i === context.length - 1);
 	          }
 	        }
 	      } else {
-	        var priorKey = undefined;
+	        let priorKey = undefined;
 
-	        for (var key in context) {
+	        for (const key in context) {
 	          if (context.hasOwnProperty(key)) {
 	            // We're running the iterations one step out of sync so we can detect
 	            // the last iteration without have to scan the object twice and create
@@ -695,26 +674,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return ret;
 	  });
-	};
+      };
 
-	module.exports = exports['default'];
+      module.exports = exports['default'];
+      /** */}),
+    /* 12 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
+      const _interopRequireDefault = __webpack_require__(2)['default'];
 
-	'use strict';
+      exports.__esModule = true;
 
-	var _interopRequireDefault = __webpack_require__(2)['default'];
+      const _exception = __webpack_require__(5);
 
-	exports.__esModule = true;
+      const _exception2 = _interopRequireDefault(_exception);
 
-	var _exception = __webpack_require__(5);
-
-	var _exception2 = _interopRequireDefault(_exception);
-
-	exports['default'] = function (instance) {
-	  instance.registerHelper('helperMissing', function () /* [args, ]options */{
+      exports['default'] = function(instance) {
+	  instance.registerHelper('helperMissing', function() /* [args, ]options */{
 	    if (arguments.length === 1) {
 	      // A missing field in a {{foo}} construct.
 	      return undefined;
@@ -723,22 +700,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	      throw new _exception2['default']('Missing helper: "' + arguments[arguments.length - 1].name + '"');
 	    }
 	  });
-	};
+      };
 
-	module.exports = exports['default'];
+      module.exports = exports['default'];
+      /** */}),
+    /* 13 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
+      exports.__esModule = true;
 
-	'use strict';
+      const _utils = __webpack_require__(4);
 
-	exports.__esModule = true;
-
-	var _utils = __webpack_require__(4);
-
-	exports['default'] = function (instance) {
-	  instance.registerHelper('if', function (conditional, options) {
+      exports['default'] = function(instance) {
+	  instance.registerHelper('if', function(conditional, options) {
 	    if (_utils.isFunction(conditional)) {
 	      conditional = conditional.call(this);
 	    }
@@ -753,30 +728,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  });
 
-	  instance.registerHelper('unless', function (conditional, options) {
-	    return instance.helpers['if'].call(this, conditional, { fn: options.inverse, inverse: options.fn, hash: options.hash });
+	  instance.registerHelper('unless', function(conditional, options) {
+	    return instance.helpers['if'].call(this, conditional, {fn: options.inverse, inverse: options.fn, hash: options.hash});
 	  });
-	};
+      };
 
-	module.exports = exports['default'];
+      module.exports = exports['default'];
+      /** */}),
+    /* 14 */
+    /** */ (function(module, exports) {
+      'use strict';
 
-/***/ }),
-/* 14 */
-/***/ (function(module, exports) {
+      exports.__esModule = true;
 
-	'use strict';
-
-	exports.__esModule = true;
-
-	exports['default'] = function (instance) {
-	  instance.registerHelper('log', function () /* message, options */{
-	    var args = [undefined],
-	        options = arguments[arguments.length - 1];
-	    for (var i = 0; i < arguments.length - 1; i++) {
+      exports['default'] = function(instance) {
+	  instance.registerHelper('log', function() /* message, options */{
+	    const args = [undefined];
+	        const options = arguments[arguments.length - 1];
+	    for (let i = 0; i < arguments.length - 1; i++) {
 	      args.push(arguments[i]);
 	    }
 
-	    var level = 1;
+	    let level = 1;
 	    if (options.hash.level != null) {
 	      level = options.hash.level;
 	    } else if (options.data && options.data.level != null) {
@@ -786,46 +759,42 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    instance.log.apply(instance, args);
 	  });
-	};
+      };
 
-	module.exports = exports['default'];
+      module.exports = exports['default'];
+      /** */}),
+    /* 15 */
+    /** */ (function(module, exports) {
+      'use strict';
 
-/***/ }),
-/* 15 */
-/***/ (function(module, exports) {
+      exports.__esModule = true;
 
-	'use strict';
-
-	exports.__esModule = true;
-
-	exports['default'] = function (instance) {
-	  instance.registerHelper('lookup', function (obj, field) {
+      exports['default'] = function(instance) {
+	  instance.registerHelper('lookup', function(obj, field) {
 	    return obj && obj[field];
 	  });
-	};
+      };
 
-	module.exports = exports['default'];
+      module.exports = exports['default'];
+      /** */}),
+    /* 16 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
+      exports.__esModule = true;
 
-	'use strict';
+      const _utils = __webpack_require__(4);
 
-	exports.__esModule = true;
-
-	var _utils = __webpack_require__(4);
-
-	exports['default'] = function (instance) {
-	  instance.registerHelper('with', function (context, options) {
+      exports['default'] = function(instance) {
+	  instance.registerHelper('with', function(context, options) {
 	    if (_utils.isFunction(context)) {
 	      context = context.call(this);
 	    }
 
-	    var fn = options.fn;
+	    const fn = options.fn;
 
 	    if (!_utils.isEmpty(context)) {
-	      var data = options.data;
+	      let data = options.data;
 	      if (options.data && options.ids) {
 	        data = _utils.createFrame(options.data);
 	        data.contextPath = _utils.appendContextPath(options.data.contextPath, options.ids[0]);
@@ -833,55 +802,51 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return fn(context, {
 	        data: data,
-	        blockParams: _utils.blockParams([context], [data && data.contextPath])
+	        blockParams: _utils.blockParams([context], [data && data.contextPath]),
 	      });
 	    } else {
 	      return options.inverse(this);
 	    }
 	  });
-	};
+      };
 
-	module.exports = exports['default'];
+      module.exports = exports['default'];
+      /** */}),
+    /* 17 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
+      const _interopRequireDefault = __webpack_require__(2)['default'];
 
-	'use strict';
+      exports.__esModule = true;
+      exports.registerDefaultDecorators = registerDefaultDecorators;
 
-	var _interopRequireDefault = __webpack_require__(2)['default'];
+      const _decoratorsInline = __webpack_require__(18);
 
-	exports.__esModule = true;
-	exports.registerDefaultDecorators = registerDefaultDecorators;
+      const _decoratorsInline2 = _interopRequireDefault(_decoratorsInline);
 
-	var _decoratorsInline = __webpack_require__(18);
-
-	var _decoratorsInline2 = _interopRequireDefault(_decoratorsInline);
-
-	function registerDefaultDecorators(instance) {
+      function registerDefaultDecorators(instance) {
 	  _decoratorsInline2['default'](instance);
-	}
+      }
+      /** */}),
+    /* 18 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
+      exports.__esModule = true;
 
-	'use strict';
+      const _utils = __webpack_require__(4);
 
-	exports.__esModule = true;
-
-	var _utils = __webpack_require__(4);
-
-	exports['default'] = function (instance) {
-	  instance.registerDecorator('inline', function (fn, props, container, options) {
-	    var ret = fn;
+      exports['default'] = function(instance) {
+	  instance.registerDecorator('inline', function(fn, props, container, options) {
+	    let ret = fn;
 	    if (!props.partials) {
 	      props.partials = {};
-	      ret = function (context, options) {
+	      ret = function(context, options) {
 	        // Create a new partials stack frame prior to exec.
-	        var original = container.partials;
+	        const original = container.partials;
 	        container.partials = _utils.extend({}, original, props.partials);
-	        var ret = fn(context, options);
+	        const ret = fn(context, options);
 	        container.partials = original;
 	        return ret;
 	      };
@@ -891,28 +856,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return ret;
 	  });
-	};
+      };
 
-	module.exports = exports['default'];
+      module.exports = exports['default'];
+      /** */}),
+    /* 19 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
+      exports.__esModule = true;
 
-	'use strict';
+      const _utils = __webpack_require__(4);
 
-	exports.__esModule = true;
-
-	var _utils = __webpack_require__(4);
-
-	var logger = {
+      var logger = {
 	  methodMap: ['debug', 'info', 'warn', 'error'],
 	  level: 'info',
 
 	  // Maps a given level value to the `methodMap` indexes above.
 	  lookupLevel: function lookupLevel(level) {
 	    if (typeof level === 'string') {
-	      var levelMap = _utils.indexOf(logger.methodMap, level.toLowerCase());
+	      const levelMap = _utils.indexOf(logger.methodMap, level.toLowerCase());
 	      if (levelMap >= 0) {
 	        level = levelMap;
 	      } else {
@@ -928,7 +891,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    level = logger.lookupLevel(level);
 
 	    if (typeof console !== 'undefined' && logger.lookupLevel(logger.level) <= level) {
-	      var method = logger.methodMap[level];
+	      let method = logger.methodMap[level];
 	      if (!console[method]) {
 	        // eslint-disable-line no-console
 	        method = 'log';
@@ -940,78 +903,74 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      console[method].apply(console, message); // eslint-disable-line no-console
 	    }
-	  }
-	};
+	  },
+      };
 
-	exports['default'] = logger;
-	module.exports = exports['default'];
+      exports['default'] = logger;
+      module.exports = exports['default'];
+      /** */}),
+    /* 20 */
+    /** */ (function(module, exports) {
+      // Build out our basic SafeString type
+      'use strict';
 
-/***/ }),
-/* 20 */
-/***/ (function(module, exports) {
-
-	// Build out our basic SafeString type
-	'use strict';
-
-	exports.__esModule = true;
-	function SafeString(string) {
+      exports.__esModule = true;
+      function SafeString(string) {
 	  this.string = string;
-	}
+      }
 
-	SafeString.prototype.toString = SafeString.prototype.toHTML = function () {
+      SafeString.prototype.toString = SafeString.prototype.toHTML = function() {
 	  return '' + this.string;
-	};
+      };
 
-	exports['default'] = SafeString;
-	module.exports = exports['default'];
+      exports['default'] = SafeString;
+      module.exports = exports['default'];
+      /** */ }),
+    /* 21 */
+    /** */ (function(module, exports, __webpack_require__) {
+      'use strict';
 
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
+      const _Object$seal = __webpack_require__(22)['default'];
 
-	'use strict';
+      const _interopRequireWildcard = __webpack_require__(1)['default'];
 
-	var _Object$seal = __webpack_require__(22)['default'];
+      const _interopRequireDefault = __webpack_require__(2)['default'];
 
-	var _interopRequireWildcard = __webpack_require__(1)['default'];
+      exports.__esModule = true;
+      exports.checkRevision = checkRevision;
+      exports.template = template;
+      exports.wrapProgram = wrapProgram;
+      exports.resolvePartial = resolvePartial;
+      exports.invokePartial = invokePartial;
+      exports.noop = noop;
 
-	var _interopRequireDefault = __webpack_require__(2)['default'];
+      const _utils = __webpack_require__(4);
 
-	exports.__esModule = true;
-	exports.checkRevision = checkRevision;
-	exports.template = template;
-	exports.wrapProgram = wrapProgram;
-	exports.resolvePartial = resolvePartial;
-	exports.invokePartial = invokePartial;
-	exports.noop = noop;
+      const Utils = _interopRequireWildcard(_utils);
 
-	var _utils = __webpack_require__(4);
+      const _exception = __webpack_require__(5);
 
-	var Utils = _interopRequireWildcard(_utils);
+      const _exception2 = _interopRequireDefault(_exception);
 
-	var _exception = __webpack_require__(5);
+      const _base = __webpack_require__(3);
 
-	var _exception2 = _interopRequireDefault(_exception);
-
-	var _base = __webpack_require__(3);
-
-	function checkRevision(compilerInfo) {
-	  var compilerRevision = compilerInfo && compilerInfo[0] || 1,
-	      currentRevision = _base.COMPILER_REVISION;
+      function checkRevision(compilerInfo) {
+	  const compilerRevision = compilerInfo && compilerInfo[0] || 1;
+	      const currentRevision = _base.COMPILER_REVISION;
 
 	  if (compilerRevision !== currentRevision) {
 	    if (compilerRevision < currentRevision) {
-	      var runtimeVersions = _base.REVISION_CHANGES[currentRevision],
-	          compilerVersions = _base.REVISION_CHANGES[compilerRevision];
+	      const runtimeVersions = _base.REVISION_CHANGES[currentRevision];
+	          const compilerVersions = _base.REVISION_CHANGES[compilerRevision];
 	      throw new _exception2['default']('Template was precompiled with an older version of Handlebars than the current runtime. ' + 'Please update your precompiler to a newer version (' + runtimeVersions + ') or downgrade your runtime to an older version (' + compilerVersions + ').');
 	    } else {
 	      // Use the embedded version info since the runtime doesn't know about this revision yet
 	      throw new _exception2['default']('Template was precompiled with a newer version of Handlebars than the current runtime. ' + 'Please update your runtime to a newer version (' + compilerInfo[1] + ').');
 	    }
 	  }
-	}
+      }
 
-	function template(templateSpec, env) {
+      function template(templateSpec, env) {
 	  /* istanbul ignore next */
 	  if (!env) {
 	    throw new _exception2['default']('No environment passed to template');
@@ -1035,7 +994,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    partial = env.VM.resolvePartial.call(this, partial, context, options);
-	    var result = env.VM.invokePartial.call(this, partial, context, options);
+	    let result = env.VM.invokePartial.call(this, partial, context, options);
 
 	    if (result == null && env.compile) {
 	      options.partials[options.name] = env.compile(partial, templateSpec.compilerOptions, env);
@@ -1043,8 +1002,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    if (result != null) {
 	      if (options.indent) {
-	        var lines = result.split('\n');
-	        for (var i = 0, l = lines.length; i < l; i++) {
+	        const lines = result.split('\n');
+	        for (let i = 0, l = lines.length; i < l; i++) {
 	          if (!lines[i] && i + 1 === l) {
 	            break;
 	          }
@@ -1060,7 +1019,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  // Just add water
-	  var container = {
+	  const container = {
 	    strict: function strict(obj, name) {
 	      if (!(name in obj)) {
 	        throw new _exception2['default']('"' + name + '" not defined in ' + obj);
@@ -1068,8 +1027,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return obj[name];
 	    },
 	    lookup: function lookup(depths, name) {
-	      var len = depths.length;
-	      for (var i = 0; i < len; i++) {
+	      const len = depths.length;
+	      for (let i = 0; i < len; i++) {
 	        if (depths[i] && depths[i][name] != null) {
 	          return depths[i][name];
 	        }
@@ -1083,15 +1042,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    invokePartial: invokePartialWrapper,
 
 	    fn: function fn(i) {
-	      var ret = templateSpec[i];
+	      const ret = templateSpec[i];
 	      ret.decorator = templateSpec[i + '_d'];
 	      return ret;
 	    },
 
 	    programs: [],
 	    program: function program(i, data, declaredBlockParams, blockParams, depths) {
-	      var programWrapper = this.programs[i],
-	          fn = this.fn(i);
+	      let programWrapper = this.programs[i];
+	          const fn = this.fn(i);
 	      if (data || depths || blockParams || declaredBlockParams) {
 	        programWrapper = wrapProgram(this, i, fn, data, declaredBlockParams, blockParams, depths);
 	      } else if (!programWrapper) {
@@ -1107,7 +1066,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return value;
 	    },
 	    merge: function merge(param, common) {
-	      var obj = param || common;
+	      let obj = param || common;
 
 	      if (param && common && param !== common) {
 	        obj = Utils.extend({}, common, param);
@@ -1119,20 +1078,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    nullContext: _Object$seal({}),
 
 	    noop: env.VM.noop,
-	    compilerInfo: templateSpec.compiler
+	    compilerInfo: templateSpec.compiler,
 	  };
 
 	  function ret(context) {
-	    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	    const options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-	    var data = options.data;
+	    let data = options.data;
 
 	    ret._setup(options);
 	    if (!options.partial && templateSpec.useData) {
 	      data = initData(context, data);
 	    }
-	    var depths = undefined,
-	        blockParams = templateSpec.useBlockParams ? [] : undefined;
+	    let depths = undefined;
+	        const blockParams = templateSpec.useBlockParams ? [] : undefined;
 	    if (templateSpec.useDepths) {
 	      if (options.depths) {
 	        depths = context != options.depths[0] ? [context].concat(options.depths) : options.depths;
@@ -1141,7 +1100,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 
-	    function main(context /*, options*/) {
+	    function main(context /* , options*/) {
 	      return '' + templateSpec.main(container, context, container.helpers, container.partials, data, blockParams, depths);
 	    }
 	    main = executeDecorators(templateSpec.main, main, container, options.depths || [], data, blockParams);
@@ -1149,7 +1108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  ret.isTop = true;
 
-	  ret._setup = function (options) {
+	  ret._setup = function(options) {
 	    if (!options.partial) {
 	      container.helpers = container.merge(options.helpers, env.helpers);
 
@@ -1166,7 +1125,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  };
 
-	  ret._child = function (i, data, blockParams, depths) {
+	  ret._child = function(i, data, blockParams, depths) {
 	    if (templateSpec.useBlockParams && !blockParams) {
 	      throw new _exception2['default']('must pass block params');
 	    }
@@ -1177,13 +1136,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return wrapProgram(container, i, templateSpec[i], data, 0, blockParams, depths);
 	  };
 	  return ret;
-	}
+      }
 
-	function wrapProgram(container, i, fn, data, declaredBlockParams, blockParams, depths) {
+      function wrapProgram(container, i, fn, data, declaredBlockParams, blockParams, depths) {
 	  function prog(context) {
-	    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	    const options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-	    var currentDepths = depths;
+	    let currentDepths = depths;
 	    if (depths && context != depths[0] && !(context === container.nullContext && depths[0] === null)) {
 	      currentDepths = [context].concat(depths);
 	    }
@@ -1197,9 +1156,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  prog.depth = depths ? depths.length : 0;
 	  prog.blockParams = declaredBlockParams || 0;
 	  return prog;
-	}
+      }
 
-	function resolvePartial(partial, context, options) {
+      function resolvePartial(partial, context, options) {
 	  if (!partial) {
 	    if (options.name === '@partial-block') {
 	      partial = options.data['partial-block'];
@@ -1212,24 +1171,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    partial = options.partials[partial];
 	  }
 	  return partial;
-	}
+      }
 
-	function invokePartial(partial, context, options) {
+      function invokePartial(partial, context, options) {
 	  // Use the current closure context to save the partial-block if this partial
-	  var currentPartialBlock = options.data && options.data['partial-block'];
+	  const currentPartialBlock = options.data && options.data['partial-block'];
 	  options.partial = true;
 	  if (options.ids) {
 	    options.data.contextPath = options.ids[0] || options.data.contextPath;
 	  }
 
-	  var partialBlock = undefined;
+	  let partialBlock = undefined;
 	  if (options.fn && options.fn !== noop) {
-	    (function () {
+	    (function() {
 	      options.data = _base.createFrame(options.data);
 	      // Wrapper function to get access to currentPartialBlock from the closure
-	      var fn = options.fn;
+	      const fn = options.fn;
 	      partialBlock = options.data['partial-block'] = function partialBlockWrapper(context) {
-	        var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	        const options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
 	        // Restore the partial-block from the closure for the execution of the block
 	        // i.e. the part inside the block of the partial call.
@@ -1252,102 +1211,92 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } else if (partial instanceof Function) {
 	    return partial(context, options);
 	  }
-	}
+      }
 
-	function noop() {
+      function noop() {
 	  return '';
-	}
+      }
 
-	function initData(context, data) {
+      function initData(context, data) {
 	  if (!data || !('root' in data)) {
 	    data = data ? _base.createFrame(data) : {};
 	    data.root = context;
 	  }
 	  return data;
-	}
+      }
 
-	function executeDecorators(fn, prog, container, depths, data, blockParams) {
+      function executeDecorators(fn, prog, container, depths, data, blockParams) {
 	  if (fn.decorator) {
-	    var props = {};
+	    const props = {};
 	    prog = fn.decorator(prog, props, container, depths && depths[0], data, blockParams, depths);
 	    Utils.extend(prog, props);
 	  }
 	  return prog;
-	}
+      }
+      /** */}),
+    /* 22 */
+    /** */ (function(module, exports, __webpack_require__) {
+      module.exports = {'default': __webpack_require__(23), '__esModule': true};
+      /** */}),
+    /* 23 */
+    /** */ (function(module, exports, __webpack_require__) {
+      __webpack_require__(24);
+      module.exports = __webpack_require__(29).Object.seal;
+      /** */}),
+    /* 24 */
+    /** */ (function(module, exports, __webpack_require__) {
+      // 19.1.2.17 Object.seal(O)
+      const isObject = __webpack_require__(25);
 
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(23), __esModule: true };
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(24);
-	module.exports = __webpack_require__(29).Object.seal;
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// 19.1.2.17 Object.seal(O)
-	var isObject = __webpack_require__(25);
-
-	__webpack_require__(26)('seal', function($seal){
-	  return function seal(it){
+      __webpack_require__(26)('seal', function($seal) {
+	  return function seal(it) {
 	    return $seal && isObject(it) ? $seal(it) : it;
 	  };
-	});
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-	module.exports = function(it){
+      });
+      /** */ }),
+    /* 25 */
+    /** */ (function(module, exports) {
+      module.exports = function(it) {
 	  return typeof it === 'object' ? it !== null : typeof it === 'function';
-	};
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// most Object methods by ES6 should accept primitives
-	var $export = __webpack_require__(27)
-	  , core    = __webpack_require__(29)
-	  , fails   = __webpack_require__(32);
-	module.exports = function(KEY, exec){
-	  var fn  = (core.Object || {})[KEY] || Object[KEY]
-	    , exp = {};
+      };
+      /** */}),
+    /* 26 */
+    /** */ (function(module, exports, __webpack_require__) {
+      // most Object methods by ES6 should accept primitives
+      const $export = __webpack_require__(27);
+	   const core = __webpack_require__(29);
+	   const fails = __webpack_require__(32);
+      module.exports = function(KEY, exec) {
+	  const fn = (core.Object || {})[KEY] || Object[KEY];
+	     const exp = {};
 	  exp[KEY] = exec(fn);
-	  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
-	};
+	  $export($export.S + $export.F * fails(function() {
+          fn(1);
+        }), 'Object', exp);
+      };
+      /** */ }),
+    /* 27 */
+    /** */ (function(module, exports, __webpack_require__) {
+      const global = __webpack_require__(28);
+	   const core = __webpack_require__(29);
+	   const ctx = __webpack_require__(30);
+	   const PROTOTYPE = 'prototype';
 
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var global    = __webpack_require__(28)
-	  , core      = __webpack_require__(29)
-	  , ctx       = __webpack_require__(30)
-	  , PROTOTYPE = 'prototype';
-
-	var $export = function(type, name, source){
-	  var IS_FORCED = type & $export.F
-	    , IS_GLOBAL = type & $export.G
-	    , IS_STATIC = type & $export.S
-	    , IS_PROTO  = type & $export.P
-	    , IS_BIND   = type & $export.B
-	    , IS_WRAP   = type & $export.W
-	    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
-	    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
-	    , key, own, out;
-	  if(IS_GLOBAL)source = name;
-	  for(key in source){
+      var $export = function(type, name, source) {
+	  const IS_FORCED = type & $export.F;
+	     const IS_GLOBAL = type & $export.G;
+	     const IS_STATIC = type & $export.S;
+	     const IS_PROTO = type & $export.P;
+	     const IS_BIND = type & $export.B;
+	     const IS_WRAP = type & $export.W;
+	     const exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
+	     const target = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE];
+	     let key; let own; let out;
+	  if (IS_GLOBAL)source = name;
+	  for (key in source) {
 	    // contains in native
 	    own = !IS_FORCED && target && key in target;
-	    if(own && key in exports)continue;
+	    if (own && key in exports) continue;
 	    // export native or passed
 	    out = own ? target[key] : source[key];
 	    // prevent global pollution for namespaces
@@ -1355,114 +1304,103 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // bind timers to global for call from export context
 	    : IS_BIND && own ? ctx(out, global)
 	    // wrap global constructors for prevent change them in library
-	    : IS_WRAP && target[key] == out ? (function(C){
-	      var F = function(param){
+	    : IS_WRAP && target[key] == out ? (function(C) {
+	      const F = function(param) {
 	        return this instanceof C ? new C(param) : C(param);
 	      };
 	      F[PROTOTYPE] = C[PROTOTYPE];
 	      return F;
 	    // make static versions for prototype methods
 	    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-	    if(IS_PROTO)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+	    if (IS_PROTO)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
 	  }
-	};
-	// type bitmap
-	$export.F = 1;  // forced
-	$export.G = 2;  // global
-	$export.S = 4;  // static
-	$export.P = 8;  // proto
-	$export.B = 16; // bind
-	$export.W = 32; // wrap
-	module.exports = $export;
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports) {
-
-	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-	var global = module.exports = typeof window != 'undefined' && window.Math == Math
+      };
+      // type bitmap
+      $export.F = 1; // forced
+      $export.G = 2; // global
+      $export.S = 4; // static
+      $export.P = 8; // proto
+      $export.B = 16; // bind
+      $export.W = 32; // wrap
+      module.exports = $export;
+      /** */}),
+    /* 28 */
+    /** */ (function(module, exports) {
+      // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+      const global = module.exports = typeof window != 'undefined' && window.Math == Math
 	  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
-	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports) {
-
-	var core = module.exports = {version: '1.2.6'};
-	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// optional / simple context binding
-	var aFunction = __webpack_require__(31);
-	module.exports = function(fn, that, length){
+      if (typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+      /** */ }),
+    /* 29 */
+    /** */ (function(module, exports) {
+      const core = module.exports = {version: '1.2.6'};
+      if (typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+      /** */}),
+    /* 30 */
+    /** */ (function(module, exports, __webpack_require__) {
+      // optional / simple context binding
+      const aFunction = __webpack_require__(31);
+      module.exports = function(fn, that, length) {
 	  aFunction(fn);
-	  if(that === undefined)return fn;
-	  switch(length){
-	    case 1: return function(a){
+	  if (that === undefined) return fn;
+	  switch (length) {
+	    case 1: return function(a) {
 	      return fn.call(that, a);
 	    };
-	    case 2: return function(a, b){
+	    case 2: return function(a, b) {
 	      return fn.call(that, a, b);
 	    };
-	    case 3: return function(a, b, c){
+	    case 3: return function(a, b, c) {
 	      return fn.call(that, a, b, c);
 	    };
 	  }
-	  return function(/* ...args */){
+	  return function(/* ...args */) {
 	    return fn.apply(that, arguments);
 	  };
-	};
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports) {
-
-	module.exports = function(it){
-	  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+      };
+      /** */ }),
+    /* 31 */
+    /** */ (function(module, exports) {
+      module.exports = function(it) {
+	  if (typeof it != 'function') throw TypeError(it + ' is not a function!');
 	  return it;
-	};
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports) {
-
-	module.exports = function(exec){
+      };
+      /** */}),
+    /* 32 */
+    /** */ (function(module, exports) {
+      module.exports = function(exec) {
 	  try {
 	    return !!exec();
-	  } catch(e){
+	  } catch (e) {
 	    return true;
 	  }
-	};
+      };
+      /** */}),
+    /* 33 */
+    /** */ (function(module, exports) {
+      /* WEBPACK VAR INJECTION */(function(global) {/* global window */
+        'use strict';
 
-/***/ }),
-/* 33 */
-/***/ (function(module, exports) {
+        exports.__esModule = true;
 
-	/* WEBPACK VAR INJECTION */(function(global) {/* global window */
-	'use strict';
-
-	exports.__esModule = true;
-
-	exports['default'] = function (Handlebars) {
+        exports['default'] = function(Handlebars) {
 	  /* istanbul ignore next */
-	  var root = typeof global !== 'undefined' ? global : window,
-	      $Handlebars = root.Handlebars;
+	  const root = typeof global !== 'undefined' ? global : window;
+	      const $Handlebars = root.Handlebars;
 	  /* istanbul ignore next */
-	  Handlebars.noConflict = function () {
+	  Handlebars.noConflict = function() {
 	    if (root.Handlebars === Handlebars) {
 	      root.Handlebars = $Handlebars;
 	    }
 	    return Handlebars;
 	  };
-	};
+        };
 
-	module.exports = exports['default'];
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ })
-/******/ ])
+        module.exports = exports['default'];
+        /* WEBPACK VAR INJECTION */}.call(exports, (function() {
+        return this;
+      }())));
+      /** */}),
+    /** ****/ ]);
 });
 ;

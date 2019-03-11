@@ -1,9 +1,7 @@
-(function () {
+(function() {
+  function wrapConstructorToFactory(c) {
+    return (...args) => new c(...args);
+  }
 
-    function wrapConstructorToFactory(c) {
-        return (...args) => new c(...args);
-    }
-
-    window.wrapConstructorToFactory = wrapConstructorToFactory;
-
+  window.wrapConstructorToFactory = wrapConstructorToFactory;
 })();

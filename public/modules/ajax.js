@@ -2,7 +2,6 @@
   const noop = () => null;
   /** class performing Ajax requests with following callbacks. */
   class AjaxModule {
-
     /**
      * Make an ajax request.
      * @param {function} callback - Function to perform on xhr object.
@@ -24,7 +23,7 @@
         xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
       }
 
-      xhr.onreadystatechange = function () {
+      xhr.onreadystatechange = function() {
         if (xhr.readyState !== 4) {
           return;
         }
