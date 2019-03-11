@@ -14,8 +14,8 @@
   "rules": {
     "require-jsdoc": ["error", {
       "require": {
-        "FunctionDeclaration": false,
-        "MethodDefinition": false,
+        "FunctionDeclaration": true,
+        "MethodDefinition": true,
         "ClassDeclaration": false,
         "ArrowFunctionExpression": false,
         "FunctionExpression": false
