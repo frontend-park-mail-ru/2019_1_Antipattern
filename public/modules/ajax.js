@@ -72,6 +72,43 @@
 				method: 'POST',
 			});
 		}
+		doPut({
+			callback = noop,
+			path = '/',
+			body = {},
+		} = {}) {
+			this._ajax({
+				callback,
+				path,
+				body,
+				method: 'PUT',
+			});
+		}
+		doDelete({
+			callback = noop,
+			path = '/',
+			body = {},
+		} = {}) {
+			this._ajax({
+				callback,
+				path,
+				body,
+				method: 'DELETE',
+			});
+		}
+		doAjax({
+			callback = noop,
+			path = '/',
+			body = {},
+			method = 'GET',
+		} = {}) {
+			this._ajax({
+				callback,
+				path,
+				body,
+				method: method,
+			});
+		}
 	}
 
 	window.AjaxModule = new AjaxModule();

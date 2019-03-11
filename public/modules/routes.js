@@ -14,7 +14,9 @@
         }
 
         init() {
-            this._rootEl.innerHTML = Handlebars.templates['menu.html']();
+            this._rootEl.innerHTML = Handlebars.templates['menu.html']({
+                isAuthorized: window.User,
+            });
         }
 
         deinit() {
@@ -37,10 +39,41 @@
 
         init() {
             this._rootEl.innerHTML = Handlebars.templates['login.html']();
+            this.addListeners();
         }
 
         deinit() {
             this._rootEl.innerHTML = '';
+        }
+
+        addListeners() {
+            this._rootEl.addEventListener("submit", (event) => {
+                event.preventDefault();
+                let form = event.target;
+
+                let login = form.elements["login"].value;
+                let password = form.elements["password"].value;
+
+                let errorStruct = window.BaseValidator.validateLogReg(login, password);
+                let error = errorStruct.error;
+                let errorField = errorStruct.errorField;
+
+                if (error !== null) {
+                    // TODO: reimplement the next line
+                    alert(error);
+                    return;
+                }
+
+                window.API.authorize(login, password, (status, object) => {
+                    if (status === 'success') {
+                        let image = object.avatar || null;
+                        window.User = new window.UserModel(object.name, object.email, object.login, image);
+                        this._router.routeTo('/')
+                    } else {
+                        alert(object.message);
+                    }
+                });
+            });
         }
     };
 
@@ -59,11 +92,47 @@
 
         init() {
             this._rootEl.innerHTML = Handlebars.templates['settings.html']();
+            this.addListeners();
         }
 
         deinit() {
             this._rootEl.innerHTML = '';
         }
+
+        addListeners() {
+            this._rootEl.addEventListener("submit", (event) => {
+                event.preventDefault();
+                let form = event.target;
+
+                let username = form.elements["username"].value;
+                let password = form.elements["password"].value;
+                let rePassword = form.elements["repeat_password"].value;
+                console.log(username);
+                console.log(password);
+                console.log(rePassword);
+
+                let errorStruct = window.BaseValidator.validateUpdate(username, password, rePassword);
+                let error = errorStruct.error;
+                let errorField = errorStruct.errorField;
+
+                if (error !== null) {
+                    // TODO: reimplement the next line
+                    alert(error);
+                    return;
+                }
+
+                window.API.updateUserInfo(username, password, (status, object) => {
+                    if (status === 'success') {
+                        let image = object.avatar || null;
+                        window.User = new window.UserModel(object.name, object.email, object.login, image);
+                        this._router.routeTo('/')
+                    } else {
+                        alert(object.message);
+                    }
+                });
+            });
+        }
+
     };
 
     class ProfileRoute {
@@ -80,7 +149,17 @@
         }
 
         init() {
-            this._rootEl.innerHTML = Handlebars.templates['profile.html']();
+            if (window.User !== undefined) {
+                /* TODO(everyone): make settings file */
+                let avatar_path = window.User.getImg() || "public/img/avatar.jpg";
+                this._rootEl.innerHTML = Handlebars.templates['profile.html']({
+                    username: window.User.getUsername(),
+                    email: window.User.getEmail(),
+                    avatar_path: avatar_path,
+                });
+            } else {
+                this._router.routeTo('/');
+            }
         }
 
         deinit() {
@@ -103,10 +182,44 @@
 
         init() {
             this._rootEl.innerHTML = Handlebars.templates['signup.html']();
+            this.addListeners();
         }
 
         deinit() {
             this._rootEl.innerHTML = '';
+        }
+
+        addListeners() {
+            this._rootEl.addEventListener("submit", (event) => {
+                event.preventDefault();
+                let form = event.target;
+
+                let username = form.elements["username"].value;
+                let login = form.elements["login"].value;
+                let email = form.elements["email"].value;
+                let password = form.elements["password"].value;
+                let repassword = form.elements["repeat_password"].value;
+
+                let errorStruct = window.BaseValidator.validateLogReg(login, password, username, email, repassword);
+                let error = errorStruct.error;
+                let errorField = errorStruct.errorField;
+
+                if (error !== null) {
+                    // TODO: reimplement the next line
+                    alert(error);
+                    return;
+                }
+
+                window.API.register(login, email, password, username, (status, object) => {
+                    if (status === 'success') {
+                        let image = object.avatar || null;
+                        window.User = new window.UserModel(object.name, object.email, object.login, image);
+                        this._router.routeTo('/')
+                    } else {
+                        alert(object.message);
+                    }
+                });
+            });
         }
     };
 
@@ -124,7 +237,40 @@
         }
 
         init() {
-            this._rootEl.innerHTML = Handlebars.templates['leaderboard.html']();
+            window.API.getUsers(1,(status, object) => {
+              if (status === 'success') {
+                this._rootEl.innerHTML =
+                Handlebars.templates['leaderboard.html']({
+                  users: object.users,
+                  pageCount: Math.ceil(object.count / 10),
+                  currentPage: '0',
+                  size: '5'});
+              }
+            });
+            this.addListeners();
+
+        }
+
+        addListeners() {
+            this._rootEl.addEventListener("click", (event) => {
+                event.preventDefault();
+                let link = event.target;
+
+                let page = link.getAttribute('href');
+                window.API.getUsers(page,(status, object) => {
+                  if (status === 'success') {
+                    this._rootEl.innerHTML = '';
+                    this._rootEl.innerHTML =
+                    Handlebars.templates['leaderboard.html']({
+                      users: object.users,
+                      pageCount: Math.ceil(object.count / 10),
+                      currentPage: page,
+                      size: '5'});
+                  } else {
+                    console.log(page);
+                  }
+                });
+            });
         }
 
         deinit() {

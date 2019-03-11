@@ -45,12 +45,12 @@
 }
 
 @font-face {
-font-family: "Street Gathering";
-src: url("../fonts/Street_Gathering.eot");
-src:
-url("../fonts/Street_Gathering.woff") format("woff"),
-url("../fonts/Street_Gathering.otf") format("opentype"),
-url("../fonts/Street_Gathering.svg") format("svg");
+  font-family: "Street Gathering";
+  src: url("../fonts/Street_Gathering.eot");
+  src:
+  url("../fonts/Street_Gathering.woff") format("woff"),
+  url("../fonts/Street_Gathering.otf") format("opentype"),
+  url("../fonts/Street_Gathering.svg") format("svg");
 }
 
 @font-face {
@@ -70,13 +70,13 @@ url("../fonts/Street_Gathering.svg") format("svg");
 }
 
 @font-face {
-font-family: 'Brandon Grotesque Regular';
-src: url('../fonts/BrandonGrotesque-Regular.eot');
-src: url('../fonts/BrandonGrotesque-Regular.eot?#iefix') format('embedded-opentype'),
-url('../fonts/BrandonGrotesque-Regular.woff') format('woff'),
-url('../fonts/BrandonGrotesque-Regular.ttf') format('truetype');
-font-weight: normal;
-font-style: normal;
+  font-family: 'Brandon Grotesque Regular';
+  src: url('../fonts/BrandonGrotesque-Regular.eot');
+  src: url('../fonts/BrandonGrotesque-Regular.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/BrandonGrotesque-Regular.woff') format('woff'),
+  url('../fonts/BrandonGrotesque-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 .font-brandon {
