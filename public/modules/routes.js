@@ -1,5 +1,10 @@
 (function() {
   class IndexRoute {
+    /**
+     *
+     * @param rootEl
+     * @param router
+     */
     constructor(rootEl, router) {
       if (!(rootEl instanceof Node)) {
         throw new TypeError('rootEl must be Node');
@@ -12,18 +17,29 @@
       this._router = router;
     }
 
+    /**
+     *
+     */
     init() {
       this._rootEl.innerHTML = Handlebars.templates['menu.html']({
         isAuthorized: window.User,
       });
     }
 
+    /**
+     *
+     */
     deinit() {
       this._rootEl.innerHTML = '';
     }
   }
 
   class LoginRoute {
+    /**
+     *
+     * @param rootEl
+     * @param router
+     */
     constructor(rootEl, router) {
       if (!(rootEl instanceof Node)) {
         throw new TypeError('rootEl must be Node');
@@ -36,15 +52,24 @@
       this._router = router;
     }
 
+    /**
+     *
+     */
     init() {
       this._rootEl.innerHTML = Handlebars.templates['login.html']();
       this.addListeners();
     }
 
+    /**
+     *
+     */
     deinit() {
       this._rootEl.innerHTML = '';
     }
 
+    /**
+     *
+     */
     addListeners() {
       this._rootEl.addEventListener('submit', (event) => {
         event.preventDefault();

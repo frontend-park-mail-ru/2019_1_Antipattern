@@ -1,5 +1,9 @@
 (function() {
   class Router {
+    /**
+     * Default router constructor
+     * @param {Node} rootEl - DOM element
+     */
     constructor(rootEl) {
       if (!(rootEl instanceof Node)) {
         throw new TypeError('rootEl must be Node');
@@ -10,6 +14,11 @@
       this._currentRoute = null;
     }
 
+    /**
+     * Adds route to the router
+     * @param {string} path - url
+     * @param {function} routeMakerFn - function returning new Route object
+     */
     addRoute(path, routeMakerFn) {
       if (typeof path !== 'string') {
         return;
@@ -21,6 +30,10 @@
       this._routeMakerFns[path] = routeMakerFn;
     }
 
+    /**
+     * Sets default route
+     * @param {string} path - url
+     */
     setDefaultRoute(path) {
       if (typeof path !== 'string') {
         return;
@@ -32,10 +45,17 @@
       this._defaultRoutePath = path;
     }
 
+    /**
+     * Initializes the router
+     */
     init() {
       this.routeTo(this._defaultRoutePath);
     }
 
+    /**
+     * Redirects and renders required page
+     * @param {string} path - url
+     */
     routeTo(path) {
       if (typeof path !== 'string') {
         return;
@@ -65,6 +85,11 @@
     }
   }
 
+  /**
+   * Anchors routes on link by event listeners
+   * @param {Node} rootEl - DOM element
+   * @param {function} router - route object
+   */
   function initAnchorsRouting(rootEl, router) {
     if (!(rootEl instanceof Node)) {
       return;
