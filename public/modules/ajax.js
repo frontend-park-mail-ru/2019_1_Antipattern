@@ -46,7 +46,7 @@
      */
     doGet({
       callback = noop,
-      path = '/',
+      path = '/api/',
       body = {},
     } = {}) {
       this._ajax({

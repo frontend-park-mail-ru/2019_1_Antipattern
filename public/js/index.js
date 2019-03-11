@@ -1,7 +1,6 @@
 (function () {
-    let root = document.getElementById('root')
+    let root = document.getElementById('root');
     window.onload = () => {
-
         const router = new Router(root);
         router.addRoute('/', wrapConstructorToFactory(IndexRoute));
         router.addRoute('/login', wrapConstructorToFactory(LoginRoute));
