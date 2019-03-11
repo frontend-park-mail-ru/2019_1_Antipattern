@@ -8,6 +8,7 @@
      * @param {string} method - GET/POST/... method.
      * @param {string} path - URL path for making a xhr request.
      * @param {Object} body - context object for callbacks.
+     * @private
      */
     _ajax({
       callback = noop,

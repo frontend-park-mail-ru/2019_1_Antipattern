@@ -13,6 +13,7 @@
      * @param {string} callback - function with 2 params that executes when
      *                            the response is returned
      * @param {string} type - expected response type
+     * @private
      */
     _sendRequest(method, url, body, callback, type) {
       ajax.doAjax( {

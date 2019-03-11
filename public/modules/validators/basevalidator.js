@@ -2,6 +2,12 @@
 
 (function() {
   class BaseValidator {
+    /**
+     * Checks whether text's length is correct
+     * @param {string} text - text to check the length
+     * @return {boolean} - result of a check
+     * @private
+     */
     _correctLength(text) {
       const MIN_LEN = 4;
       const MAX_LEN = 25;
@@ -9,31 +15,70 @@
       return text.length >= MIN_LEN && text.length <= MAX_LEN;
     }
 
+    /**
+     * Checks whether text's length is correct or text is empty
+     * @param {string} text - text to check the length
+     * @return {boolean} - result of a check
+     * @private
+     */
     _correctLengthOrEmpty(text) {
       return this._correctLength(text) || text.length === 0;
     }
 
+    /**
+     * Checks whether email is correct
+     * @param {string} email - email to be tested
+     * @return {boolean} - result of a check
+     * @private
+     */
     _correctEmail(email) {
       const emailRegexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return email.match(emailRegexp);
+      return Boolean(email.match(emailRegexp));
     }
 
+    /**
+     * Checks whether username is correct
+     * @param {string} username - username to be tested
+     * @return {boolean} - result of a check
+     * @private
+     */
     _correctUsername(username) {
       const usernameRegexp = /^[a-zA-Z0-9 .-_]+$/;
-      return username.match(usernameRegexp);
+      return Boolean(username.match(usernameRegexp));
     }
 
+    /**
+     * Checks whether username is correct or empty
+     * @param {string} username - username to be tested
+     * @return {boolean} - result of a check
+     * @private
+     */
     _correctUsernameOrEmpty(username) {
       return username.length === 0 || this._correctUsername(username);
     }
 
+    /**
+     * Checks whether login is correct
+     * @param {string} login - login to be tested
+     * @return {boolean} - result of a check
+     * @private
+     */
     _correctLogin(login) {
       const loginRegexp = /^[a-zA-Z0-9_]+$/;
-      return login.match(loginRegexp);
+      return Boolean(login.match(loginRegexp));
     }
 
-    validateLogReg(login, password, username = null,
-        email = null, repassword = null) {
+    /**
+     * Validates user registration or login
+     * @param {string} login - user login
+     * @param {string} password - user password
+     * @param {string} username - user name
+     * @param {string} email - user email
+     * @param {string} repassword - user password confirmation
+     * @return {*} - error message and name of the field that caused an error
+     */
+    validateLogReg(login, password, username = '',
+        email = '', repassword = '') {
       const validator = window.BaseValidator;
       if (!validator._correctLogin(login)) {
         return {
@@ -56,7 +101,7 @@
         };
       }
 
-      if (username !== null && email !== null && repassword !== null) {
+      if (username !== '' && email !== '' && repassword !== '') {
         if (!validator._correctUsername(username)) {
           return {
             error: 'Name should consist on a-z, A-Z and 0-9',
@@ -86,13 +131,19 @@
         }
       }
 
-
       return {
         error: null,
         errorField: null,
       };
     }
 
+    /**
+     * Validates user data update
+     * @param {string} username - user name
+     * @param {string} password - user password
+     * @param {string} repassword - user password confirmation
+     * @return {*} - error message and name of the field that caused an erro
+     */
     validateUpdate(username, password, repassword) {
       console.log(username);
       console.log(password);
