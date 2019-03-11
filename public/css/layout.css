@@ -1,5 +1,5 @@
 body {
-    overflow: hidden;
+  overflow: hidden;
 }
 /*body {
     background-color: #222222;
@@ -21,9 +21,9 @@ a, a:hover {
      <div>
 */
 .container {
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 .justify-around {
@@ -41,60 +41,60 @@ a, a:hover {
 }
 
 .justify-start {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 .d-flex-column {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 .flex-w-400 {
-    flex-basis: 400px;
+  flex-basis: 400px;
 }
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 .align-items-center {
-    align-items: center;
+  align-items: center;
 }
 .justify-center {
-    justify-content: center;
+  justify-content: center;
 }
 .d-block {
-    display: block;
+  display: block;
 }
 
 .scroll {
-    overflow-x: hidden;
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
 }
 
 .scroll::-webkit-scrollbar { 
-    display: none;
+  display: none;
 }
 
 .fill-width {
-    width: 100vh;
+  width: 100vh;
 }
 
 .height-sm {
-    max-height: 10.000em;
+  max-height: 10.000em;
 }
 
 .height-md {
-    max-height: 17.500em;
+  max-height: 17.500em;
 }
 
 .height-lg {
-    max-height: 25.000em;
+  max-height: 25.000em;
 }
 
 .height-xl {
-    max-height: 32.500em;
+  max-height: 32.500em;
 }
 
 /*
@@ -102,59 +102,72 @@ a, a:hover {
 */
 
 .py-1 {
-    padding-top: 5px;
-    padding-bottom: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
+
 .py-2 {
-    padding-top: 10px;
-    padding-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
+
 .py-3 {
-    padding-top: 15px;
-    padding-bottom: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
+
 .py-4 {
-    padding-top: 20x;
-    padding-bottom: 20px;
+  padding-top: 20x;
+  padding-bottom: 20px;
 }
+
 .px-4 {
-    padding-left: 20px;
-    padding-right: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
+
 .my-1 {
-    margin-top: 5px;
-    margin-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
+
 .my-2 {
-    margin-top: 10px;
-    margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
+
 .my-3 {
-    margin-top: 15px;
-    margin-bottom: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
+
 .my-4 {
-    margin-top: 20px;
-    margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
+
 .mx-1 {
-    margin-left: 5px;
-    margin-right: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
+
 .mx-2 {
-    margin-left: 10px;
-    margin-right: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
+
 .mx-3 {
-    margin-left: 15px;
-    margin-right: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
 }
+
 .mx-4 {
-    margin-left: 20px;
-    margin-right: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
+
 .top-menu {
-    margin-bottom: 20%;
+  margin-bottom: 20%;
 }
 
 /*
@@ -203,62 +216,67 @@ a, a:hover {
 
 
 .game-container {
-    display: flex;
+  display: flex;
 }
+
 .game-container .left-column {
-    flex-basis: 30%;
+  flex-basis: 30%;
 }
+
 .game-container .gamefield {
-    flex-basis: 100vmin;
+  flex-basis: 100vmin;
 }
+
 .gamefield .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
+
 .row .cell {
-    position: relative;
-    flex: 1;
-    height: auto;
-    border-left: solid 1px black;
-    border-bottom: solid 1px black;
+  position: relative;
+  flex: 1;
+  height: auto;
+  border-left: solid 1px black;
+  border-bottom: solid 1px black;
 }
+
 .cell-content {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .row .cell-content:before {
-    content: "";
-    display: block;
-    padding-top: 100%;
+  content: "";
+  display: block;
+  padding-top: 100%;
 }
 
 .cell-content .element {
-    position: absolute;
-    top: 0;
-    left: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .img-avatar {
-    min-width: 200px;
-    min-height: 200px;
+  min-width: 200px;
+  min-height: 200px;
 
-    height: 3em;
-    width: 3em;
-    border-radius: 7em;
+  height: 3em;
+  width: 3em;
+  border-radius: 7em;
 }
 
 .img-icon {
-    height: 40px;
-    width: 40px;
-    filter: invert(1);
+  height: 40px;
+  width: 40px;
+  filter: invert(1);
 }
 
 #leaderboard {
-    padding: 0.5em;
-    border-bottom: none;
-    border-top: none;
+  padding: 0.5em;
+  border-bottom: none;
+  border-top: none;
 }
 
 input {
