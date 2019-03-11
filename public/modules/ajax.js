@@ -40,7 +40,7 @@
     }
 
     /**
-     * Decorator with POST request logic.
+     * Decorator with GET request logic.
      * @param {Object} - Same params as _ajax({}) func.
      */
     doGet({
@@ -72,6 +72,11 @@
         method: 'POST',
       });
     }
+
+    /**
+     *  Decorator with PUT request logic.
+     * @param {Object} - Same params as _ajax({}) func.
+     */
     doPut({
       callback = noop,
       path = '/',
@@ -84,6 +89,11 @@
         method: 'PUT',
       });
     }
+
+    /**
+     *  Decorator with DELETE request logic.
+     * @param {Object} - Same params as _ajax({}) func.
+     */
     doDelete({
       callback = noop,
       path = '/',
@@ -96,6 +106,11 @@
         method: 'DELETE',
       });
     }
+
+    /**
+     *  Decorator for custom request.
+     * @param {Object} - Same params as _ajax({}) func.
+     */
     doAjax({
       callback = noop,
       path = '/',
