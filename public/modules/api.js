@@ -5,6 +5,15 @@
   const apiPrefix = '';
 
   class API {
+    /**
+     * doAjax wrapper that execs callback and passes request result and payload
+     * @param {string} method - GET/POST/... method
+     * @param {string} url - target URL
+     * @param {string} body - request body
+     * @param {string} callback - function with 2 params that executes when
+     *                            the response is returned
+     * @param {string} type - expected response type
+     */
     _sendRequest(method, url, body, callback, type) {
       ajax.doAjax( {
         callback: (xhr) => {
@@ -41,6 +50,15 @@
       });
     }
 
+    /**
+     * API method to register a new user
+     * @param {string} login - user login
+     * @param {string} email - user email
+     * @param {string} password - user password
+     * @param {string} name - user name
+     * @param {string} callback - function with 2 params that executes when
+     *                            the response is returned
+     */
     register(login, email, password, name, callback) {
       // Success:
       // {"type":"reg","status":"success","payload":{"login":"user_login",
@@ -60,6 +78,13 @@
       this._sendRequest('POST', url, data, callback, 'reg');
     }
 
+    /**
+     * API method to authorize a user
+     * @param {string} login - user login
+     * @param {string} password - user password
+     * @param {string} callback - function with 2 params that executes when
+     *                            the response is returned
+     */
     authorize(login, password, callback) {
       // Success:
       // {"type":"log","status":"success","payload":{"login":"user_login",
@@ -79,6 +104,13 @@
       this._sendRequest('POST', url, data, callback, 'log');
     }
 
+    /**
+     * API method to update user name and/or password
+     * @param {string} newName - new user name
+     * @param {string} newPassword - new user password
+     * @param {string} callback - function with 2 params that executes when
+     *                            the response is returned
+     */
     updateUserInfo(newName, newPassword, callback) {
       // Success:
       // {"type":"usinfo","status":"success","payload":{"login":
@@ -94,6 +126,11 @@
       this._sendRequest('PUT', url, data, callback, 'usinfo');
     }
 
+    /**
+     * API method to get current user's info
+     * @param {string} callback - function with 2 params that executes when
+     *                            the response is returned
+     */
     getUserInfo(callback) {
       // Request:
       // Method: "GET"
@@ -115,6 +152,12 @@
       this._sendRequest('GET', url, data, callback, 'usinfo');
     }
 
+    /**
+     * API method to gey user list for leaderboard
+     * @param {number} page - page of the leaderboard
+     * @param {string} callback - function with 2 params that executes when
+     *                            the response is returned
+     */
     getUsers(page, callback) {
       const url = '/api/leaderboard/' + page;
       const data = {};

@@ -5,7 +5,7 @@
     /**
      * Make an ajax request.
      * @param {function} callback - Function to perform on xhr object.
-     * @param {string} method - GET/POST method.
+     * @param {string} method - GET/POST/... method.
      * @param {string} path - URL path for making a xhr request.
      * @param {Object} body - context object for callbacks.
      */
