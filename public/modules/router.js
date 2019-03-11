@@ -2,7 +2,7 @@
   class Router {
     constructor(rootEl) {
       if (!(rootEl instanceof Node)) {
-        throw TypeError('rootEl must be Node');
+        throw new TypeError('rootEl must be Node');
       }
       this._rootEl = rootEl;
       this._routeMakerFns = {};
@@ -89,49 +89,50 @@
   window.Router = Router;
   window.initAnchorsRouting = initAnchorsRouting;
 
-  Handlebars.registerHelper('pagination', function(currentPage, totalPage, size, options) {
-    let startPage; let endPage; let context;
+  Handlebars.registerHelper('pagination',
+      function(currentPage, totalPage, size, options) {
+        let startPage; let endPage;
 
-    if (arguments.length === 3) {
-      options = size;
-      size = 5;
-    }
+        if (arguments.length === 3) {
+          options = size;
+          size = 5;
+        }
 
-    startPage = currentPage - Math.floor(size / 2);
-    endPage = currentPage + Math.floor(size / 2);
+        startPage = currentPage - Math.floor(size / 2);
+        endPage = currentPage + Math.floor(size / 2);
 
-    if (startPage <= 0) {
-      endPage -= (startPage - 1);
-      startPage = 1;
-    }
+        if (startPage <= 0) {
+          endPage -= (startPage - 1);
+          startPage = 1;
+        }
 
-    if (endPage > totalPage) {
-      endPage = totalPage;
-      if (endPage - size + 1 > 0) {
-        startPage = endPage - size + 1;
-      } else {
-        startPage = 1;
-      }
-    }
+        if (endPage > totalPage) {
+          endPage = totalPage;
+          if (endPage - size + 1 > 0) {
+            startPage = endPage - size + 1;
+          } else {
+            startPage = 1;
+          }
+        }
 
-    context = {
-      startFromFirstPage: false,
-      pages: [],
-      endAtLastPage: false,
-    };
-    if (startPage === 1) {
-      context.startFromFirstPage = true;
-    }
-    for (let i = startPage; i <= endPage; i++) {
-      context.pages.push({
-        page: i,
-        isCurrent: i === currentPage,
+        const context = {
+          startFromFirstPage: false,
+          pages: [],
+          endAtLastPage: false,
+        };
+        if (startPage === 1) {
+          context.startFromFirstPage = true;
+        }
+        for (let i = startPage; i <= endPage; i++) {
+          context.pages.push({
+            page: i,
+            isCurrent: i === currentPage,
+          });
+        }
+        if (endPage === totalPage) {
+          context.endAtLastPage = true;
+        }
+
+        return options.fn(context);
       });
-    }
-    if (endPage === totalPage) {
-      context.endAtLastPage = true;
-    }
-
-    return options.fn(context);
-  });
 })();

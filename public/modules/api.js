@@ -1,7 +1,6 @@
 'use strict';
 
 (function() {
-  const noop = () => null;
   const ajax = window.AjaxModule;
   const apiPrefix = '';
 
@@ -44,9 +43,11 @@
 
     register(login, email, password, name, callback) {
       // Success:
-      // {"type":"reg","status":"success","payload":{"login":"user_login","email":"death.pa_cito@mail.yandex.ru","name":"kek"}}
+      // {"type":"reg","status":"success","payload":{"login":"user_login",
+      //  "email":"death.pa_cito@mail.yandex.ru","name":"kek"}}
       // Errors:
-      // Already exists: {"type":"reg","status":"error","payload":{"message":"User already exists","field":"login"}}
+      // Already exists: {"type":"reg","status":"error","payload":{"message":
+      //  "User already exists","field":"login"}}
 
       const url = '/api/register';
       const data = {
@@ -61,10 +62,13 @@
 
     authorize(login, password, callback) {
       // Success:
-      // {"type":"log","status":"success","payload":{"login":"user_login","email":"death.pa_cito@mail.yandex.ru","name":"kek"}}
+      // {"type":"log","status":"success","payload":{"login":"user_login",
+      //  "email":"death.pa_cito@mail.yandex.ru","name":"kek"}}
       // Errors:
-      // Wrong login: {"type":"log","status":"error","payload":{"message":"Incorrectlogin","field":"login"}}
-      // Wrong password: {"type":"log","status":"error","payload":{"message":"Incorrectpassword","field":"password"}}
+      // Wrong login: {"type":"log","status":"error","payload":{"message":
+      //  "Incorrectlogin","field":"login"}}
+      // Wrong password: {"type":"log","status":"error","payload":{"message":
+      //  "Incorrectpassword","field":"password"}}
       const url = '/api/auth';
       const data = {
         login: login,
@@ -77,7 +81,8 @@
 
     updateUserInfo(newName, newPassword, callback) {
       // Success:
-      // {"type":"usinfo","status":"success","payload":{"login":"fake_user_login","email":"mail@mail.ru","name":"new name"}}
+      // {"type":"usinfo","status":"success","payload":{"login":
+      //  "fake_user_login","email":"mail@mail.ru","name":"new name"}}
       // Errors:
       // Not implemeted yet
       const url = '/api/profile';
@@ -95,9 +100,12 @@
       // Url: /api/profile
       // Body: empty
       // Success:
-      // {"type":"usinfo","status":"success","payload":{"login":"fake_user_login","email":"mail@mail.ru","name":"yasher"}}
+      // {"type":"usinfo","status":"success","payload":{"login":
+      //  "fake_user_login","email":"mail@mail.ru","name":"yasher"}}
       // or
-      // {"type":"usinfo","status":"success","payload":{"login":"fake_user_login","email":"mail@mail.ru","name":"yasher","avatar":"/path/to/avatar.png"}}
+      // {"type":"usinfo","status":"success","payload":{"login":
+      //  "fake_user_login","email":"mail@mail.ru","name":"yasher","avatar":
+      //  "/path/to/avatar.png"}}
       // expectedBody := ``  or
       // expectedBody := ``
 

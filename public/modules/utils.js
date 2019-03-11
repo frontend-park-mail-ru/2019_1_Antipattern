@@ -1,6 +1,6 @@
 (function() {
-  function wrapConstructorToFactory(c) {
-    return (...args) => new c(...args);
+  function wrapConstructorToFactory(C) {
+    return (...args) => new C(...args);
   }
 
   window.wrapConstructorToFactory = wrapConstructorToFactory;

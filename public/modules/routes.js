@@ -2,10 +2,10 @@
   class IndexRoute {
     constructor(rootEl, router) {
       if (!(rootEl instanceof Node)) {
-        throw TypeError('rootEl must be Node');
+        throw new TypeError('rootEl must be Node');
       }
       if (!(router instanceof Router)) {
-        throw TypeError('router must be Router');
+        throw new TypeError('router must be Router');
       }
 
       this._rootEl = rootEl;
@@ -21,15 +21,15 @@
     deinit() {
       this._rootEl.innerHTML = '';
     }
-  };
+  }
 
   class LoginRoute {
     constructor(rootEl, router) {
       if (!(rootEl instanceof Node)) {
-        throw TypeError('rootEl must be Node');
+        throw new TypeError('rootEl must be Node');
       }
       if (!(router instanceof Router)) {
-        throw TypeError('router must be Router');
+        throw new TypeError('router must be Router');
       }
 
       this._rootEl = rootEl;
@@ -53,9 +53,10 @@
         const login = form.elements['login'].value;
         const password = form.elements['password'].value;
 
-        const errorStruct = window.BaseValidator.validateLogReg(login, password);
+        const errorStruct = window.BaseValidator.validateLogReg(login,
+            password);
         const error = errorStruct.error;
-        const errorField = errorStruct.errorField;
+        // const errorField = errorStruct.errorField;
 
         if (error !== null) {
           // TODO: reimplement the next line
@@ -66,7 +67,8 @@
         window.API.authorize(login, password, (status, object) => {
           if (status === 'success') {
             const image = object.avatar || null;
-            window.User = new window.UserModel(object.name, object.email, object.login, object.score, image);
+            window.User = new window.UserModel(object.name, object.email,
+                object.login, object.score, image);
             this._router.routeTo('/');
           } else {
             alert(object.message);
@@ -74,15 +76,15 @@
         });
       });
     }
-  };
+  }
 
   class SettingsRoute {
     constructor(rootEl, router) {
       if (!(rootEl instanceof Node)) {
-        throw TypeError('rootEl must be Node');
+        throw new TypeError('rootEl must be Node');
       }
       if (!(router instanceof Router)) {
-        throw TypeError('router must be Router');
+        throw new TypeError('router must be Router');
       }
 
       this._rootEl = rootEl;
@@ -110,9 +112,11 @@
         console.log(password);
         console.log(rePassword);
 
-        const errorStruct = window.BaseValidator.validateUpdate(username, password, rePassword);
+        const errorStruct = window.BaseValidator.validateUpdate(username,
+            password,
+            rePassword);
         const error = errorStruct.error;
-        const errorField = errorStruct.errorField;
+        // const errorField = errorStruct.errorField;
 
         if (error !== null) {
           // TODO: reimplement the next line
@@ -123,7 +127,8 @@
         window.API.updateUserInfo(username, password, (status, object) => {
           if (status === 'success') {
             const image = object.avatar || null;
-            window.User = new window.UserModel(object.name, object.email, object.login, image);
+            window.User = new window.UserModel(object.name, object.email,
+                object.login, image);
             this._router.routeTo('/');
           } else {
             alert(object.message);
@@ -131,15 +136,15 @@
         });
       });
     }
-  };
+  }
 
   class ProfileRoute {
     constructor(rootEl, router) {
       if (!(rootEl instanceof Node)) {
-        throw TypeError('rootEl must be Node');
+        throw new TypeError('rootEl must be Node');
       }
       if (!(router instanceof Router)) {
-        throw TypeError('router must be Router');
+        throw new TypeError('router must be Router');
       }
 
       this._rootEl = rootEl;
@@ -149,11 +154,11 @@
     init() {
       if (window.User !== undefined) {
         /* TODO(everyone): make settings file */
-        const avatar_path = window.User.getImg() || 'public/img/avatar.jpg';
+        const avatarPath = window.User.getImg() || 'public/img/avatar.jpg';
         this._rootEl.innerHTML = Handlebars.templates['profile.html']({
           username: window.User.getUsername(),
           email: window.User.getEmail(),
-          avatar_path: avatar_path,
+          avatar_path: avatarPath,
           score: window.User.getScore(),
         });
       } else {
@@ -164,15 +169,15 @@
     deinit() {
       this._rootEl.innerHTML = '';
     }
-  };
+  }
 
   class SignUpRoute {
     constructor(rootEl, router) {
       if (!(rootEl instanceof Node)) {
-        throw TypeError('rootEl must be Node');
+        throw new TypeError('rootEl must be Node');
       }
       if (!(router instanceof Router)) {
-        throw TypeError('router must be Router');
+        throw new TypeError('router must be Router');
       }
 
       this._rootEl = rootEl;
@@ -199,9 +204,10 @@
         const password = form.elements['password'].value;
         const repassword = form.elements['repeat_password'].value;
 
-        const errorStruct = window.BaseValidator.validateLogReg(login, password, username, email, repassword);
+        const errorStruct = window.BaseValidator.validateLogReg(login,
+            password, username, email, repassword);
         const error = errorStruct.error;
-        const errorField = errorStruct.errorField;
+        // const errorField = errorStruct.errorField;
 
         if (error !== null) {
           // TODO: reimplement the next line
@@ -209,26 +215,28 @@
           return;
         }
 
-        window.API.register(login, email, password, username, (status, object) => {
-          if (status === 'success') {
-            const image = object.avatar || null;
-            window.User = new window.UserModel(object.name, object.email, object.login, object.score, image);
-            this._router.routeTo('/');
-          } else {
-            alert(object.message);
-          }
-        });
+        window.API.register(login, email, password, username,
+            (status, object) => {
+              if (status === 'success') {
+                const image = object.avatar || null;
+                window.User = new window.UserModel(object.name, object.email,
+                    object.login, object.score, image);
+                this._router.routeTo('/');
+              } else {
+                alert(object.message);
+              }
+            });
       });
     }
-  };
+  }
 
   class LeaderBoardRoute {
     constructor(rootEl, router) {
       if (!(rootEl instanceof Node)) {
-        throw TypeError('rootEl must be Node');
+        throw new TypeError('rootEl must be Node');
       }
       if (!(router instanceof Router)) {
-        throw TypeError('router must be Router');
+        throw new TypeError('router must be Router');
       }
 
       this._rootEl = rootEl;
@@ -274,15 +282,15 @@
     deinit() {
       this._rootEl.innerHTML = '';
     }
-  };
+  }
 
   class AboutRoute {
     constructor(rootEl, router) {
       if (!(rootEl instanceof Node)) {
-        throw TypeError('rootEl must be Node');
+        throw new TypeError('rootEl must be Node');
       }
       if (!(router instanceof Router)) {
-        throw TypeError('router must be Router');
+        throw new TypeError('router must be Router');
       }
 
       this._rootEl = rootEl;
@@ -296,7 +304,7 @@
     deinit() {
       this._rootEl.innerHTML = '';
     }
-  };
+  }
 
   window.IndexRoute = IndexRoute;
   window.LoginRoute = LoginRoute;

@@ -17,7 +17,8 @@
     window.API.getUserInfo((status, object) => {
       if (status === 'success') {
         const image = object.avatar || null;
-        window.User = new window.UserModel(object.name, object.email, object.login, object.score, image);
+        window.User = new window.UserModel(object.name, object.email,
+            object.login, object.score, image);
         router.routeTo('/');
       }
     });

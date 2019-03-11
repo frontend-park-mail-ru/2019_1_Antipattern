@@ -14,13 +14,13 @@
     }
 
     _correctEmail(email) {
-      const email_regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return email.match(email_regexp);
+      const emailRegexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return email.match(emailRegexp);
     }
 
     _correctUsername(username) {
-      const username_regexp = /^[a-zA-Z0-9 .-_]+$/;
-      return username.match(username_regexp);
+      const usernameRegexp = /^[a-zA-Z0-9 .-_]+$/;
+      return username.match(usernameRegexp);
     }
 
     _correctUsernameOrEmpty(username) {
@@ -28,11 +28,12 @@
     }
 
     _correctLogin(login) {
-      const login_regexp = /^[a-zA-Z0-9_]+$/;
-      return login.match(login_regexp);
+      const loginRegexp = /^[a-zA-Z0-9_]+$/;
+      return login.match(loginRegexp);
     }
 
-    validateLogReg(login, password, username = null, email = null, repassword = null) {
+    validateLogReg(login, password, username = null,
+        email = null, repassword = null) {
       const validator = window.BaseValidator;
       if (!validator._correctLogin(login)) {
         return {
