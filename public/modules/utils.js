@@ -35,7 +35,7 @@
    * @param {object HTMLFormElement} form - form to be cleaned
    */
   function clearErrors(form) {
-    let errors = form.getElementsByClassName('error-msg');
+    const errors = form.getElementsByClassName('error-msg');
     Array.prototype.forEach.call(errors, (element) => {
       element.innerHTML = '';
     });

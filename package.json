@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
-    "test": "eslint .",
+    "test": "eslint . --fix",
     "dock": "rm -rf out/ | jsdoc public/modules/*.js\n",
     "build-templates": "mkdir -p public/templates/build && handlebars public/templates/*.html -f public/templates/build/all.js -m"
   },

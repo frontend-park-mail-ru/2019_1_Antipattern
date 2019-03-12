@@ -1,7 +1,7 @@
 (function() {
-  class IndexRoute {
+  class BaseRoute {
     /**
-     * Default IndexRoute constructor
+     * Default BaseRoute constructor
      * @param {Node} rootEl - DOM element
      * @param {function} router - route object
      */
@@ -15,63 +15,71 @@
 
       this._rootEl = rootEl;
       this._router = router;
+      this._eventHandlers = {};
+    }
+
+    _addListener(event, handler) {
+      if (!(event in this._eventHandlers)) {
+        this._eventHandlers[event] = [];
+      }
+
+      this._eventHandlers[event].push(handler);
+      this._rootEl.addEventListener(event, handler);
+    }
+
+    _removeAllListeners(event) {
+      if (event in this._eventHandlers) {
+        const eventHandlers = this._eventHandlers[event];
+        for (let i = eventHandlers.length; i--;) {
+          const handler = eventHandlers[i];
+          this._rootEl.removeEventListener(event, handler);
+        }
+      }
     }
 
     /**
      * Inits route
      */
+    init() {}
+
+    /**
+     * Reverts route init
+     */
+    deinit() {
+      this._rootEl.innerHTML = '';
+      for (event in this._eventHandlers) {
+        if (this._eventHandlers.hasOwnProperty(event)) {
+          this._removeAllListeners(event);
+        }
+      }
+    }
+  }
+
+  class IndexRoute extends BaseRoute {
+    constructor(rootEl, router) {
+      super(rootEl, router);
+    }
+
     init() {
       this._rootEl.innerHTML = Handlebars.templates['menu.html']({
         isAuthorized: window.User,
       });
+      super.init();
     }
 
-    /**
-     * Reverts route init
-     */
     deinit() {
-      this._rootEl.innerHTML = '';
+      super.deinit();
     }
   }
 
-  class LoginRoute {
-    /**
-     * Default LoginRoute constructor
-     * @param {Node} rootEl - DOM element
-     * @param {function} router - route object
-     */
+  class LoginRoute extends BaseRoute {
     constructor(rootEl, router) {
-      if (!(rootEl instanceof Node)) {
-        throw new TypeError('rootEl must be Node');
-      }
-      if (!(router instanceof Router)) {
-        throw new TypeError('router must be Router');
-      }
-
-      this._rootEl = rootEl;
-      this._router = router;
+      super(rootEl, router);
     }
 
-    /**
-     * Inits route
-     */
     init() {
       this._rootEl.innerHTML = Handlebars.templates['login.html']();
-      this.addListeners();
-    }
-
-    /**
-     * Reverts route init
-     */
-    deinit() {
-      this._rootEl.innerHTML = '';
-    }
-
-    /**
-     *
-     */
-    addListeners() {
-      this._rootEl.addEventListener('submit', (event) => {
+      this._addListener('submit', (event) => {
         event.preventDefault();
         const form = event.target;
         window.clearErrors(form);
@@ -100,47 +108,22 @@
           }
         });
       });
+      super.init();
+    }
+
+    deinit() {
+      super.deinit();
     }
   }
 
-  class SettingsRoute {
-    /**
-     * Default SettingsRoute constructor
-     * @param {Node} rootEl - DOM element
-     * @param {function} router - route object
-     */
+  class SettingsRoute extends BaseRoute {
     constructor(rootEl, router) {
-      if (!(rootEl instanceof Node)) {
-        throw new TypeError('rootEl must be Node');
-      }
-      if (!(router instanceof Router)) {
-        throw new TypeError('router must be Router');
-      }
-
-      this._rootEl = rootEl;
-      this._router = router;
+      super(rootEl, router);
     }
 
-    /**
-     * Inits route
-     */
     init() {
       this._rootEl.innerHTML = Handlebars.templates['settings.html']();
-      this.addListeners();
-    }
-
-    /**
-     * Reverts route init
-     */
-    deinit() {
-      this._rootEl.innerHTML = '';
-    }
-
-    /**
-     * Adds event listeners
-     */
-    addListeners() {
-      this._rootEl.addEventListener('submit', (event) => {
+      this._addListener('submit', (event) => {
         event.preventDefault();
         const form = event.target;
         window.clearErrors(form);
@@ -171,31 +154,21 @@
           }
         });
       });
+      super.init();
+    }
+
+    deinit() {
+      super.deinit();
     }
   }
 
-  class ProfileRoute {
-    /**
-     * Default ProfileRoute constructor
-     * @param {Node} rootEl - DOM element
-     * @param {function} router - route object
-     */
+  class ProfileRoute extends BaseRoute {
     constructor(rootEl, router) {
-      if (!(rootEl instanceof Node)) {
-        throw new TypeError('rootEl must be Node');
-      }
-      if (!(router instanceof Router)) {
-        throw new TypeError('router must be Router');
-      }
-
-      this._rootEl = rootEl;
-      this._router = router;
+      super(rootEl, router);
     }
 
-    /**
-     * Inits route
-     */
     init() {
+      super.init();
       if (window.User !== undefined) {
         /* TODO(everyone): make settings file */
         const avatarPath = window.User.getImg() || 'public/img/avatar.jpg';
@@ -210,52 +183,19 @@
       }
     }
 
-    /**
-     * Reverts route init
-     */
     deinit() {
-      this._rootEl.innerHTML = '';
+      super.deinit();
     }
   }
 
-  class SignUpRoute {
-    /**
-     * Default SignUpRoute constructor
-     * @param {Node} rootEl - DOM element
-     * @param {function} router - route object
-     */
+  class SignUpRoute extends BaseRoute {
     constructor(rootEl, router) {
-      if (!(rootEl instanceof Node)) {
-        throw new TypeError('rootEl must be Node');
-      }
-      if (!(router instanceof Router)) {
-        throw new TypeError('router must be Router');
-      }
-
-      this._rootEl = rootEl;
-      this._router = router;
+      super(rootEl, router);
     }
 
-    /**
-     * Inits route
-     */
     init() {
       this._rootEl.innerHTML = Handlebars.templates['signup.html']();
-      this.addListeners();
-    }
-
-    /**
-     * Reverts route init
-     */
-    deinit() {
-      this._rootEl.innerHTML = '';
-    }
-
-    /**
-     * Adds event listeners
-     */
-    addListeners() {
-      this._rootEl.addEventListener('submit', (event) => {
+      this._addListener('submit', (event) => {
         event.preventDefault();
         const form = event.target;
         window.clearErrors(form);
@@ -288,49 +228,31 @@
               }
             });
       });
+      super.init();
+    }
+
+    deinit() {
+      super.deinit();
     }
   }
 
-  class LeaderBoardRoute {
-    /**
-     * Default IndexRoute constructor
-     * @param {Node} rootEl - DOM element
-     * @param {function} router - route object
-     */
+  class LeaderBoardRoute extends BaseRoute {
     constructor(rootEl, router) {
-      if (!(rootEl instanceof Node)) {
-        throw new TypeError('rootEl must be Node');
-      }
-      if (!(router instanceof Router)) {
-        throw new TypeError('router must be Router');
-      }
-
-      this._rootEl = rootEl;
-      this._router = router;
+      super(rootEl, router);
     }
 
-    /**
-     * Inits route
-     */
     init() {
       window.API.getUsers(1, (status, object) => {
         if (status === 'success') {
           this._rootEl.innerHTML =
-                Handlebars.templates['leaderboard.html']({
-                  users: object.users,
-                  pageCount: Math.ceil(object.count / 10),
-                  currentPage: '0',
-                  size: '5'});
+            Handlebars.templates['leaderboard.html']({
+              users: object.users,
+              pageCount: Math.ceil(object.count / 10),
+              currentPage: '0',
+              size: '5'});
         }
       });
-      this.addListeners();
-    }
-
-    /**
-     * Adds event listeners
-     */
-    addListeners() {
-      this._rootEl.addEventListener('click', (event) => {
+      this._addListener('submit', (event) => {
         event.preventDefault();
         const link = event.target;
 
@@ -339,56 +261,36 @@
           if (status === 'success') {
             this._rootEl.innerHTML = '';
             this._rootEl.innerHTML =
-                    Handlebars.templates['leaderboard.html']({
-                      users: object.users,
-                      pageCount: Math.ceil(object.count / 10),
-                      currentPage: page,
-                      size: '5'});
+              Handlebars.templates['leaderboard.html']({
+                users: object.users,
+                pageCount: Math.ceil(object.count / 10),
+                currentPage: page,
+                size: '5'});
           } else {
             console.log(page);
           }
         });
       });
+      super.init();
     }
 
-    /**
-     * Reverts route init
-     */
     deinit() {
-      this._rootEl.innerHTML = '';
+      super.deinit();
     }
   }
 
-  class AboutRoute {
-    /**
-     * Default AboutRoute constructor
-     * @param {Node} rootEl - DOM element
-     * @param {function} router - route object
-     */
+  class AboutRoute extends BaseRoute {
     constructor(rootEl, router) {
-      if (!(rootEl instanceof Node)) {
-        throw new TypeError('rootEl must be Node');
-      }
-      if (!(router instanceof Router)) {
-        throw new TypeError('router must be Router');
-      }
-
-      this._rootEl = rootEl;
-      this._router = router;
+      super(rootEl, router);
     }
 
-    /**
-     * Inits route
-     */
     init() {
       this._rootEl.innerHTML = Handlebars.templates['about.html']();
+      super.init();
     }
 
-    /**
-     * Reverts route init
-     */
     deinit() {
-      this._rootEl.innerHTML = '';
+      super.deinit();
     }
   }
 
