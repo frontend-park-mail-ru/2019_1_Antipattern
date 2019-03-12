@@ -127,7 +127,7 @@
         if (password !== repassword) {
           return {
             error: 'Passwords do not match',
-            errorField: 'repassword',
+            errorField: 'repeat_password',
           };
         }
       }
@@ -174,7 +174,7 @@
       if (password !== repassword) {
         return {
           error: 'Passwords do not match',
-          errorField: 'repassword',
+          errorField: 'repeat_password',
         };
       }
 
