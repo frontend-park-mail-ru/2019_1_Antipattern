@@ -74,6 +74,7 @@
       this._rootEl.addEventListener('submit', (event) => {
         event.preventDefault();
         const form = event.target;
+        window.clearErrors(form);
 
         const login = form.elements['login'].value;
         const password = form.elements['password'].value;
@@ -81,11 +82,10 @@
         const errorStruct = window.BaseValidator.validateLogReg(login,
             password);
         const error = errorStruct.error;
-        // const errorField = errorStruct.errorField;
+        const errorField = errorStruct.errorField;
 
         if (error !== null) {
-          // TODO: reimplement the next line
-          alert(error);
+          window.showErrorMsg(form, errorField, error);
           return;
         }
 
@@ -143,23 +143,20 @@
       this._rootEl.addEventListener('submit', (event) => {
         event.preventDefault();
         const form = event.target;
+        window.clearErrors(form);
 
         const username = form.elements['username'].value;
         const password = form.elements['password'].value;
         const rePassword = form.elements['repeat_password'].value;
-        console.log(username);
-        console.log(password);
-        console.log(rePassword);
 
         const errorStruct = window.BaseValidator.validateUpdate(username,
             password,
             rePassword);
         const error = errorStruct.error;
-        // const errorField = errorStruct.errorField;
+        const errorField = errorStruct.errorField;
 
         if (error !== null) {
-          // TODO: reimplement the next line
-          alert(error);
+          window.showErrorMsg(form, errorField, error);
           return;
         }
 
@@ -261,6 +258,7 @@
       this._rootEl.addEventListener('submit', (event) => {
         event.preventDefault();
         const form = event.target;
+        window.clearErrors(form);
 
         const username = form.elements['username'].value;
         const login = form.elements['login'].value;
@@ -271,11 +269,10 @@
         const errorStruct = window.BaseValidator.validateLogReg(login,
             password, username, email, repassword);
         const error = errorStruct.error;
-        // const errorField = errorStruct.errorField;
+        const errorField = errorStruct.errorField;
 
         if (error !== null) {
-          // TODO: reimplement the next line
-          alert(error);
+          window.showErrorMsg(form, errorField, error);
           return;
         }
 
