@@ -96,7 +96,7 @@
                 object.login, object.score, image);
             this._router.routeTo('/');
           } else {
-            alert(object.message);
+            window.showErrorMsg(form, object.field, object.message);
           }
         });
       });
@@ -167,7 +167,7 @@
                 object.login, image);
             this._router.routeTo('/');
           } else {
-            alert(object.message);
+            window.showErrorMsg(form, object.field, object.message);
           }
         });
       });
@@ -284,7 +284,7 @@
                     object.login, object.score, image);
                 this._router.routeTo('/');
               } else {
-                alert(object.message);
+                window.showErrorMsg(form, object.field, object.message);
               }
             });
       });

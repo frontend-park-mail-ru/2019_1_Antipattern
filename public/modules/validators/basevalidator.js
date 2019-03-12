@@ -106,14 +106,14 @@
         if (!validator._correctUsername(username)) {
           return {
             error: 'Name should consist on a-z, A-Z and 0-9',
-            errorField: 'name',
+            errorField: 'username',
           };
         }
 
         if (!validator._correctLength(username)) {
           return {
             error: 'Name should be from 4 to 25 symbols long',
-            errorField: 'name',
+            errorField: 'username',
           };
         }
 
@@ -152,15 +152,15 @@
       const validator = window.BaseValidator;
       if (!validator._correctUsernameOrEmpty(username)) {
         return {
-          error: 'New login is incorrect',
-          errorField: 'login',
+          error: 'New username is incorrect',
+          errorField: 'username',
         };
       }
 
       if (!validator._correctLengthOrEmpty(username)) {
         return {
-          error: 'Login should be empty or from 4 to 25 symbols long',
-          errorField: 'login',
+          error: 'Username should be empty or from 4 to 25 symbols long',
+          errorField: 'username',
         };
       }
 
