@@ -79,7 +79,7 @@
         const login = form.elements['login'].value;
         const password = form.elements['password'].value;
 
-        const errorStruct = window.BaseValidator.validateLogReg(login,
+        const errorStruct = window.BaseValidator.validateLogin(login,
             password);
         const error = errorStruct.error;
         const errorField = errorStruct.errorField;
@@ -266,7 +266,7 @@
         const password = form.elements['password'].value;
         const repassword = form.elements['repeat_password'].value;
 
-        const errorStruct = window.BaseValidator.validateLogReg(login,
+        const errorStruct = window.BaseValidator.validateRegistration(login,
             password, username, email, repassword);
         const error = errorStruct.error;
         const errorField = errorStruct.errorField;

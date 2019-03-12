@@ -70,7 +70,7 @@
     }
 
     /**
-     * Validates user registration or login
+     * Validates user registration
      * @param {string} login - user login
      * @param {string} password - user password
      * @param {string} username - user name
@@ -78,58 +78,90 @@
      * @param {string} repassword - user password confirmation
      * @return {*} - error message and name of the field that caused an error
      */
-    validateLogReg(login, password, username = '',
+    validateRegistration(login, password, username = '',
         email = '', repassword = '') {
-      const validator = window.BaseValidator;
-      if (!validator._correctLogin(login)) {
+      if (!this._correctLogin(login)) {
         return {
           error: 'Login is incorrect',
           errorField: 'login',
         };
       }
 
-      if (!validator._correctLength(login)) {
+      if (!this._correctLength(login)) {
         return {
           error: 'Login should be from 4 to 25 symbols long',
           errorField: 'login',
         };
       }
 
-      if (!validator._correctLength(password)) {
+      if (!this._correctLength(password)) {
         return {
           error: 'Password should be from 4 to 25 symbols long',
           errorField: 'password',
         };
       }
 
-      if (username !== '' && email !== '' && repassword !== '') {
-        if (!validator._correctUsername(username)) {
-          return {
-            error: 'Name should consist on a-z, A-Z and 0-9',
-            errorField: 'username',
-          };
-        }
+      if (!this._correctUsername(username)) {
+        return {
+          error: 'Name should consist on a-z, A-Z and 0-9',
+          errorField: 'username',
+        };
+      }
 
-        if (!validator._correctLength(username)) {
-          return {
-            error: 'Name should be from 4 to 25 symbols long',
-            errorField: 'username',
-          };
-        }
+      if (!this._correctLength(username)) {
+        return {
+          error: 'Name should be from 4 to 25 symbols long',
+          errorField: 'username',
+        };
+      }
 
-        if (!validator._correctEmail(email)) {
-          return {
-            error: 'Email is incorrect',
-            errorField: 'email',
-          };
-        }
+      if (!this._correctEmail(email)) {
+        return {
+          error: 'Email is incorrect',
+          errorField: 'email',
+        };
+      }
 
-        if (password !== repassword) {
-          return {
-            error: 'Passwords do not match',
-            errorField: 'repeat_password',
-          };
-        }
+      if (password !== repassword) {
+        return {
+          error: 'Passwords do not match',
+          errorField: 'repeat_password',
+        };
+      }
+
+
+      return {
+        error: null,
+        errorField: null,
+      };
+    }
+
+    /**
+     * Validates login
+     * @param {string} login - user login
+     * @param {string} password - user password
+     * @return {*} - error message and name of the field that caused an error
+     */
+    validateLogin(login, password) {
+      if (!this._correctLogin(login)) {
+        return {
+          error: 'Login is incorrect',
+          errorField: 'login',
+        };
+      }
+
+      if (!this._correctLength(login)) {
+        return {
+          error: 'Login should be from 4 to 25 symbols long',
+          errorField: 'login',
+        };
+      }
+
+      if (!this._correctLength(password)) {
+        return {
+          error: 'Password should be from 4 to 25 symbols long',
+          errorField: 'password',
+        };
       }
 
       return {
@@ -149,22 +181,21 @@
       console.log(username);
       console.log(password);
       console.log(repassword);
-      const validator = window.BaseValidator;
-      if (!validator._correctUsernameOrEmpty(username)) {
+      if (!this._correctUsernameOrEmpty(username)) {
         return {
           error: 'New username is incorrect',
           errorField: 'username',
         };
       }
 
-      if (!validator._correctLengthOrEmpty(username)) {
+      if (!this._correctLengthOrEmpty(username)) {
         return {
           error: 'Username should be empty or from 4 to 25 symbols long',
           errorField: 'username',
         };
       }
 
-      if (!validator._correctLengthOrEmpty(password)) {
+      if (!this._correctLengthOrEmpty(password)) {
         return {
           error: 'Password should be from 4 to 25 symbols long',
           errorField: 'password',
