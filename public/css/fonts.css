@@ -69,6 +69,13 @@
   letter-spacing: 4px;
 }
 
+.error-msg {
+  margin: 0 auto;
+  word-wrap: break-word;
+  font-size: 0.2em;
+  max-width: 320px;
+}
+
 @font-face {
   font-family: 'Brandon Grotesque Regular';
   src: url('../fonts/BrandonGrotesque-Regular.eot');
