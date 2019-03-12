@@ -51,11 +51,13 @@
   url("../fonts/Street_Gathering.woff") format("woff"),
   url("../fonts/Street_Gathering.otf") format("opentype"),
   url("../fonts/Street_Gathering.svg") format("svg");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Hacked";
   src: url("../fonts/8693.ttf");
+  font-display: swap;
 }
 
 .font-street-gathering {
