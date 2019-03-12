@@ -1,3 +1,5 @@
+'use strict';
+
 (function() {
   const root = document.getElementById('root');
   window.onload = () => {

@@ -1,3 +1,5 @@
+'use strict';
+
 (function() {
   const noop = () => null;
   /** class performing Ajax requests with following callbacks. */
