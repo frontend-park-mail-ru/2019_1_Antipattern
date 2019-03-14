@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 'use strict';
 
 (function() {
@@ -19,7 +20,11 @@
       this._router = router;
       this._eventHandlers = {};
     }
-
+    /**
+     * Adds listener of specific event
+     * @param {Event} event - DOM event
+     * @param {function} handler - handler, duh
+     */
     _addListener(event, handler) {
       if (!(event in this._eventHandlers)) {
         this._eventHandlers[event] = [];
@@ -28,7 +33,10 @@
       this._eventHandlers[event].push(handler);
       this._rootEl.addEventListener(event, handler);
     }
-
+    /**
+     * Remove listeners of specific event
+     * @param {Event} event - event to remove
+     */
     _removeAllListeners(event) {
       if (event in this._eventHandlers) {
         const eventHandlers = this._eventHandlers[event];
@@ -42,7 +50,7 @@
     /**
      * Inits route
      */
-    init() {}
+    init() { }
 
     /**
      * Reverts route init
@@ -56,29 +64,49 @@
       }
     }
   }
-
+  /**
+   * BaseRoute extension for index.html render
+   */
   class IndexRoute extends BaseRoute {
+    /**
+     *
+     * @param {Node} rootEl - DOM element in which to insert template
+     * @param {BaseRoute} router - class which constructor needs to be called
+     */
     constructor(rootEl, router) {
       super(rootEl, router);
     }
-
+    /**
+     * initializer
+     */
     init() {
       this._rootEl.innerHTML = Handlebars.templates['menu.html']({
         isAuthorized: window.User,
       });
       super.init();
     }
-
+    /**
+     * deinitializer
+     */
     deinit() {
       super.deinit();
     }
   }
-
+  /**
+   * login route
+   */
   class LoginRoute extends BaseRoute {
+    /**
+     *
+     * @param {Node} rootEl - DOM element in which to insert template
+     * @param {BaseRoute} router - class which constructor needs to be called
+     */
     constructor(rootEl, router) {
       super(rootEl, router);
     }
-
+    /**
+     * initializer
+     */
     init() {
       this._rootEl.innerHTML = Handlebars.templates['login.html']();
       this._addListener('submit', (event) => {
@@ -244,35 +272,45 @@
     }
 
     init() {
-      window.API.getUsers(1, (status, object) => {
-        if (status === 'success') {
-          this._rootEl.innerHTML =
-            Handlebars.templates['leaderboard.html']({
-              users: object.users,
-              pageCount: Math.ceil(object.count / 10),
-              currentPage: '0',
-              size: '5'});
-        }
-      });
-      this._addListener('submit', (event) => {
-        event.preventDefault();
-        const link = event.target;
-
-        const page = link.getAttribute('href');
-        window.API.getUsers(page, (status, object) => {
-          if (status === 'success') {
-            this._rootEl.innerHTML = '';
-            this._rootEl.innerHTML =
+      window.API.getUsers(1)
+          .then(function(response) {
+            return response.json();
+          })
+          .then((data) => {
+            if (data.status === 'success') {
+              this._rootEl.innerHTML =
               Handlebars.templates['leaderboard.html']({
-                users: object.users,
-                pageCount: Math.ceil(object.count / 10),
-                currentPage: page,
-                size: '5'});
-          } else {
-            console.log(page);
-          }
-        });
-      });
+                users: data.payload.users,
+                pageCount: Math.ceil(data.payload.count / 10),
+                currentPage: '0',
+                size: '5',
+              });
+            }
+          })
+          .this(() => {
+            const pagination = document.getElementById('pagination');
+            pagination.addEventListener('click', (event) => {
+              event.preventDefault();
+              const link = event.target;
+              const page = link.getAttribute('href');
+              console.log('sasatt');
+              window.API.getUsers(page)
+                  .then(function(response) {
+                    return response.json();
+                  })
+                  .then((data) => {
+                    if (data.status === 'success') {
+                      this._rootEl.innerHTML =
+                    Handlebars.templates['leaderboard.html']({
+                      users: data.payload.users,
+                      pageCount: Math.ceil(data.payload.count / 10),
+                      currentPage: '0',
+                      size: '5',
+                    });
+                    }
+                  });
+            });
+          });
       super.init();
     }
 

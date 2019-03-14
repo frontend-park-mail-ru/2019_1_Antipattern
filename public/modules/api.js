@@ -156,14 +156,12 @@
     /**
      * API method to gey user list for leaderboard
      * @param {number} page - page of the leaderboard
-     * @param {string} callback - function with 2 params that executes when
-     *                            the response is returned
+     * @return {Promise} - promise as a return value of fetch function
      */
-    getUsers(page, callback) {
+    getUsers(page) {
       const url = '/api/leaderboard/' + page;
-      const data = {};
-
-      this._sendRequest('GET', url, data, callback, 'uslist');
+      return fetch(url);
+      // this._sendRequest('GET', url, data, callback, 'uslist');
     }
   }
 
