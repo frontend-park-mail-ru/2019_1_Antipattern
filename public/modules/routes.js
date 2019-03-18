@@ -161,6 +161,7 @@
         const username = form.elements['username'].value;
         const password = form.elements['password'].value;
         const rePassword = form.elements['repeat_password'].value;
+        const input = form.elements['avatar'];
 
         const errorStruct = window.BaseValidator.validateUpdate(username,
             password,
@@ -177,12 +178,26 @@
           if (status === 'success') {
             const image = object.avatar || null;
             window.User = new window.UserModel(object.name, object.email,
-                object.login, image);
+                object.login, object.score, image);
             this._router.routeTo('/');
           } else {
             window.showErrorMsg(form, object.field, object.message);
           }
         });
+
+        if (input.value) {
+          const avatar = new FormData();
+          avatar.append('avatar', input.files[0]);
+          window.API.uploadAvatar(avatar, (status, object) => {
+            if (status === 'success') {
+              window.User = new window.UserModel(object.name, object.email,
+                  object.login, object.score, object.avatar);
+              this._router.routeTo('/');
+            } else {
+              window.showErrorMsg(form, object.field, object.message);
+            }
+          });
+        }
       });
       super.init();
     }

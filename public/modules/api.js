@@ -180,6 +180,31 @@
       return fetch(url);
       // this._sendRequest('GET', url, data, callback, 'uslist');
     }
+
+    /**
+     * API method to upload user avatar
+     * @param {FormData} avatar - FormData var with avatar file
+     * @param {function} callback - function with 2 params that executes when
+     *                            the response is returned
+     */
+    uploadAvatar(avatar, callback) {
+      // Request:
+      // Method: "POST"
+      // Url: /api/upload_avatar
+      // Body: FormData object
+      // Success:
+      // {"type":"usinfo","status":"success","payload":{"login":
+      //  "fake_user_login","email":"mail@mail.ru","name":"yasher",
+      //  "score": "20", "avatar": "media/path/to/avatar.jpg"}}
+      // Errors:
+      // Invalid FormData: {"type":"usinfo","status":"error",
+      // "payload":{"message": "Wrong request","field":"avatar"}}
+      // File Open Error: {"type":"usinfo","status":"error",
+      // "payload":{"message": "Error message","field":"avatar"}}
+      const imgUrl = '/api/upload_avatar';
+
+      this._sendRequest('POST', imgUrl, avatar, callback, 'usinfo');
+    }
   }
 
   window.API = new API();

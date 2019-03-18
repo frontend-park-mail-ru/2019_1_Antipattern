@@ -29,7 +29,9 @@
       } else {
         let headers = {};
         let bodyToSend = '';
-        if (body) {
+        if (body instanceof FormData) {
+          bodyToSend = body;
+        } else if (body) {
           headers = {
             'Content-Type': 'application/json; charset=utf-8',
           };
