@@ -18,27 +18,32 @@
       path = '/',
       body = {},
     } = {}) {
-      const xhr = new XMLHttpRequest();
-      xhr.open(method, path, true);
-      xhr.withCredentials = true;
-
-      if (body) {
-        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-      }
-
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState !== 4) {
-          return;
+      // Body must be empty with GET and HEAD requests
+      if (method == 'GET' || method == 'HEAD') {
+        fetch(path, {
+          method: method,
+          mode: 'cors',
+          credentials: 'include',
+        })
+            .then(callback);
+      } else {
+        let headers = {};
+        let bodyToSend = '';
+        if (body) {
+          headers = {
+            'Content-Type': 'application/json; charset=utf-8',
+          };
+          bodyToSend = JSON.stringify(body);
         }
 
-        callback(xhr);
-      };
-
-      if (body) {
-        xhr.send(JSON.stringify(body));
-        // TODO: if method == 'GET' convert body to query-params
-      } else {
-        xhr.send();
+        fetch(path, {
+          method: method,
+          body: bodyToSend,
+          headers: headers,
+          mode: 'cors',
+          credentials: 'include',
+        })
+            .then(callback);
       }
     }
 
