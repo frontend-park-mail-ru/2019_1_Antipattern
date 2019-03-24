@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO(AntonyMoes): purge callbacks out
+
 (function() {
   const noop = () => null;
   /** class performing Ajax requests with following callbacks. */

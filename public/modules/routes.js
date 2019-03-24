@@ -1,5 +1,6 @@
 /* eslint-disable require-jsdoc */
 'use strict';
+import apiModule from "./api.js";
 
 (function() {
   class BaseRoute {
@@ -127,7 +128,7 @@
           return;
         }
 
-        window.API.authorize(login, password, (status, object) => {
+        apiModule.authorize(login, password, (status, object) => {
           if (status === 'success') {
             const image = object.avatar || null;
             window.User = new window.UserModel(object.name, object.email,
@@ -174,7 +175,7 @@
           return;
         }
 
-        window.API.updateUserInfo(username, password, (status, object) => {
+        apiModule.updateUserInfo(username, password, (status, object) => {
           if (status === 'success') {
             const image = object.avatar || null;
             window.User = new window.UserModel(object.name, object.email,
@@ -188,7 +189,7 @@
         if (input.value) {
           const avatar = new FormData();
           avatar.append('avatar', input.files[0]);
-          window.API.uploadAvatar(avatar, (status, object) => {
+          apiModule.uploadAvatar(avatar, (status, object) => {
             if (status === 'success') {
               window.User = new window.UserModel(object.name, object.email,
                   object.login, object.score, object.avatar);
@@ -261,7 +262,7 @@
           return;
         }
 
-        window.API.register(login, email, password, username,
+        apiModule.register(login, email, password, username,
             (status, object) => {
               if (status === 'success') {
                 const image = object.avatar || null;
@@ -287,7 +288,7 @@
     }
 
     init() {
-      window.API.getUsers(1)
+      apiModule.getUsers(1)
           .then(function(response) {
             return response.json();
           })
@@ -302,14 +303,14 @@
               });
             }
           })
-          .this(() => {
+          .then(() => {
             const pagination = document.getElementById('pagination');
             pagination.addEventListener('click', (event) => {
               event.preventDefault();
               const link = event.target;
               const page = link.getAttribute('href');
               console.log('sasatt');
-              window.API.getUsers(page)
+              apiModule.getUsers(page)
                   .then(function(response) {
                     return response.json();
                   })
