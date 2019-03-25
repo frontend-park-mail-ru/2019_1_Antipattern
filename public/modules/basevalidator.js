@@ -1,6 +1,5 @@
 'use strict';
 
-//(function() {
 class BaseValidator {
   /**
    * Checks whether text's length is correct
@@ -216,8 +215,5 @@ class BaseValidator {
   }
 }
 
-//window.BaseValidator = new BaseValidator();
 const validator = new BaseValidator();
-window.BaseValidator = validator;
 export default validator;
-//})();

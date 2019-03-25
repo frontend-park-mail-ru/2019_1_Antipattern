@@ -1,7 +1,6 @@
 'use strict';
 import apiModule from "../modules/api.js";
 
-//(function() {
 function initUI(root, router) {
   router.addRoute('/', wrapConstructorToFactory(IndexRoute));
   router.addRoute('/login', wrapConstructorToFactory(LoginRoute));
@@ -17,15 +16,16 @@ function initUI(root, router) {
 }
 
 function loadUser(router) {
-  //window.API.getUserInfo((status, object) => {
-  apiModule.getUserInfo((status, object) => {
-    if (status === 'success') {
+  apiModule.getUserInfo()
+    .then((object) => {
       const image = object.avatar || null;
       window.User = new window.UserModel(object.name, object.email,
-          object.login, object.score, image);
+        object.login, object.score, image);
       router.routeTo('/');
-    }
-  });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 window.onload = () => {
@@ -34,4 +34,3 @@ window.onload = () => {
   initUI(root, router);
   loadUser(router);
 };
-//})();

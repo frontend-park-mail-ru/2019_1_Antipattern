@@ -1,7 +1,8 @@
 'use strict';
 
 //(function() {
-const ajax = window.AjaxModule;
+//const ajax = window.AjaxModule;
+import ajax from  './ajax.js';
 const apiPrefix = '';
 
 class API {
@@ -9,63 +10,77 @@ class API {
    * doAjax wrapper that execs callback and passes request result and payload
    * @param {string} method - GET/POST/... method
    * @param {string} url - target URL
-   * @param {string} body - request body
-   * @param {string} callback - function with 1 param that get JSON-data
-                                from response body
+   * @param {*} body - request body
    * @param {string} type - expected response type
    * @private
    */
-  _sendRequest(method, url, body, callback, type) {
-    ajax.doAjax( {
-      callback: (response) => {
-        const reader = response.body.getReader();
-        let data = new Uint8Array(0);
-        return pump();
-
-        /**
-         * Function, pumping data from reader and converting to object format
-         * @private
-         */
-        function pump() {
-          reader.read().then(({done, value}) => {
-            if (done) {
-              if (!callback) {
-                return true;
-              }
-              let object;
-              const strBody = String.fromCharCode.apply(null, data);
-              try {
-                object = JSON.parse(strBody);
-              } catch (SyntaxError) {
-                if (callback) {
-                  callback('broken_response', null);
-                }
-                return false;
-              }
-
-              if (response.status == 403) {
-                callback('unauthorized', null);
-                return false;
-              }
-              if (object.type !== type) {
-                callback('wrong_response', null);
-                return false;
-              }
-              callback(object.status, object.payload);
-              return true;
-            }
-            const mergedData = new Uint8Array(data.length + value.length);
-            mergedData.set(data);
-            mergedData.set(value, data.length);
-            data = mergedData;
-            return pump();
-          });
-        }
-      },
+  _sendRequest(method, url, body, type) {
+    return ajax.doAjax( {
       path: apiPrefix + url,
       body: body,
       method: method,
-    });
+    })
+      .then((response) => {
+        return response.json();
+        //const resp = response.body;
+
+      })
+      .then((data) => {
+        if (data.status !== 'success') {
+          throw data;
+        }
+
+        return data;
+      });
+
+    /*
+    Legacy:
+    (response) => {
+      const reader = response.body.getReader();
+      let data = new Uint8Array(0);
+      return pump();
+
+       **
+       * Function, pumping data from reader and converting to object format
+       * @private
+       *
+    function pump() {
+      reader.read().then(({done, value}) => {
+        if (done) {
+          if (!callback) {
+            return true;
+          }
+          let object;
+          const strBody = String.fromCharCode.apply(null, data);
+          try {
+            object = JSON.parse(strBody);
+          } catch (SyntaxError) {
+            if (callback) {
+              callback('broken_response', null);
+            }
+            return false;
+          }
+
+          if (response.status == 403) {
+            callback('unauthorized', null);
+            return false;
+          }
+          if (object.type !== type) {
+            callback('wrong_response', null);
+            return false;
+          }
+          callback(object.status, object.payload);
+          return true;
+        }
+        const mergedData = new Uint8Array(data.length + value.length);
+        mergedData.set(data);
+        mergedData.set(value, data.length);
+        data = mergedData;
+        return pump();
+      });
+    }
+  }
+     */
   }
 
   /**
@@ -74,10 +89,8 @@ class API {
    * @param {string} email - user email
    * @param {string} password - user password
    * @param {string} name - user name
-   * @param {string} callback - function with 2 params that executes when
-   *                            the response is returned
    */
-  register(login, email, password, name, callback) {
+  register(login, email, password, name) {
     /* Success:
        {"type":"reg","status":"success","payload":{"login":"user_login",
          "email":"death.pa_cito@mail.yandex.ru","name":"kek"}}
@@ -93,17 +106,22 @@ class API {
       name: name,
     };
 
-    this._sendRequest('POST', url, data, callback, 'reg');
+    return this._sendRequest('POST', url, data, 'reg')
+      .then((response) => {
+        if (response.type !== 'reg') {
+          throw 'wrong response type';
+        }
+
+        return response.payload;
+      });
   }
 
   /**
    * API method to authorize a user
    * @param {string} login - user login
    * @param {string} password - user password
-   * @param {string} callback - function with 2 params that executes when
-   *                            the response is returned
    */
-  authorize(login, password, callback) {
+  authorize(login, password) {
     /* Success:
        {"type":"log","status":"success","payload":{"login":"user_login",
          "email":"death.pa_cito@mail.yandex.ru","name":"kek"}}
@@ -120,17 +138,22 @@ class API {
     };
 
 
-    this._sendRequest('POST', url, data, callback, 'log');
+    return this._sendRequest('POST', url, data, 'log')
+      .then((response) => {
+        if (response.type !== 'log') {
+          throw 'wrong response type';
+        }
+
+        return response.payload;
+      });
   }
 
   /**
    * API method to update user name and/or password
    * @param {string} newName - new user name
    * @param {string} newPassword - new user password
-   * @param {string} callback - function with 2 params that executes when
-   *                            the response is returned
    */
-  updateUserInfo(newName, newPassword, callback) {
+  updateUserInfo(newName, newPassword) {
     /* Success:
        {"type":"usinfo","status":"success","payload":{"login":
          "fake_user_login","email":"mail@mail.ru","name":"new name"}}
@@ -143,15 +166,20 @@ class API {
       password: newPassword,
     };
 
-    this._sendRequest('PUT', url, data, callback, 'usinfo');
+    return this._sendRequest('PUT', url, data, 'usinfo')
+      .then((response) => {
+        if (response.type !== 'usinfo') {
+          throw 'wrong response type';
+        }
+
+        return response.payload;
+      });
   }
 
   /**
    * API method to get current user's info
-   * @param {string} callback - function with 2 params that executes when
-   *                            the response is returned
    */
-  getUserInfo(callback) {
+  getUserInfo() {
     // Request:
     // Method: "GET"
     // Url: /api/profile
@@ -169,7 +197,14 @@ class API {
     const url = '/api/profile';
     const data = {};
 
-    this._sendRequest('GET', url, data, callback, 'usinfo');
+    return this._sendRequest('GET', url, data, 'usinfo')
+      .then((response) => {
+        if (response.type !== 'usinfo') {
+          throw 'wrong response type';
+        }
+
+        return response.payload;
+      });
   }
 
   /**
@@ -189,7 +224,7 @@ class API {
    * @param {function} callback - function with 2 params that executes when
    *                            the response is returned
    */
-  uploadAvatar(avatar, callback) {
+  uploadAvatar(avatar) {
     // Request:
     // Method: "POST"
     // Url: /api/upload_avatar
@@ -205,7 +240,14 @@ class API {
     // "payload":{"message": "Error message","field":"avatar"}}
     const imgUrl = '/api/upload_avatar';
 
-    this._sendRequest('POST', imgUrl, avatar, callback, 'usinfo');
+    return this._sendRequest('POST', imgUrl, avatar, 'usinfo')
+      .then((response) => {
+        if (response.type !== 'usinfo') {
+          throw 'wrong response type';
+        }
+
+        return response.payload;
+      });
   }
 }
 
