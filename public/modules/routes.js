@@ -4,6 +4,7 @@ import apiModule from './api.js';
 import validator from './basevalidator.js';
 import UserModel from './models.js'
 import {showErrorMsg, clearErrors} from "./utils.js";
+import {Router} from "./router.js";
 
 class BaseRoute {
   /**

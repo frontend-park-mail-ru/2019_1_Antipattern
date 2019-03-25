@@ -42,9 +42,6 @@ function clearErrors(form) {
   });
 }
 
-//window.wrapConstructorToFactory = wrapConstructorToFactory;
-//window.showErrorMsg = showErrorMsg;
-//window.clearErrors = clearErrors;
 export {
   wrapConstructorToFactory,
   showErrorMsg,

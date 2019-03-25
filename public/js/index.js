@@ -3,6 +3,7 @@ import apiModule from "../modules/api.js";
 import UserModel from "../modules/models.js";
 import * as r from "../modules/routes.js";
 import {wrapConstructorToFactory} from "../modules/utils.js";
+import {Router, initAnchorsRouting} from "../modules/router.js";
 
 function initUI(root, router) {
   router.addRoute('/', wrapConstructorToFactory(r.IndexRoute));
