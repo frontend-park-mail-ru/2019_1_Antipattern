@@ -2,9 +2,9 @@
 
 import apiModule from './api.js';
 import validator from './basevalidator.js';
-import UserModel from './models.js'
-import {showErrorMsg, clearErrors} from "./utils.js";
-import {Router} from "./router.js";
+import UserModel from './models.js';
+import {showErrorMsg, clearErrors} from './utils.js';
+import {Router} from './router.js';
 
 class BaseRoute {
   /**
@@ -132,20 +132,20 @@ class LoginRoute extends BaseRoute {
       }
 
       apiModule.authorize(login, password)
-        .then((object) => {
-          const image = object.avatar || null;
-          window.User = new UserModel(object.name, object.email,
-            object.login, object.score, image);
-          this._router.routeTo('/');
-        })
-        .catch((error) => {
-          if (typeof error === 'string') {
-            console.log(error);
-          } else {
-            error = error.payload;
-            showErrorMsg(form, error.field, error.message);
-          }
-        });
+          .then((object) => {
+            const image = object.avatar || null;
+            window.User = new UserModel(object.name, object.email,
+                object.login, object.score, image);
+            this._router.routeTo('/');
+          })
+          .catch((error) => {
+            if (typeof error === 'string') {
+              console.log(error);
+            } else {
+              error = error.payload;
+              showErrorMsg(form, error.field, error.message);
+            }
+          });
     });
     super.init();
   }
@@ -184,29 +184,10 @@ class SettingsRoute extends BaseRoute {
       }
 
       apiModule.updateUserInfo(username, password)
-        .then((object) => {
-          const image = object.avatar || null;
-          window.User = new UserModel(object.name, object.email,
-            object.login, object.score, image);
-          this._router.routeTo('/');
-        })
-        .catch((error) => {
-          if (typeof error === 'string') {
-            console.log(error);
-          } else {
-            error = error.payload;
-            showErrorMsg(form, error.field, error.message);
-          }
-        });
-
-      if (input.value) {
-        const avatar = new FormData();
-        avatar.append('avatar', input.files[0]);
-        apiModule.uploadAvatar(avatar)
           .then((object) => {
             const image = object.avatar || null;
             window.User = new UserModel(object.name, object.email,
-              object.login, object.score, image);
+                object.login, object.score, image);
             this._router.routeTo('/');
           })
           .catch((error) => {
@@ -217,6 +198,25 @@ class SettingsRoute extends BaseRoute {
               showErrorMsg(form, error.field, error.message);
             }
           });
+
+      if (input.value) {
+        const avatar = new FormData();
+        avatar.append('avatar', input.files[0]);
+        apiModule.uploadAvatar(avatar)
+            .then((object) => {
+              const image = object.avatar || null;
+              window.User = new UserModel(object.name, object.email,
+                  object.login, object.score, image);
+              this._router.routeTo('/');
+            })
+            .catch((error) => {
+              if (typeof error === 'string') {
+                console.log(error);
+              } else {
+                error = error.payload;
+                showErrorMsg(form, error.field, error.message);
+              }
+            });
       }
     });
     super.init();
@@ -282,20 +282,20 @@ class SignUpRoute extends BaseRoute {
       }
 
       apiModule.register(login, email, password, username)
-        .then((object) => {
-          const image = object.avatar || null;
-          window.User = new UserModel(object.name, object.email,
-            object.login, object.score, image);
-          this._router.routeTo('/');
-        })
-        .catch((error) => {
-          if (typeof error === 'string') {
-            console.log(error);
-          } else {
-            error = error.payload;
-            showErrorMsg(form, error.field, error.message);
-          }
-        });
+          .then((object) => {
+            const image = object.avatar || null;
+            window.User = new UserModel(object.name, object.email,
+                object.login, object.score, image);
+            this._router.routeTo('/');
+          })
+          .catch((error) => {
+            if (typeof error === 'string') {
+              console.log(error);
+            } else {
+              error = error.payload;
+              showErrorMsg(form, error.field, error.message);
+            }
+          });
     });
     super.init();
   }
@@ -310,32 +310,32 @@ class LeaderBoardRoute extends BaseRoute {
     super(rootEl, router);
   }
 
-  _get_and_paginate(page) {   // TODO(indiagolph99): add page as parametr and fix currentPage. If it's necessary of course
+  _getAndPaginate(page) {
     return apiModule.getUsers(page)
-      .then((object) => {
-        this._rootEl.innerHTML =
+        .then((object) => {
+          this._rootEl.innerHTML =
           Handlebars.templates['leaderboard.html']({
             users: object.users,
             pageCount: Math.ceil(object.count / 10),
-            currentPage: '0',
+            currentPage: page - 1,
             size: '5',
           });
 
-        const pagination = document.getElementById('pagination');
-        pagination.addEventListener('click', (event) => {
-          event.preventDefault();
-          const link = event.target;
-          const page = link.getAttribute('href');
-          this._get_and_paginate(page);
-        });
-      })
-      .catch((error) => {
+          const pagination = document.getElementById('pagination');
+          pagination.addEventListener('click', (event) => {
+            event.preventDefault();
+            const link = event.target;
+            const page = link.getAttribute('href');
+            this._getAndPaginate(page);
+          });
+        })
+        .catch((error) => {
           console.log(error);
-      });
+        });
   }
 
   init() {
-    this._get_and_paginate(1);
+    this._getAndPaginate(1);
     super.init();
   }
 
@@ -366,5 +366,5 @@ export {
   SignUpRoute,
   ProfileRoute,
   SettingsRoute,
-  AboutRoute
+  AboutRoute,
 };

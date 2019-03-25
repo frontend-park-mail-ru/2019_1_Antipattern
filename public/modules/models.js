@@ -1,6 +1,5 @@
 'use strict';
 
-//(function() {
 class UserModel {
   /**
    * Default UserModel constructor
@@ -59,6 +58,4 @@ class UserModel {
   }
 }
 
-//window.UserModel = UserModel;
 export default UserModel;
-//})();
