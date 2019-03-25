@@ -1,6 +1,6 @@
 'use strict';
 
-import ajax from  './ajax.js';
+import ajax from './ajax.js';
 const apiPrefix = '';
 
 class API {
@@ -18,18 +18,17 @@ class API {
       body: body,
       method: method,
     })
-      .then((response) => {
-        return response.json();
-        //const resp = response.body;
+        .then((response) => {
+          return response.json();
+          // const resp = response.body;
+        })
+        .then((data) => {
+          if (data.status !== 'success') {
+            throw data;
+          }
 
-      })
-      .then((data) => {
-        if (data.status !== 'success') {
-          throw data;
-        }
-
-        return data;
-      });
+          return data;
+        });
 
     /*
     Legacy:
@@ -98,13 +97,13 @@ class API {
     };
 
     return this._sendRequest('POST', url, data, 'reg')
-      .then((response) => {
-        if (response.type !== 'reg') {
-          throw 'wrong response type';
-        }
+        .then((response) => {
+          if (response.type !== 'reg') {
+            throw 'wrong response type';
+          }
 
-        return response.payload;
-      });
+          return response.payload;
+        });
   }
 
   /**
@@ -121,13 +120,13 @@ class API {
 
 
     return this._sendRequest('POST', url, data, 'log')
-      .then((response) => {
-        if (response.type !== 'log') {
-          throw 'wrong response type';
-        }
+        .then((response) => {
+          if (response.type !== 'log') {
+            throw 'wrong response type';
+          }
 
-        return response.payload;
-      });
+          return response.payload;
+        });
   }
 
   /**
@@ -143,13 +142,13 @@ class API {
     };
 
     return this._sendRequest('PUT', url, data, 'usinfo')
-      .then((response) => {
-        if (response.type !== 'usinfo') {
-          throw 'wrong response type';
-        }
+        .then((response) => {
+          if (response.type !== 'usinfo') {
+            throw 'wrong response type';
+          }
 
-        return response.payload;
-      });
+          return response.payload;
+        });
   }
 
   /**
@@ -160,13 +159,13 @@ class API {
     const data = {};
 
     return this._sendRequest('GET', url, data, 'usinfo')
-      .then((response) => {
-        if (response.type !== 'usinfo') {
-          throw 'wrong response type';
-        }
+        .then((response) => {
+          if (response.type !== 'usinfo') {
+            throw 'wrong response type';
+          }
 
-        return response.payload;
-      });
+          return response.payload;
+        });
   }
 
   /**
@@ -176,15 +175,15 @@ class API {
    */
   getUsers(page) {
     const url = '/api/leaderboard/' + page;
-    //return fetch(url);
+    // return fetch(url);
     return this._sendRequest('GET', url, {}, 'uslist')
-      .then((response) => {
-        if (response.type !== 'uslist') {
-          throw 'wrong response type';
-        }
+        .then((response) => {
+          if (response.type !== 'uslist') {
+            throw 'wrong response type';
+          }
 
-        return response.payload;
-      });
+          return response.payload;
+        });
   }
 
   /**
@@ -197,13 +196,13 @@ class API {
     const imgUrl = '/api/upload_avatar';
 
     return this._sendRequest('POST', imgUrl, avatar, 'usinfo')
-      .then((response) => {
-        if (response.type !== 'usinfo') {
-          throw 'wrong response type';
-        }
+        .then((response) => {
+          if (response.type !== 'usinfo') {
+            throw 'wrong response type';
+          }
 
-        return response.payload;
-      });
+          return response.payload;
+        });
   }
 }
 

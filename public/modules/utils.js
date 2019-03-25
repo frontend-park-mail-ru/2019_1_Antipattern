@@ -45,5 +45,5 @@ function clearErrors(form) {
 export {
   wrapConstructorToFactory,
   showErrorMsg,
-  clearErrors
+  clearErrors,
 };
