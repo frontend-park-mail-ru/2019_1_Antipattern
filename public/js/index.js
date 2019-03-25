@@ -1,14 +1,17 @@
 'use strict';
 import apiModule from "../modules/api.js";
+import UserModel from "../modules/models.js";
+import * as r from "../modules/routes.js";
+import {wrapConstructorToFactory} from "../modules/utils.js";
 
 function initUI(root, router) {
-  router.addRoute('/', wrapConstructorToFactory(IndexRoute));
-  router.addRoute('/login', wrapConstructorToFactory(LoginRoute));
-  router.addRoute('/profile', wrapConstructorToFactory(ProfileRoute));
-  router.addRoute('/settings', wrapConstructorToFactory(SettingsRoute));
-  router.addRoute('/signup', wrapConstructorToFactory(SignUpRoute));
-  router.addRoute('/leaderboard', wrapConstructorToFactory(LeaderBoardRoute));
-  router.addRoute('/about', wrapConstructorToFactory(AboutRoute));
+  router.addRoute('/', wrapConstructorToFactory(r.IndexRoute));
+  router.addRoute('/login', wrapConstructorToFactory(r.LoginRoute));
+  router.addRoute('/profile', wrapConstructorToFactory(r.ProfileRoute));
+  router.addRoute('/settings', wrapConstructorToFactory(r.SettingsRoute));
+  router.addRoute('/signup', wrapConstructorToFactory(r.SignUpRoute));
+  router.addRoute('/leaderboard', wrapConstructorToFactory(r.LeaderBoardRoute));
+  router.addRoute('/about', wrapConstructorToFactory(r.AboutRoute));
   router.setDefaultRoute('/');
 
   router.init();
@@ -19,8 +22,8 @@ function loadUser(router) {
   apiModule.getUserInfo()
     .then((object) => {
       const image = object.avatar || null;
-      window.User = new window.UserModel(object.name, object.email,
-        object.login, object.score, image);
+      window.User = new UserModel(object.name, object.email,
+        object.login, object.score,  image);
       router.routeTo('/');
     })
     .catch((error) => {

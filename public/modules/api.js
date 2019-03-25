@@ -1,7 +1,5 @@
 'use strict';
 
-//(function() {
-//const ajax = window.AjaxModule;
 import ajax from  './ajax.js';
 const apiPrefix = '';
 
@@ -91,13 +89,6 @@ class API {
    * @param {string} name - user name
    */
   register(login, email, password, name) {
-    /* Success:
-       {"type":"reg","status":"success","payload":{"login":"user_login",
-         "email":"death.pa_cito@mail.yandex.ru","name":"kek"}}
-       Errors:
-       Already exists: {"type":"reg","status":"error","payload":{"message":
-         "User already exists","field":"login"}}
-    */
     const url = '/api/register';
     const data = {
       login: login,
@@ -122,15 +113,6 @@ class API {
    * @param {string} password - user password
    */
   authorize(login, password) {
-    /* Success:
-       {"type":"log","status":"success","payload":{"login":"user_login",
-         "email":"death.pa_cito@mail.yandex.ru","name":"kek"}}
-       Errors:
-       Wrong login: {"type":"log","status":"error","payload":{"message":
-        "Incorrectlogin","field":"login"}}
-       Wrong password: {"type":"log","status":"error","payload":{"message":
-        "Incorrectpassword","field":"password"}}
-    */
     const url = '/api/auth';
     const data = {
       login: login,
@@ -154,12 +136,6 @@ class API {
    * @param {string} newPassword - new user password
    */
   updateUserInfo(newName, newPassword) {
-    /* Success:
-       {"type":"usinfo","status":"success","payload":{"login":
-         "fake_user_login","email":"mail@mail.ru","name":"new name"}}
-       Errors:
-       Not implemeted yet
-    */
     const url = '/api/profile';
     const data = {
       name: newName,
@@ -180,20 +156,6 @@ class API {
    * API method to get current user's info
    */
   getUserInfo() {
-    // Request:
-    // Method: "GET"
-    // Url: /api/profile
-    // Body: empty
-    // Success:
-    // {"type":"usinfo","status":"success","payload":{"login":
-    //  "fake_user_login","email":"mail@mail.ru","name":"yasher"}}
-    // or
-    // {"type":"usinfo","status":"success","payload":{"login":
-    //  "fake_user_login","email":"mail@mail.ru","name":"yasher","avatar":
-    //  "/path/to/avatar.png"}}
-    // expectedBody := ``  or
-    // expectedBody := ``
-
     const url = '/api/profile';
     const data = {};
 
@@ -214,8 +176,15 @@ class API {
    */
   getUsers(page) {
     const url = '/api/leaderboard/' + page;
-    return fetch(url);
-    // this._sendRequest('GET', url, data, callback, 'uslist');
+    //return fetch(url);
+    return this._sendRequest('GET', url, {}, 'uslist')
+      .then((response) => {
+        if (response.type !== 'uslist') {
+          throw 'wrong response type';
+        }
+
+        return response.payload;
+      });
   }
 
   /**
@@ -225,19 +194,6 @@ class API {
    *                            the response is returned
    */
   uploadAvatar(avatar) {
-    // Request:
-    // Method: "POST"
-    // Url: /api/upload_avatar
-    // Body: FormData object
-    // Success:
-    // {"type":"usinfo","status":"success","payload":{"login":
-    //  "fake_user_login","email":"mail@mail.ru","name":"yasher",
-    //  "score": "20", "avatar": "media/path/to/avatar.jpg"}}
-    // Errors:
-    // Invalid FormData: {"type":"usinfo","status":"error",
-    // "payload":{"message": "Wrong request","field":"avatar"}}
-    // File Open Error: {"type":"usinfo","status":"error",
-    // "payload":{"message": "Error message","field":"avatar"}}
     const imgUrl = '/api/upload_avatar';
 
     return this._sendRequest('POST', imgUrl, avatar, 'usinfo')
@@ -253,7 +209,3 @@ class API {
 
 const apiModule = new API();
 export default apiModule;
-
-
-//})();
-

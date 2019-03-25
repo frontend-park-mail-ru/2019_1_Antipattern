@@ -2,6 +2,8 @@
 
 import apiModule from './api.js';
 import validator from './basevalidator.js';
+import UserModel from './models.js'
+import {showErrorMsg, clearErrors} from "./utils.js";
 
 class BaseRoute {
   /**
@@ -113,7 +115,7 @@ class LoginRoute extends BaseRoute {
     this._addListener('submit', (event) => {
       event.preventDefault();
       const form = event.target;
-      window.clearErrors(form);
+      clearErrors(form);
 
       const login = form.elements['login'].value;
       const password = form.elements['password'].value;
@@ -124,14 +126,14 @@ class LoginRoute extends BaseRoute {
       const errorField = errorStruct.errorField;
 
       if (error !== null) {
-        window.showErrorMsg(form, errorField, error);
+        showErrorMsg(form, errorField, error);
         return;
       }
 
       apiModule.authorize(login, password)
         .then((object) => {
           const image = object.avatar || null;
-          window.User = new window.UserModel(object.name, object.email,
+          window.User = new UserModel(object.name, object.email,
             object.login, object.score, image);
           this._router.routeTo('/');
         })
@@ -140,7 +142,7 @@ class LoginRoute extends BaseRoute {
             console.log(error);
           } else {
             error = error.payload;
-            window.showErrorMsg(form, error.field, error.message);
+            showErrorMsg(form, error.field, error.message);
           }
         });
     });
@@ -162,7 +164,7 @@ class SettingsRoute extends BaseRoute {
     this._addListener('submit', (event) => {
       event.preventDefault();
       const form = event.target;
-      window.clearErrors(form);
+      clearErrors(form);
 
       const username = form.elements['username'].value;
       const password = form.elements['password'].value;
@@ -176,14 +178,14 @@ class SettingsRoute extends BaseRoute {
       const errorField = errorStruct.errorField;
 
       if (error !== null) {
-        window.showErrorMsg(form, errorField, error);
+        showErrorMsg(form, errorField, error);
         return;
       }
 
       apiModule.updateUserInfo(username, password)
         .then((object) => {
           const image = object.avatar || null;
-          window.User = new window.UserModel(object.name, object.email,
+          window.User = new UserModel(object.name, object.email,
             object.login, object.score, image);
           this._router.routeTo('/');
         })
@@ -192,7 +194,7 @@ class SettingsRoute extends BaseRoute {
             console.log(error);
           } else {
             error = error.payload;
-            window.showErrorMsg(form, error.field, error.message);
+            showErrorMsg(form, error.field, error.message);
           }
         });
 
@@ -202,7 +204,7 @@ class SettingsRoute extends BaseRoute {
         apiModule.uploadAvatar(avatar)
           .then((object) => {
             const image = object.avatar || null;
-            window.User = new window.UserModel(object.name, object.email,
+            window.User = new UserModel(object.name, object.email,
               object.login, object.score, image);
             this._router.routeTo('/');
           })
@@ -211,7 +213,7 @@ class SettingsRoute extends BaseRoute {
               console.log(error);
             } else {
               error = error.payload;
-              window.showErrorMsg(form, error.field, error.message);
+              showErrorMsg(form, error.field, error.message);
             }
           });
       }
@@ -260,7 +262,7 @@ class SignUpRoute extends BaseRoute {
     this._addListener('submit', (event) => {
       event.preventDefault();
       const form = event.target;
-      window.clearErrors(form);
+      clearErrors(form);
 
       const username = form.elements['username'].value;
       const login = form.elements['login'].value;
@@ -274,14 +276,14 @@ class SignUpRoute extends BaseRoute {
       const errorField = errorStruct.errorField;
 
       if (error !== null) {
-        window.showErrorMsg(form, errorField, error);
+        showErrorMsg(form, errorField, error);
         return;
       }
 
       apiModule.register(login, email, password, username)
         .then((object) => {
           const image = object.avatar || null;
-          window.User = new window.UserModel(object.name, object.email,
+          window.User = new UserModel(object.name, object.email,
             object.login, object.score, image);
           this._router.routeTo('/');
         })
@@ -290,7 +292,7 @@ class SignUpRoute extends BaseRoute {
             console.log(error);
           } else {
             error = error.payload;
-            window.showErrorMsg(form, error.field, error.message);
+            showErrorMsg(form, error.field, error.message);
           }
         });
     });
@@ -309,26 +311,25 @@ class LeaderBoardRoute extends BaseRoute {
 
   _get_and_paginate(page) {   // TODO(indiagolph99): add page as parametr and fix currentPage. If it's necessary of course
     return apiModule.getUsers(page)
-      .then(function(response) {
-        return response.json();
-      })
-      .then((data) => {
-        if (data.status === 'success') {
-          this._rootEl.innerHTML =
-            Handlebars.templates['leaderboard.html']({
-              users: data.payload.users,
-              pageCount: Math.ceil(data.payload.count / 10),
-              currentPage: '0',
-              size: '5',
-            });
-          const pagination = document.getElementById('pagination');
-          pagination.addEventListener('click', (event) => {
-            event.preventDefault();
-            const link = event.target;
-            const page = link.getAttribute('href');
-            this._get_and_paginate(page);
+      .then((object) => {
+        this._rootEl.innerHTML =
+          Handlebars.templates['leaderboard.html']({
+            users: object.users,
+            pageCount: Math.ceil(object.count / 10),
+            currentPage: '0',
+            size: '5',
           });
-        }
+
+        const pagination = document.getElementById('pagination');
+        pagination.addEventListener('click', (event) => {
+          event.preventDefault();
+          const link = event.target;
+          const page = link.getAttribute('href');
+          this._get_and_paginate(page);
+        });
+      })
+      .catch((error) => {
+          console.log(error);
       });
   }
 
@@ -357,10 +358,12 @@ class AboutRoute extends BaseRoute {
   }
 }
 
-window.IndexRoute = IndexRoute;
-window.LoginRoute = LoginRoute;
-window.LeaderBoardRoute = LeaderBoardRoute;
-window.SignUpRoute = SignUpRoute;
-window.ProfileRoute = ProfileRoute;
-window.SettingsRoute = SettingsRoute;
-window.AboutRoute = AboutRoute;
+export {
+  IndexRoute,
+  LoginRoute,
+  LeaderBoardRoute,
+  SignUpRoute,
+  ProfileRoute,
+  SettingsRoute,
+  AboutRoute
+};
