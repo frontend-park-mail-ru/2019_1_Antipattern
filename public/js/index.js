@@ -1,26 +1,40 @@
-(function() {
-  const root = document.getElementById('root');
-  window.onload = () => {
-    const router = new Router(root);
-    router.addRoute('/', wrapConstructorToFactory(IndexRoute));
-    router.addRoute('/login', wrapConstructorToFactory(LoginRoute));
-    router.addRoute('/profile', wrapConstructorToFactory(ProfileRoute));
-    router.addRoute('/settings', wrapConstructorToFactory(SettingsRoute));
-    router.addRoute('/signup', wrapConstructorToFactory(SignUpRoute));
-    router.addRoute('/leaderboard', wrapConstructorToFactory(LeaderBoardRoute));
-    router.addRoute('/about', wrapConstructorToFactory(AboutRoute));
-    router.setDefaultRoute('/');
+'use strict';
+import apiModule from "../modules/api.js";
+import UserModel from "../modules/models.js";
+import * as r from "../modules/routes.js";
+import {wrapConstructorToFactory} from "../modules/utils.js";
+import {Router, initAnchorsRouting} from "../modules/router.js";
 
-    router.init();
-    initAnchorsRouting(root, router);
+function initUI(root, router) {
+  router.addRoute('/', wrapConstructorToFactory(r.IndexRoute));
+  router.addRoute('/login', wrapConstructorToFactory(r.LoginRoute));
+  router.addRoute('/profile', wrapConstructorToFactory(r.ProfileRoute));
+  router.addRoute('/settings', wrapConstructorToFactory(r.SettingsRoute));
+  router.addRoute('/signup', wrapConstructorToFactory(r.SignUpRoute));
+  router.addRoute('/leaderboard', wrapConstructorToFactory(r.LeaderBoardRoute));
+  router.addRoute('/about', wrapConstructorToFactory(r.AboutRoute));
+  router.setDefaultRoute('/');
 
-    window.API.getUserInfo((status, object) => {
-      if (status === 'success') {
-        const image = object.avatar || null;
-        window.User = new window.UserModel(object.name, object.email,
-            object.login, object.score, image);
-        router.routeTo('/');
-      }
+  router.init();
+  initAnchorsRouting(root, router);
+}
+
+function loadUser(router) {
+  apiModule.getUserInfo()
+    .then((object) => {
+      const image = object.avatar || null;
+      window.User = new UserModel(object.name, object.email,
+        object.login, object.score,  image);
+      router.routeTo('/');
+    })
+    .catch((error) => {
+      console.log(error);
     });
-  };
-})();
+}
+
+window.onload = () => {
+  const root = document.getElementById('root');
+  const router = new Router(root);
+  initUI(root, router);
+  loadUser(router);
+};
