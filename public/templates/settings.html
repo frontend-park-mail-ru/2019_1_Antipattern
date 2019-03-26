@@ -1,31 +1,46 @@
-<div class="container align-items-center text-center font-brandon font-md">
-	<div class="form text-center justify-center d-flex-column">
-		<div id="logo" class="justify-around align-items-center my-4 font-street-gathering">
-			<a name="index" class="neon-text-red font-xl px-4 py-4" href='/' >Settings</a>
-		</div>
+<div id="container">
+    <div class="l-flex-column">
+        <div class="justify-around my-2">
+            <a class="spread spread-xl neon-text-red font-xxl" href="/" >Settings</a>
+        </div>
 
-		<form action="" class="d-flex-column justify-center" method="POST">
-			<div class="justify-end">
-				<label class="neon-text-yellow font-brandon font-md" for="username" style="text-align: center; float: left;">Change username</label>
-				<input type="text" id="username"  placeholder="Username" class="input-dark font-md">
-				<div class="error-msg neon-text-white font-brandon"></div>
-			</div>
-			<div class="justify-end">
-				<label class="neon-text-yellow font-brandon font-md" for="password" style="text-align: center; float: left;">Change password</label>
-				<input type="password" id="password" placeholder="Password" class="input-dark font-md">
-				<div class="error-msg neon-text-white font-brandon"></div>
-			</div>
-			<div class="justify-end">
-				<label class="neon-text-yellow font-brandon font-md" for="repeat_password" style="text-align: center; float: left;">Repeat password</label>
-				<input type="password" id="repeat_password" placeholder="Confirm password" class="input-dark font-md">
-				<div class="error-msg neon-text-white font-brandon"></div>
-			</div>
-			<div class="justify-end">
-				<input type="file" id="avatar" placeholder="Upload avatar">
-				<div class="error-msg neon-text-white font-brandon"></div>
-			</div>
+        <form action="" class="l-flex-column" method="POST">
+            <div class="justify-end my-4">
+                <div class="l-flex-row">
+                    <label class="spread spread-lg neon-text-yellow font-brandon font-lg" for="username">
+                        Change username
+                    </label>
+                    <input type="text" id="username"  placeholder="Username" class="spread spread-lg button-md input-dark font-md">
+                </div>
+                <div class="error-msg neon-text-white font-brandon"></div>
+            </div>
 
-			<input class="neon-button-blue px-4 py-4 font-brandon button-md" value="SUBMIT" type="submit" name="submit">
-		</form>
-	</div>
+            <div class="justify-end my-4">
+                <div class="l-flex-row">
+                    <label class="spread spread-lg neon-text-yellow font-brandon font-lg" for="password">
+                        Change password
+                    </label>
+                    <input type="password" id="password" placeholder="Password" class="spread spread-lg button-md input-dark font-md">
+                </div>
+                <div class="error-msg neon-text-white font-brandon"></div>
+            </div>
+
+            <div class="justify-end my-4">
+                <div class="l-flex-row">
+                    <label class="spread spread-lg neon-text-yellow font-brandon font-lg" for="repeat_password">
+                        Repeat password
+                    </label>
+                    <input type="password" id="repeat_password" placeholder="Confirm password" class="spread spread-lg button-md input-dark font-md">
+                </div>
+                <div class="error-msg neon-text-white font-brandon"></div>
+            </div>
+
+            <div class="justify-end my-4">
+                <input type="file" id="avatar" placeholder="Upload avatar">
+                <div class="error-msg neon-text-white font-brandon"></div>
+            </div>
+
+            <input class="neon-button-blue font-brandon button-md" value="SUBMIT" type="submit" name="submit">
+        </form>
+    </div>
 </div>
