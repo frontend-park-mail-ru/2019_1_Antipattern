@@ -3,12 +3,12 @@
         <a href="/" class="neon-text-red font-xxl">Leaderboard</a>
         <table class="font-md font-brandon leaderboard">
             <tr class="neon-text-blue">
-                <th>Nickname</th>
+                <th>Login</th>
                 <th>Scores</th>
             </tr>
             {{#each users}}
                 <tr class="neon-text-yellow">
-                    <th>{{this.name}}</th>
+                    <th>{{this.login}}</th>
                     <th>{{this.score}}</th>
                 </tr>
             {{/each}}

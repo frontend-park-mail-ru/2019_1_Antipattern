@@ -23,9 +23,9 @@ function initUI(root, router) {
 function loadUser(router) {
   apiModule.getUserInfo()
       .then((object) => {
-        const image = object.avatar || null;
-        window.User = new UserModel(object.name, object.email,
-            object.login, object.score, image);
+        const image = object.avatar || '';
+        window.User = new UserModel(object.email, object.login,
+                                    object.score, image);
         router.routeTo('/');
       })
       .catch((error) => {
