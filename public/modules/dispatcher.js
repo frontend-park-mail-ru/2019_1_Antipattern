@@ -8,8 +8,7 @@ class Dispatcher {
 
   getState() {
     // TODO(AntonyMoes): refactor this later. May throw exceptions.
-    const stateCopy = JSON.parse(JSON.stringify(this._state));
-    return this._state;
+    return JSON.parse(JSON.stringify(this._state));
   }
 
   subscribeEvent(key, callback) {

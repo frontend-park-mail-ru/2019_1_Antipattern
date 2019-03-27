@@ -1,8 +1,8 @@
 import {dispatchAdapter} from './dispatcher.js';
 import apiModule from './api.js';
-import {clearErrors, showErrorMsg} from "./utils.js";
-import validator from "./basevalidator.js";
-import UserModel from "./models.js";
+import validator from './basevalidator.js';
+import UserModel from './models.js';
+import Factory from './factory.js';
 
 class LeaderboardController {
   constructor(dispatcher) {
@@ -34,12 +34,9 @@ class LoginController {
 
   login(login, password) {
     const errorStruct = validator.validateLogin(login, password);
-    //const error = errorStruct.error;
-    //const errorField = errorStruct.errorField;
 
     if (errorStruct.error !== null) {
       this._dispatcher.dispatchEvent('LoggedIn', errorStruct);
-      //showErrorMsg(form, errorField, error);
       return;
     }
 
@@ -48,7 +45,6 @@ class LoginController {
         const image = object.avatar || '';
         window.User = new UserModel(object.email, object.login,
           object.score, image);
-        //this._router.routeTo('/');
         this._dispatcher.dispatchEvent('LoggedIn', 'success');
       })
       .catch((error) => {
@@ -60,7 +56,6 @@ class LoginController {
           errorStruct.errorField = error.field;
 
           this._dispatcher.dispatchEvent('LoggedIn', errorStruct);
-          //showErrorMsg(form, error.field, error.message);
         }
       });
 
@@ -93,12 +88,55 @@ class UserController {
   }
 }
 
-const leaderboardController = new LeaderboardController(dispatchAdapter);
-const loginController = new LoginController(dispatchAdapter);
-const userController = new UserController(dispatchAdapter);
+class SignUpController {
+  constructor(dispatcher) {
+    this._dispatcher = dispatcher;
+  }
+
+  signUp(login, email, password, repassword) {
+    const errorStruct = validator.validateRegistration(login, password, email,
+      repassword);
+
+    if (errorStruct.error !== null) {
+      this._dispatcher.dispatchEvent('SignedUp', errorStruct);
+      return;
+    }
+
+    apiModule.register(login, email, password)
+      .then((object) => {
+        window.User = new UserModel(object.email, object.login,
+          object.score);
+        this._dispatcher.dispatchEvent('SignedUp', 'success');
+        //this._router.routeTo('/');
+      })
+      .catch((error) => {
+        if (typeof error === 'string') {
+          console.log(error);
+        } else {
+          error = error.payload;
+          errorStruct.error = error.message;
+          errorStruct.errorField = error.field;
+
+          this._dispatcher.dispatchEvent('SignedUp', errorStruct);
+        }
+      });
+  }
+}
+
+const controllerFactory = new Factory(dispatchAdapter);
+controllerFactory.addConstructor(LeaderboardController);
+controllerFactory.addConstructor(LoginController);
+controllerFactory.addConstructor(UserController);
+controllerFactory.addConstructor(SignUpController);
+
+const leaderboardController = controllerFactory.newLeaderboardController();
+const loginController = controllerFactory.newLoginController();
+const userController = controllerFactory.newUserController();
+const signUpController = controllerFactory.newSignUpController();
 
 export {
   leaderboardController,
   loginController,
-  userController
+  userController,
+  signUpController
 };

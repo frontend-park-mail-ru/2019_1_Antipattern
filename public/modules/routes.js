@@ -133,8 +133,6 @@ class LoginRoute extends BaseRoute {
     });
 
     this._subscriber.subscribeEvent('LoggedIn', this.render.bind(this));
-
-
     super.init();
   }
 
@@ -157,7 +155,7 @@ class SettingsRoute extends BaseRoute {
       clearErrors(form);
 
       let login = form.elements['login'].value;
-      if (login === window.User.getLogin()) {
+      if (login === window.User.login) {
         login = '';
       }
       const password = form.elements['password'].value;
@@ -226,14 +224,14 @@ class ProfileRoute extends BaseRoute {
 
   init() {
     super.init();
-    if (window.User !== undefined) {
+    if (window.User) {
       /* TODO(everyone): make settings file */
-      const avatarPath = window.User.getImg() || 'public/img/avatar.jpg';
+      const avatarPath = window.User.img || 'public/img/avatar.jpg';
       this._rootEl.innerHTML = Handlebars.templates['profile.html']({
-        login: window.User.getLogin(),
-        email: window.User.getEmail(),
+        login: window.User.login,
+        email: window.User.email,
         avatar_path: avatarPath,
-        score: window.User.getScore(),
+        score: window.User.score,
       });
     } else {
       this._router.routeTo('/');
@@ -246,51 +244,40 @@ class ProfileRoute extends BaseRoute {
 }
 
 class SignUpRoute extends BaseRoute {
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
+  }
+
+  render(state, key, value) {
+    if (value === 'success') {
+      this._router.routeTo('/');
+      return;
+    }
+
+    showErrorMsg(this._form, value.errorField, value.error);
   }
 
   init() {
     this._rootEl.innerHTML = Handlebars.templates['signup.html']();
     this._addListener('submit', (event) => {
       event.preventDefault();
-      const form = event.target;
-      clearErrors(form);
+      this._form = event.target;
+      clearErrors(this._form);
 
-      const login = form.elements['login'].value;
-      const email = form.elements['email'].value;
-      const password = form.elements['password'].value;
-      const repassword = form.elements['repeat_password'].value;
+      const login = this._form.elements['login'].value;
+      const email = this._form.elements['email'].value;
+      const password = this._form.elements['password'].value;
+      const repassword = this._form.elements['repeat_password'].value;
 
-      const errorStruct = validator.validateRegistration(login,
-          password, email, repassword);
-      const error = errorStruct.error;
-      const errorField = errorStruct.errorField;
-
-      if (error !== null) {
-        showErrorMsg(form, errorField, error);
-        return;
-      }
-
-      apiModule.register(login, email, password)
-          .then((object) => {
-            window.User = new UserModel(object.email, object.login,
-                                        object.score);
-            this._router.routeTo('/');
-          })
-          .catch((error) => {
-            if (typeof error === 'string') {
-              console.log(error);
-            } else {
-              error = error.payload;
-              showErrorMsg(form, error.field, error.message);
-            }
-          });
+      this._controller.signUp(login, email, password, repassword);
     });
+
+    this._subscriber.subscribeEvent('SignedUp', this.render.bind(this));
     super.init();
   }
 
   deinit() {
+    this._subscriber.unsubscribeEvent('SignedUp', this.render.bind(this));
     super.deinit();
   }
 }
