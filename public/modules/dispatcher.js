@@ -21,11 +21,11 @@ class Dispatcher {
       throw new TypeError('callback expected to be a function');
     }
 
-    if (this._subscribers.key === undefined) {
-      this._subscribers.key = [];
+    if (this._subscribers[key] === undefined) {
+      this._subscribers[key] = [];
     }
 
-    this._subscribers.key.push(callback);
+    this._subscribers[key].push(callback);
   }
 
   unsubscribeEvent(key, callback) {
@@ -37,11 +37,11 @@ class Dispatcher {
       throw new TypeError('callback expected to be a function');
     }
 
-    if (this._subscribers.key === undefined) {
+    if (this._subscribers[key] === undefined) {
       return;
     }
 
-    this._subscribers.key.filter((cb) => cb !== callback);
+    this._subscribers[key].filter((cb) => cb !== callback);
   }
 
   dispatchEvent(key, value) {
@@ -49,8 +49,8 @@ class Dispatcher {
       throw new TypeError('key expected to be string');
     }
 
-    if (this._subscribers.key) {
-      for (const cb of this._subscribers.key) {
+    if (this._subscribers[key]) {
+      for (const cb of this._subscribers[key]) {
         cb(this.getState(), key, value);
       }
     }

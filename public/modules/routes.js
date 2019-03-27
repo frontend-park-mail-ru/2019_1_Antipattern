@@ -107,52 +107,39 @@ class LoginRoute extends BaseRoute {
    * @param {Node} rootEl - DOM element in which to insert template
    * @param {BaseRoute} router - class which constructor needs to be called
    */
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
   }
-  /**
-   * initializer
-   */
+
+  render(state, key, value) {
+    if (value === 'success') {
+      this._router.routeTo('/');
+      return;
+    }
+
+    showErrorMsg(this._form, value.errorField, value.error);
+  }
+
   init() {
     this._rootEl.innerHTML = Handlebars.templates['login.html']();
     this._addListener('submit', (event) => {
       event.preventDefault();
-      const form = event.target;
-      clearErrors(form);
+      this._form = event.target;
+      clearErrors(this._form);
 
-      const login = form.elements['login'].value;
-      const password = form.elements['password'].value;
-
-      const errorStruct = validator.validateLogin(login,
-          password);
-      const error = errorStruct.error;
-      const errorField = errorStruct.errorField;
-
-      if (error !== null) {
-        showErrorMsg(form, errorField, error);
-        return;
-      }
-
-      apiModule.authorize(login, password)
-          .then((object) => {
-            const image = object.avatar || null;
-            window.User = new UserModel(object.name, object.email,
-                object.login, object.score, image);
-            this._router.routeTo('/');
-          })
-          .catch((error) => {
-            if (typeof error === 'string') {
-              console.log(error);
-            } else {
-              error = error.payload;
-              showErrorMsg(form, error.field, error.message);
-            }
-          });
+      const login = this._form.elements['login'].value;
+      const password = this._form.elements['password'].value;
+      this._controller.login(login, password);
     });
+
+    this._subscriber.subscribeEvent('LoggedIn', this.render.bind(this));
+
+
     super.init();
   }
 
   deinit() {
+    this._subscriber.unsubscribeEvent('LoggedIn', this.render.bind(this));
     super.deinit();
   }
 }
@@ -312,6 +299,14 @@ class LeaderBoardRoute extends BaseRoute {
     super(...args);
   }
 
+  prerender() {
+    this.render({}, '', {
+      users: [],
+      pageCount: 0,
+      currentPage: 0
+    })
+  }
+
   render(state, key, value) {
     console.log('render started');
     this._rootEl.innerHTML =
@@ -332,6 +327,7 @@ class LeaderBoardRoute extends BaseRoute {
   }
 
   init() {
+    this.prerender();
     this._subscriber.subscribeEvent('LeaderboardLoaded', this.render.bind(this));
     this._controller.getLeaderboard(1);
     super.init();
