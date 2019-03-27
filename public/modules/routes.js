@@ -12,7 +12,7 @@ class BaseRoute {
    * @param {Node} rootEl - DOM element
    * @param {function} router - route object
    */
-  constructor(rootEl, router) {
+  constructor(rootEl, router, controller = null, subscriber = null) {
     if (!(rootEl instanceof Node)) {
       throw new TypeError('rootEl must be Node');
     }
@@ -22,6 +22,8 @@ class BaseRoute {
 
     this._rootEl = rootEl;
     this._router = router;
+    this._controller = controller;
+    this._subscriber = subscriber;
     this._eventHandlers = {};
   }
   /**
@@ -306,40 +308,37 @@ class SignUpRoute extends BaseRoute {
 }
 
 class LeaderBoardRoute extends BaseRoute {
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
   }
 
-  _getAndPaginate(page) {
-    return apiModule.getUsers(page)
-        .then((object) => {
-          this._rootEl.innerHTML =
-          Handlebars.templates['leaderboard.html']({
-            users: object.users,
-            pageCount: Math.ceil(object.count / 10),
-            currentPage: page - 1,
-            size: '5',
-          });
+  render(state, key, value) {
+    console.log('render started');
+    this._rootEl.innerHTML =
+      Handlebars.templates['leaderboard.html']({
+        users: value.users,
+        pageCount: value.pageCount,
+        currentPage: value.currentPage,
+        size: '5',
+      });
 
-          const pagination = document.getElementById('pagination');
-          pagination.addEventListener('click', (event) => {
-            event.preventDefault();
-            const link = event.target;
-            const page = link.getAttribute('href');
-            this._getAndPaginate(page);
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    const pagination = document.getElementById('pagination');
+    pagination.addEventListener('click', (event) => {
+      event.preventDefault();
+      const link = event.target;
+      const page = link.getAttribute('href');
+      this._controller.getLeaderboard(page);
+    });
   }
 
   init() {
-    this._getAndPaginate(1);
+    this._subscriber.subscribeEvent('LeaderboardLoaded', this.render.bind(this));
+    this._controller.getLeaderboard(1);
     super.init();
   }
 
   deinit() {
+    this._subscriber.unsubscribeEvent('LeaderboardLoaded', this.render.bind(this));
     super.deinit();
   }
 }

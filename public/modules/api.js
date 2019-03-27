@@ -34,55 +34,6 @@ class API {
 
           return data;
         });
-
-    /*
-    Legacy:
-    (response) => {
-      const reader = response.body.getReader();
-      let data = new Uint8Array(0);
-      return pump();
-
-       **
-       * Function, pumping data from reader and converting to object format
-       * @private
-       *
-    function pump() {
-      reader.read().then(({done, value}) => {
-        if (done) {
-          if (!callback) {
-            return true;
-          }
-          let object;
-          const strBody = String.fromCharCode.apply(null, data);
-          try {
-            object = JSON.parse(strBody);
-          } catch (SyntaxError) {
-            if (callback) {
-              callback('broken_response', null);
-            }
-            return false;
-          }
-
-          if (response.status == 403) {
-            callback('unauthorized', null);
-            return false;
-          }
-          if (object.type !== type) {
-            callback('wrong_response', null);
-            return false;
-          }
-          callback(object.status, object.payload);
-          return true;
-        }
-        const mergedData = new Uint8Array(data.length + value.length);
-        mergedData.set(data);
-        mergedData.set(value, data.length);
-        data = mergedData;
-        return pump();
-      });
-    }
-  }
-     */
   }
 
   /**
@@ -180,7 +131,7 @@ class API {
    */
   getUsers(page) {
     const url = '/api/leaderboard/' + page;
-    // return fetch(url);
+
     return this._sendRequest('GET', url, {}, 'uslist')
         .then((response) => {
           if (response.type !== 'uslist') {
