@@ -359,6 +359,28 @@ class AboutRoute extends BaseRoute {
   }
 }
 
+class LogoutRoute extends BaseRoute {
+  constructor(rootEl, router) {
+    super(rootEl, router);
+  }
+
+  init() {
+    apiModule.logout()
+        .then((emptyObj) => {
+          window.User = null;
+          this._router.routeTo('/');
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    super.init();
+  }
+
+  deinit() {
+    super.deinit();
+  }
+}
+
 export {
   IndexRoute,
   LoginRoute,
@@ -367,4 +389,5 @@ export {
   ProfileRoute,
   SettingsRoute,
   AboutRoute,
+  LogoutRoute,
 };

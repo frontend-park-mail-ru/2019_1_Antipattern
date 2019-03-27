@@ -19,11 +19,16 @@ class API {
       method: method,
     })
         .then((response) => {
-          return response.json();
+          if (!response.ok) {
+            throw response.statusText;
+          }
+          return response.text().then((text) => {
+            return text ? JSON.parse(text) : null;
+          });
           // const resp = response.body;
         })
         .then((data) => {
-          if (data.status !== 'success') {
+          if (data && data.status !== 'success') {
             throw data;
           }
 
@@ -203,6 +208,16 @@ class API {
 
           return response.payload;
         });
+  }
+
+  /**
+   * API method to logout
+   * @return {Boolean} - true, if logout was successfull
+   */
+  logout() {
+    const logoutUrl = '/api/login';
+
+    return this._sendRequest('DELETE', logoutUrl, {}, 'logout');
   }
 }
 

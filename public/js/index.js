@@ -13,6 +13,7 @@ function initUI(root, router) {
   router.addRoute('/signup', wrapConstructorToFactory(r.SignUpRoute));
   router.addRoute('/leaderboard', wrapConstructorToFactory(r.LeaderBoardRoute));
   router.addRoute('/about', wrapConstructorToFactory(r.AboutRoute));
+  router.addRoute('/logout', wrapConstructorToFactory(r.LogoutRoute));
   router.setDefaultRoute('/');
 
   router.init();

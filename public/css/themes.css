@@ -1,0 +1,108 @@
+/*
+ *	Themes - defines colours and images
+ */
+
+.neon-button-black {
+  --outline-color: #333;
+}
+
+.neon-button-blue {
+  --outline-color: #228dff;
+}
+
+.neon-button-green {
+  --outline-color: #adff03;
+}
+
+.neon-button-cyan {
+  --outline-color: #0abdc6;
+}
+
+.neon-button-red {
+  --outline-color: #f17;
+}
+
+.neon-button-purple {
+  --outline-color: #9400d3;
+}
+
+.neon-button-yellow {
+  --outline-color: #ffdd1b;
+}
+
+.neon-button-white {
+  --outline-color: #fff;
+}
+
+.neon-button-black,
+.neon-button-blue,
+.neon-button-green,
+.neon-button-cyan,
+.neon-button-red,
+.neon-button-purple,
+.neon-button-yellow,
+.neon-button-white {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+  background: none;
+  outline: none;
+  border: 3px outset var(--outline-color);
+  color: var(--outline-color);
+}
+
+.neon-text-black {
+  --outline-color: #333;
+}
+
+.neon-text-blue {
+  --outline-color: #228dff;
+}
+
+.neon-text-green {
+  --outline-color: #adff03;
+}
+
+.neon-text-cyan {
+  --outline-color: #0abdc6;
+}
+
+.neon-text-red {
+  --outline-color: #f17;
+}
+
+.neon-text-purple {
+  --outline-color: #9400d3;
+}
+
+.neon-text-yellow {
+  --outline-color: #ffdd1b;
+}
+
+.neon-text-white {
+  --outline-color: #fff;
+}
+
+.neon-text-black,
+.neon-text-blue,
+.neon-text-green,
+.neon-text-cyan,
+.neon-text-red,
+.neon-text-purple,
+.neon-text-yellow,
+.neon-text-white {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+  color: var(--outline-color);
+}
+
+.blur {
+  filter: blur(1px);
+}
+
+.input-dark {
+  background-color: #333;
+  border: 2px outset #f17;
+  color: #cfcfcfcf;
+}
