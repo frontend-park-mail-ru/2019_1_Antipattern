@@ -16,7 +16,7 @@ class AjaxModule {
     body = {},
   } = {}) {
     // Body must be empty with GET and HEAD requests
-    if (method == 'GET' || method == 'HEAD') {
+    if (method === 'GET' || method === 'HEAD') {
       return fetch(path, {
         method: method,
         mode: 'cors',
@@ -42,66 +42,6 @@ class AjaxModule {
         credentials: 'include',
       });
     }
-  }
-
-  /**
-   * Decorator with GET request logic.
-   * @param {Object} - Same params as _ajax({}) func.
-   */
-  doGet({
-    path = '/api/',
-    body = {},
-  } = {}) {
-    return this._ajax({
-      path,
-      body,
-      method: 'GET',
-    });
-  }
-
-  /**
-   *  Decorator with POST request logic.
-   * @param {Object} - Same params as _ajax({}) func.
-   */
-  doPost({
-    path = '/',
-    body = {},
-  } = {}) {
-    return this._ajax({
-      path,
-      body,
-      method: 'POST',
-    });
-  }
-
-  /**
-   *  Decorator with PUT request logic.
-   * @param {Object} - Same params as _ajax({}) func.
-   */
-  doPut({
-    path = '/',
-    body = {},
-  } = {}) {
-    return this._ajax({
-      path,
-      body,
-      method: 'PUT',
-    });
-  }
-
-  /**
-   *  Decorator with DELETE request logic.
-   * @param {Object} - Same params as _ajax({}) func.
-   */
-  doDelete({
-    path = '/',
-    body = {},
-  } = {}) {
-    return this._ajax({
-      path,
-      body,
-      method: 'DELETE',
-    });
   }
 
   /**

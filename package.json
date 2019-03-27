@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server/server.js",
     "test": "eslint . --fix",
+    "css-lint": "stylelint 'public/css/*.css' --fix",
     "dock": "rm -rf out/ | jsdoc public/modules/*.js\n",
     "build-templates": "mkdir -p public/templates/build && handlebars public/templates/*.html -f public/templates/build/all.js -m"
   },
@@ -21,7 +22,11 @@
   "homepage": "https://github.com/frontend-park-mail-ru/2019_1_DeathPacito#readme",
   "devDependencies": {
     "express": "^4.16.4",
+    "gulp-postcss": "^8.0.0",
     "handlebars": "^4.1.0",
-    "jsdoc": "^3.5.5"
+    "jsdoc": "^3.5.5",
+    "postcss-reporter": "^6.0.1",
+    "stylelint": "^9.10.1",
+    "stylelint-config-standard": "^18.2.0"
   }
 }
