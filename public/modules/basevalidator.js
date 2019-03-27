@@ -37,27 +37,6 @@ class BaseValidator {
   }
 
   /**
-   * Checks whether username is correct
-   * @param {string} username - username to be tested
-   * @return {boolean} - result of a check
-   * @private
-   */
-  _correctUsername(username) {
-    const usernameRegexp = /^[a-zA-Z0-9 .-_]+$/;
-    return Boolean(username.match(usernameRegexp));
-  }
-
-  /**
-   * Checks whether username is correct or empty
-   * @param {string} username - username to be tested
-   * @return {boolean} - result of a check
-   * @private
-   */
-  _correctUsernameOrEmpty(username) {
-    return username.length === 0 || this._correctUsername(username);
-  }
-
-  /**
    * Checks whether login is correct
    * @param {string} login - login to be tested
    * @return {boolean} - result of a check
@@ -69,15 +48,24 @@ class BaseValidator {
   }
 
   /**
+   * Checks whether login is correct or empty
+   * @param {string} login - login to be tested
+   * @return {boolean} - result of a check
+   * @private
+   */
+  _correctLoginOrEmpty(login) {
+    return login.length === 0 || this._correctLogin(login);
+  }
+
+  /**
    * Validates user registration
    * @param {string} login - user login
    * @param {string} password - user password
-   * @param {string} username - user name
    * @param {string} email - user email
    * @param {string} repassword - user password confirmation
    * @return {*} - error message and name of the field that caused an error
    */
-  validateRegistration(login, password, username = '',
+  validateRegistration(login, password,
       email = '', repassword = '') {
     if (!this._correctLogin(login)) {
       return {
@@ -97,20 +85,6 @@ class BaseValidator {
       return {
         error: 'Password should be from 4 to 25 symbols long',
         errorField: 'password',
-      };
-    }
-
-    if (!this._correctUsername(username)) {
-      return {
-        error: 'Name should consist on a-z, A-Z and 0-9',
-        errorField: 'username',
-      };
-    }
-
-    if (!this._correctLength(username)) {
-      return {
-        error: 'Name should be from 4 to 25 symbols long',
-        errorField: 'username',
       };
     }
 
@@ -171,26 +145,23 @@ class BaseValidator {
 
   /**
    * Validates user data update
-   * @param {string} username - user name
+   * @param {string} login - user login
    * @param {string} password - user password
    * @param {string} repassword - user password confirmation
    * @return {*} - error message and name of the field that caused an erro
    */
-  validateUpdate(username, password, repassword) {
-    console.log(username);
-    console.log(password);
-    console.log(repassword);
-    if (!this._correctUsernameOrEmpty(username)) {
+  validateUpdate(login, password, repassword) {
+    if (!this._correctLoginOrEmpty(login)) {
       return {
-        error: 'New username is incorrect',
-        errorField: 'username',
+        error: 'New login is incorrect',
+        errorField: 'login',
       };
     }
 
-    if (!this._correctLengthOrEmpty(username)) {
+    if (!this._correctLengthOrEmpty(login)) {
       return {
-        error: 'Username should be empty or from 4 to 25 symbols long',
-        errorField: 'username',
+        error: 'Login should be empty or from 4 to 25 symbols long',
+        errorField: 'login',
       };
     }
 
