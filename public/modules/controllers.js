@@ -10,16 +10,13 @@ class LeaderboardController {
   }
 
   getLeaderboard(page) {
-    console.log('controller started working');
     apiModule.getUsers(page)
         .then((object) => {
-          console.log('controller got request');
           this._dispatcher.dispatchEvent('LeaderboardLoaded', {
             users: object.users,
             pageCount: Math.ceil(object.count / 10),
             currentPage: page - 1,
           });
-          console.log('event emitted');
         })
         .catch((error) => {
           console.log(error);
@@ -71,6 +68,9 @@ class UserController {
     if (window.User) {
       this._dispatcher.dispatchEvent('UserLoaded', window.User);
       return;
+    } else if (window.User === null) {
+      this._dispatcher.dispatchEvent('UserLoaded', null);
+      return;
     }
 
     apiModule.getUserInfo()
@@ -83,6 +83,7 @@ class UserController {
       })
       .catch((error) => {
         console.log(error);
+        window.User = null;
         this._dispatcher.dispatchEvent('UserLoaded', null);
       });
   }
@@ -107,7 +108,6 @@ class SignUpController {
         window.User = new UserModel(object.email, object.login,
           object.score);
         this._dispatcher.dispatchEvent('SignedUp', 'success');
-        //this._router.routeTo('/');
       })
       .catch((error) => {
         if (typeof error === 'string') {
@@ -123,20 +123,41 @@ class SignUpController {
   }
 }
 
+class LogoutController {
+  constructor(dispatcher) {
+    this._dispatcher = dispatcher;
+  }
+
+  logout() {
+    apiModule.logout()
+      .then(() => {
+        window.User = null;
+        this._dispatcher.dispatchEvent('LoggedOut', 'success');
+      })
+      .catch((error) => {
+        console.log(error);
+        this._dispatcher.dispatchEvent('LoggedOut', error);
+      });
+  }
+}
+
 const controllerFactory = new Factory(dispatchAdapter);
 controllerFactory.addConstructor(LeaderboardController);
 controllerFactory.addConstructor(LoginController);
 controllerFactory.addConstructor(UserController);
 controllerFactory.addConstructor(SignUpController);
+controllerFactory.addConstructor(LogoutController);
 
 const leaderboardController = controllerFactory.newLeaderboardController();
 const loginController = controllerFactory.newLoginController();
 const userController = controllerFactory.newUserController();
 const signUpController = controllerFactory.newSignUpController();
+const logoutController = controllerFactory.newLogoutController();
 
 export {
   leaderboardController,
   loginController,
   userController,
-  signUpController
+  signUpController,
+  logoutController
 };

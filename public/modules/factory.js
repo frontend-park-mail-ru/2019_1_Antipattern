@@ -7,8 +7,6 @@ class Factory {
 
   addConstructor(C, ...args) {
     this['new' + C.name] = () => new C(...args, ...this._injections);
-    console.log('new' + C.name);
-    console.log(this['new' + C.name]);
   }
 }
 

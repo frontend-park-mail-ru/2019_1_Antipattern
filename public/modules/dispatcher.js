@@ -40,7 +40,7 @@ class Dispatcher {
       return;
     }
 
-    this._subscribers[key].filter((cb) => cb !== callback);
+    this._subscribers[key].splice(this._subscribers[key].indexOf(callback), 1);
   }
 
   dispatchEvent(key, value) {

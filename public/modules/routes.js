@@ -73,34 +73,48 @@ class BaseRoute {
 /**
  * BaseRoute extension for index.html render
  */
+
+// done
 class IndexRoute extends BaseRoute {
   /**
    *
    * @param {Node} rootEl - DOM element in which to insert template
    * @param {BaseRoute} router - class which constructor needs to be called
    */
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
   }
   /**
    * initializer
    */
-  init() {
+  prerender() {
     this._rootEl.innerHTML = Handlebars.templates['menu.html']({
-      isAuthorized: window.User,
+      isAuthorized: null,
     });
+  }
+
+  render(state, key, value) {
+    this._rootEl.innerHTML = Handlebars.templates['menu.html']({
+      isAuthorized: value,
+    });
+  }
+
+  init() {
+    this.prerender();
+    this._subscriber.subscribeEvent('UserLoaded', this.render.bind(this));
+    this._controller.getUser();
     super.init();
   }
   /**
    * deinitializer
    */
   deinit() {
+    this._subscriber.unsubscribeEvent('UserLoaded', this.render.bind(this));
     super.deinit();
   }
 }
-/**
- * login route
- */
+
+// done
 class LoginRoute extends BaseRoute {
   /**
    *
@@ -142,6 +156,7 @@ class LoginRoute extends BaseRoute {
   }
 }
 
+// TODO
 class SettingsRoute extends BaseRoute {
   constructor(rootEl, router) {
     super(rootEl, router);
@@ -217,15 +232,33 @@ class SettingsRoute extends BaseRoute {
   }
 }
 
+// TODO
 class ProfileRoute extends BaseRoute {
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
+  }
+
+  render(state, key, value) {
+    if (value) {
+      /* TODO(everyone): make settings file */
+      const user = value;
+      const avatarPath = user.img || 'public/img/avatar.jpg';  // TODO: remove this hardcode(incapsulate in user model)
+      this._rootEl.innerHTML = Handlebars.templates['profile.html']({
+        login: user.login,
+        email: user.email,
+        avatar_path: avatarPath,
+        score: user.score,
+      });
+    } else {
+      this._router.routeTo('/');
+    }
   }
 
   init() {
-    super.init();
-    if (window.User) {
-      /* TODO(everyone): make settings file */
+    this._subscriber.subscribeEvent('UserLoaded', this.render.bind(this));
+    this._controller.getUser();
+    /*if (window.User) {
+      /!* TODO(everyone): make settings file *!/
       const avatarPath = window.User.img || 'public/img/avatar.jpg';
       this._rootEl.innerHTML = Handlebars.templates['profile.html']({
         login: window.User.login,
@@ -235,14 +268,17 @@ class ProfileRoute extends BaseRoute {
       });
     } else {
       this._router.routeTo('/');
-    }
+    }*/
+    super.init();
   }
 
   deinit() {
+    this._subscriber.unsubscribeEvent('UserLoaded', this.render.bind(this));
     super.deinit();
   }
 }
 
+// done
 class SignUpRoute extends BaseRoute {
   constructor(...args) {
     super(...args);
@@ -282,6 +318,7 @@ class SignUpRoute extends BaseRoute {
   }
 }
 
+// done
 class LeaderBoardRoute extends BaseRoute {
   constructor(...args) {
     super(...args);
@@ -296,7 +333,6 @@ class LeaderBoardRoute extends BaseRoute {
   }
 
   render(state, key, value) {
-    console.log('render started');
     this._rootEl.innerHTML =
       Handlebars.templates['leaderboard.html']({
         users: value.users,
@@ -327,6 +363,7 @@ class LeaderBoardRoute extends BaseRoute {
   }
 }
 
+// @no-controller
 class AboutRoute extends BaseRoute {
   constructor(rootEl, router) {
     super(rootEl, router);
@@ -342,24 +379,26 @@ class AboutRoute extends BaseRoute {
   }
 }
 
+// done
 class LogoutRoute extends BaseRoute {
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
+  }
+
+  render(state, key, value) {
+    if (value === 'success') {
+      this._router.routeTo('/');
+    }
   }
 
   init() {
-    apiModule.logout()
-        .then((emptyObj) => {
-          window.User = null;
-          this._router.routeTo('/');
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    this._subscriber.subscribeEvent('LoggedOut', this.render.bind(this));
+    this._controller.logout();
     super.init();
   }
 
   deinit() {
+    this._subscriber.unsubscribeEvent('LoggedOut', this.render.bind(this));
     super.deinit();
   }
 }

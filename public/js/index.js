@@ -7,36 +7,22 @@ import * as c from '../modules/controllers.js';
 import {subscribeAdapter as subscriber} from '../modules/dispatcher.js';
 
 function initUI(root, router) {
-  router.addRoute('/', wrapConstructorToFactory(r.IndexRoute));
+  router.addRoute('/', wrapConstructorToFactory(r.IndexRoute, c.userController, subscriber));
   router.addRoute('/login', wrapConstructorToFactory(r.LoginRoute, c.loginController, subscriber));
-  router.addRoute('/profile', wrapConstructorToFactory(r.ProfileRoute));
+  router.addRoute('/profile', wrapConstructorToFactory(r.ProfileRoute, c.userController, subscriber));
   router.addRoute('/settings', wrapConstructorToFactory(r.SettingsRoute));
   router.addRoute('/signup', wrapConstructorToFactory(r.SignUpRoute, c.signUpController, subscriber));
   router.addRoute('/leaderboard', wrapConstructorToFactory(r.LeaderBoardRoute, c.leaderboardController, subscriber));
   router.addRoute('/about', wrapConstructorToFactory(r.AboutRoute));
-  router.addRoute('/logout', wrapConstructorToFactory(r.LogoutRoute));
+  router.addRoute('/logout', wrapConstructorToFactory(r.LogoutRoute, c.logoutController, subscriber));
   router.setDefaultRoute('/');
 
   router.init();
   initAnchorsRouting(root, router);
 }
 
-function loadUser(router) {
-  c.userController.getUser();
-  subscriber.subscribeEvent('UserLoaded', onUserLoaded.bind({router: router}))
-}
-
-function onUserLoaded(state, key, value) {
-  subscriber.unsubscribeEvent('UserLoaded', onUserLoaded.bind({router: this.router}));
-
-  if (value !== null) {
-    this.router.routeTo('/');
-  }
-}
-
 window.onload = () => {
   const root = document.getElementById('root');
   const router = new Router(root);
   initUI(root, router);
-  loadUser(router);
 };
