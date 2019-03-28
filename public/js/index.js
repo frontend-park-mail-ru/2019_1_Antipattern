@@ -44,4 +44,9 @@ window.onload = () => {
   const router = new Router(root);
   initUI(root, router);
   loadUser(router);
+  router.routeTo(location.pathname);
+  window.addEventListener('popstate', function(e) {
+    // window.history.back();
+    router.routeTo(location.pathname);
+  }, false);
 };
