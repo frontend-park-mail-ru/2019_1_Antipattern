@@ -1,7 +1,7 @@
 'use strict';
 
 import ajax from './ajax.js';
-const apiPrefix = '';
+const apiPrefix = 'https://api.kpacubo.xyz';
 
 class API {
   /**

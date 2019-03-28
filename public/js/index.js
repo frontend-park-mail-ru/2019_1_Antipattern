@@ -5,6 +5,12 @@ import * as r from '../modules/routes.js';
 import {wrapConstructorToFactory} from '../modules/utils.js';
 import {Router, initAnchorsRouting} from '../modules/router.js';
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then((reg) => { console.log('Successfully registered:', reg); })
+    .catch((err) => {console.error('Error: ',err); });
+}
+
 function initUI(root, router) {
   router.addRoute('/', wrapConstructorToFactory(r.IndexRoute));
   router.addRoute('/login', wrapConstructorToFactory(r.LoginRoute));
