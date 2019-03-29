@@ -6,6 +6,12 @@ import {Router, initAnchorsRouting} from '../modules/router.js';
 import * as c from '../modules/controllers.js';
 import {subscribeAdapter as subscriber} from '../modules/dispatcher.js';
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then((reg) => { console.log('Successfully registered:', reg); })
+    .catch((err) => {console.error('Error: ',err); });
+}
+
 function initUI(root, router) {
   router.addRoute('/', wrapConstructorToFactory(r.IndexRoute, c.userController, subscriber));
   router.addRoute('/login', wrapConstructorToFactory(r.LoginRoute, c.loginController, subscriber));
