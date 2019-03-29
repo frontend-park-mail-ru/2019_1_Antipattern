@@ -134,8 +134,8 @@ class LoginRoute extends BaseRoute {
       apiModule.authorize(login, password)
           .then((object) => {
             const image = object.avatar || null;
-            window.User = new UserModel(object.name, object.email,
-                object.login, object.score, image);
+            window.User = new UserModel(object.email, object.login,
+                                        object.score, image);
             this._router.routeTo('/');
           })
           .catch((error) => {
@@ -167,12 +167,15 @@ class SettingsRoute extends BaseRoute {
       const form = event.target;
       clearErrors(form);
 
-      const username = form.elements['username'].value;
+      let login = form.elements['login'].value;
+      if (login === window.User.getLogin()) {
+        login = '';
+      }
       const password = form.elements['password'].value;
       const rePassword = form.elements['repeat_password'].value;
       const input = form.elements['avatar'];
 
-      const errorStruct = validator.validateUpdate(username,
+      const errorStruct = validator.validateUpdate(login,
           password,
           rePassword);
       const error = errorStruct.error;
@@ -183,11 +186,11 @@ class SettingsRoute extends BaseRoute {
         return;
       }
 
-      apiModule.updateUserInfo(username, password)
+      apiModule.updateUserInfo(login, password)
           .then((object) => {
             const image = object.avatar || null;
-            window.User = new UserModel(object.name, object.email,
-                object.login, object.score, image);
+            window.User = new UserModel(object.email, object.login,
+                                        object.score, image);
             this._router.routeTo('/');
           })
           .catch((error) => {
@@ -205,8 +208,8 @@ class SettingsRoute extends BaseRoute {
         apiModule.uploadAvatar(avatar)
             .then((object) => {
               const image = object.avatar || null;
-              window.User = new UserModel(object.name, object.email,
-                  object.login, object.score, image);
+              window.User = new UserModel(object.email, object.login,
+                                          object.score, image);
               this._router.routeTo('/');
             })
             .catch((error) => {
@@ -238,7 +241,7 @@ class ProfileRoute extends BaseRoute {
       /* TODO(everyone): make settings file */
       const avatarPath = window.User.getImg() || 'public/img/avatar.jpg';
       this._rootEl.innerHTML = Handlebars.templates['profile.html']({
-        username: window.User.getUsername(),
+        login: window.User.getLogin(),
         email: window.User.getEmail(),
         avatar_path: avatarPath,
         score: window.User.getScore(),
@@ -265,14 +268,13 @@ class SignUpRoute extends BaseRoute {
       const form = event.target;
       clearErrors(form);
 
-      const username = form.elements['username'].value;
       const login = form.elements['login'].value;
       const email = form.elements['email'].value;
       const password = form.elements['password'].value;
       const repassword = form.elements['repeat_password'].value;
 
       const errorStruct = validator.validateRegistration(login,
-          password, username, email, repassword);
+          password, email, repassword);
       const error = errorStruct.error;
       const errorField = errorStruct.errorField;
 
@@ -281,11 +283,10 @@ class SignUpRoute extends BaseRoute {
         return;
       }
 
-      apiModule.register(login, email, password, username)
+      apiModule.register(login, email, password)
           .then((object) => {
-            const image = object.avatar || null;
-            window.User = new UserModel(object.name, object.email,
-                object.login, object.score, image);
+            window.User = new UserModel(object.email, object.login,
+                                        object.score);
             this._router.routeTo('/');
           })
           .catch((error) => {

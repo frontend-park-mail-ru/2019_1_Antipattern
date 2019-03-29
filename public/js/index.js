@@ -5,6 +5,12 @@ import * as r from '../modules/routes.js';
 import {wrapConstructorToFactory} from '../modules/utils.js';
 import {Router, initAnchorsRouting} from '../modules/router.js';
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then((reg) => { console.log('Successfully registered:', reg); })
+    .catch((err) => {console.error('Error: ',err); });
+}
+
 function initUI(root, router) {
   router.addRoute('/', wrapConstructorToFactory(r.IndexRoute));
   router.addRoute('/login', wrapConstructorToFactory(r.LoginRoute));
@@ -23,9 +29,9 @@ function initUI(root, router) {
 function loadUser(router) {
   apiModule.getUserInfo()
       .then((object) => {
-        const image = object.avatar || null;
-        window.User = new UserModel(object.name, object.email,
-            object.login, object.score, image);
+        const image = object.avatar || '';
+        window.User = new UserModel(object.email, object.login,
+                                    object.score, image);
         router.routeTo('/');
       })
       .catch((error) => {
@@ -38,4 +44,9 @@ window.onload = () => {
   const router = new Router(root);
   initUI(root, router);
   loadUser(router);
+  router.routeTo(location.pathname);
+  window.addEventListener('popstate', function(e) {
+    // window.history.back();
+    router.routeTo(location.pathname);
+  }, false);
 };

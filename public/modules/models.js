@@ -3,26 +3,16 @@
 class UserModel {
   /**
    * Default UserModel constructor
-   * @param {string} username - user name
    * @param {string} email - user email
    * @param {string} login - user login
    * @param {string} score - user score
    * @param {string} img - user avatar path
    */
-  constructor(username, email, login, score, img = '') {
-    this._username = username;
+  constructor(email, login, score, img = '') {
     this._email = email;
     this._login = login;
     this._img = img;
     this._score = score;
-  }
-
-  /**
-   * Returns user name
-   * @return {string} - user name
-   */
-  getUsername() {
-    return this._username;
   }
 
   /**
@@ -50,11 +40,19 @@ class UserModel {
   }
 
   /**
-   * Updates username
-   * @param {string} username - new user name
+   * Returns user login
+   * @return {string} - user login
    */
-  updateUsername(username) {
-    this._username = username;
+  getLogin() {
+    return this._login;
+  }
+
+  /**
+   * Updates login
+   * @param {string} login - new login
+   */
+  updateLogin(login) {
+    this._login = login;
   }
 }
 

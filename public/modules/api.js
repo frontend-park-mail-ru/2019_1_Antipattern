@@ -1,7 +1,8 @@
 'use strict';
 
 import ajax from './ajax.js';
-const apiPrefix = '';
+
+const apiPrefix = 'https://api.kpacubo.xyz'; // use upstream api; change to blank for local
 
 class API {
   /**
@@ -90,15 +91,13 @@ class API {
    * @param {string} login - user login
    * @param {string} email - user email
    * @param {string} password - user password
-   * @param {string} name - user name
    */
-  register(login, email, password, name) {
+  register(login, email, password) {
     const url = '/api/register';
     const data = {
       login: login,
       email: email,
       password: password,
-      name: name,
     };
 
     return this._sendRequest('POST', url, data, 'reg')
@@ -135,14 +134,14 @@ class API {
   }
 
   /**
-   * API method to update user name and/or password
-   * @param {string} newName - new user name
+   * API method to update user login and/or password
+   * @param {string} newLogin - new user login
    * @param {string} newPassword - new user password
    */
-  updateUserInfo(newName, newPassword) {
+  updateUserInfo(newLogin, newPassword) {
     const url = '/api/profile';
     const data = {
-      name: newName,
+      login: newLogin,
       password: newPassword,
     };
 
@@ -216,8 +215,9 @@ class API {
    */
   logout() {
     const logoutUrl = '/api/login';
+    const data = {};
 
-    return this._sendRequest('DELETE', logoutUrl, {}, 'logout');
+    return this._sendRequest('DELETE', logoutUrl, data, 'logout');
   }
 }
 
