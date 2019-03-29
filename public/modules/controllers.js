@@ -141,23 +141,92 @@ class LogoutController {
   }
 }
 
+class SettingsController {
+  constructor(dispatcher) {
+    this._dispatcher = dispatcher;
+  }
+
+  updateProfile(login, password, repassword, input) {
+    const errorStruct = validator.validateUpdate(login, password, repassword);
+    const error = errorStruct.error;
+    const errorField = errorStruct.errorField;
+
+    if (error !== null) {
+      //showErrorMsg(form, errorField, error);
+      this._dispatcher.dispatchEvent('ProfileUpdated', errorStruct);
+      return;
+    }
+
+    apiModule.updateUserInfo(login, password)
+      .then((object) => {
+        const image = object.avatar || null;
+        window.User = new UserModel(object.email, object.login,
+          object.score, image);
+        this._dispatcher.dispatchEvent('ProfileUpdated', 'success');
+        //this._router.routeTo('/');
+      })
+      .catch((error) => {
+        if (typeof error === 'string') {
+          console.log(error);
+        } else {
+          error = error.payload;
+          //showErrorMsg(form, error.field, error.message);
+          const errorStruct = {
+            error: error.message,
+            errorField: error.field
+          };
+          this._dispatcher.dispatchEvent('ProfileUpdated', errorStruct);
+        }
+      });
+
+    if (input.value) {
+      const avatar = new FormData();
+      avatar.append('avatar', input.files[0]);
+      apiModule.uploadAvatar(avatar)
+        .then((object) => {
+          const image = object.avatar || null;
+          window.User = new UserModel(object.email, object.login,
+            object.score, image);
+          //this._router.routeTo('/');
+          this._dispatcher.dispatchEvent('AvatarUpdated', 'success');
+        })
+        .catch((error) => {
+          if (typeof error === 'string') {
+            console.log(error);
+          } else {
+            error = error.payload;
+            //showErrorMsg(form, error.field, error.message);
+            const errorStruct = {
+              error: error.message,
+              errorField: error.field
+            };
+            this._dispatcher.dispatchEvent('AvatarUpdated', errorStruct);
+          }
+        });
+    }
+  }
+}
+
 const controllerFactory = new Factory(dispatchAdapter);
 controllerFactory.addConstructor(LeaderboardController);
 controllerFactory.addConstructor(LoginController);
 controllerFactory.addConstructor(UserController);
 controllerFactory.addConstructor(SignUpController);
 controllerFactory.addConstructor(LogoutController);
+controllerFactory.addConstructor(SettingsController);
 
 const leaderboardController = controllerFactory.newLeaderboardController();
 const loginController = controllerFactory.newLoginController();
 const userController = controllerFactory.newUserController();
 const signUpController = controllerFactory.newSignUpController();
 const logoutController = controllerFactory.newLogoutController();
+const settingsController = controllerFactory.newSettingsController();
 
 export {
   leaderboardController,
   loginController,
   userController,
   signUpController,
-  logoutController
+  logoutController,
+  settingsController
 };

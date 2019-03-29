@@ -74,7 +74,6 @@ class BaseRoute {
  * BaseRoute extension for index.html render
  */
 
-// done
 class IndexRoute extends BaseRoute {
   /**
    *
@@ -114,7 +113,6 @@ class IndexRoute extends BaseRoute {
   }
 }
 
-// done
 class LoginRoute extends BaseRoute {
   /**
    *
@@ -156,83 +154,67 @@ class LoginRoute extends BaseRoute {
   }
 }
 
-// TODO
 class SettingsRoute extends BaseRoute {
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
+  }
+
+  render(state, key, value) {
+    if (value !== 'success') {
+      showErrorMsg(this._form, value.errorField, value.error);
+      return;
+    }
+
+    if (key === 'ProfileUpdated') {
+      this._waitingAvatarUpdate = false;
+    }
+
+    if (key === 'AvatarUpdated') {
+      this._waitingAvatarUpdate = false;
+    }
+
+    if (this._waitingProfileUpdate && this._waitingAvatarUpdate) {
+      return;
+    }
+
+    this._router.routeTo('/');
   }
 
   init() {
     this._rootEl.innerHTML = Handlebars.templates['settings.html']();
     this._addListener('submit', (event) => {
       event.preventDefault();
-      const form = event.target;
-      clearErrors(form);
+      this._form = event.target;
+      clearErrors(this._form);
 
-      let login = form.elements['login'].value;
+      let login = this._form.elements['login'].value;
       if (login === window.User.login) {
         login = '';
       }
-      const password = form.elements['password'].value;
-      const rePassword = form.elements['repeat_password'].value;
-      const input = form.elements['avatar'];
+      const password = this._form.elements['password'].value;
+      const repassword = this._form.elements['repeat_password'].value;
+      const input = this._form.elements['avatar'];
 
-      const errorStruct = validator.validateUpdate(login,
-          password,
-          rePassword);
-      const error = errorStruct.error;
-      const errorField = errorStruct.errorField;
-
-      if (error !== null) {
-        showErrorMsg(form, errorField, error);
-        return;
-      }
-
-      apiModule.updateUserInfo(login, password)
-          .then((object) => {
-            const image = object.avatar || null;
-            window.User = new UserModel(object.email, object.login,
-                                        object.score, image);
-            this._router.routeTo('/');
-          })
-          .catch((error) => {
-            if (typeof error === 'string') {
-              console.log(error);
-            } else {
-              error = error.payload;
-              showErrorMsg(form, error.field, error.message);
-            }
-          });
+      this._waitingProfileUpdate = true;
+      this._subscriber.subscribeEvent('ProfileUpdated', this.render.bind(this));
 
       if (input.value) {
-        const avatar = new FormData();
-        avatar.append('avatar', input.files[0]);
-        apiModule.uploadAvatar(avatar)
-            .then((object) => {
-              const image = object.avatar || null;
-              window.User = new UserModel(object.email, object.login,
-                                          object.score, image);
-              this._router.routeTo('/');
-            })
-            .catch((error) => {
-              if (typeof error === 'string') {
-                console.log(error);
-              } else {
-                error = error.payload;
-                showErrorMsg(form, error.field, error.message);
-              }
-            });
+        this._subscriber.subscribeEvent('AvatarUpdated', this.render.bind(this));
+        this._waitingAvatarUpdate = true;
       }
+
+      this._controller.updateProfile(login, password, repassword, input);
     });
     super.init();
   }
 
   deinit() {
+    this._subscriber.unsubscribeEvent('ProfileUpdated', this.render.bind(this));
+    this._subscriber.unsubscribeEvent('AvatarUpdated', this.render.bind(this));
     super.deinit();
   }
 }
 
-// TODO
 class ProfileRoute extends BaseRoute {
   constructor(...args) {
     super(...args);
@@ -257,18 +239,6 @@ class ProfileRoute extends BaseRoute {
   init() {
     this._subscriber.subscribeEvent('UserLoaded', this.render.bind(this));
     this._controller.getUser();
-    /*if (window.User) {
-      /!* TODO(everyone): make settings file *!/
-      const avatarPath = window.User.img || 'public/img/avatar.jpg';
-      this._rootEl.innerHTML = Handlebars.templates['profile.html']({
-        login: window.User.login,
-        email: window.User.email,
-        avatar_path: avatarPath,
-        score: window.User.score,
-      });
-    } else {
-      this._router.routeTo('/');
-    }*/
     super.init();
   }
 
@@ -278,7 +248,6 @@ class ProfileRoute extends BaseRoute {
   }
 }
 
-// done
 class SignUpRoute extends BaseRoute {
   constructor(...args) {
     super(...args);
@@ -318,7 +287,6 @@ class SignUpRoute extends BaseRoute {
   }
 }
 
-// done
 class LeaderBoardRoute extends BaseRoute {
   constructor(...args) {
     super(...args);
@@ -363,7 +331,6 @@ class LeaderBoardRoute extends BaseRoute {
   }
 }
 
-// @no-controller
 class AboutRoute extends BaseRoute {
   constructor(rootEl, router) {
     super(rootEl, router);
@@ -379,7 +346,6 @@ class AboutRoute extends BaseRoute {
   }
 }
 
-// done
 class LogoutRoute extends BaseRoute {
   constructor(...args) {
     super(...args);

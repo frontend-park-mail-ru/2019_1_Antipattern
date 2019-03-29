@@ -40,7 +40,11 @@ class Dispatcher {
       return;
     }
 
-    this._subscribers[key].splice(this._subscribers[key].indexOf(callback), 1);
+    const index = this._subscribers[key].indexOf(callback);
+    if (index === -1) {
+      return;
+    }
+    this._subscribers[key].splice(index, 1);
   }
 
   dispatchEvent(key, value) {

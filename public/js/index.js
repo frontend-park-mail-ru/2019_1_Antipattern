@@ -10,7 +10,7 @@ function initUI(root, router) {
   router.addRoute('/', wrapConstructorToFactory(r.IndexRoute, c.userController, subscriber));
   router.addRoute('/login', wrapConstructorToFactory(r.LoginRoute, c.loginController, subscriber));
   router.addRoute('/profile', wrapConstructorToFactory(r.ProfileRoute, c.userController, subscriber));
-  router.addRoute('/settings', wrapConstructorToFactory(r.SettingsRoute));
+  router.addRoute('/settings', wrapConstructorToFactory(r.SettingsRoute, c.settingsController, subscriber));
   router.addRoute('/signup', wrapConstructorToFactory(r.SignUpRoute, c.signUpController, subscriber));
   router.addRoute('/leaderboard', wrapConstructorToFactory(r.LeaderBoardRoute, c.leaderboardController, subscriber));
   router.addRoute('/about', wrapConstructorToFactory(r.AboutRoute));
