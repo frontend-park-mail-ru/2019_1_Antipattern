@@ -1,9 +1,10 @@
 'use strict';
-import apiModule from '../modules/api.js';
-import UserModel from '../modules/models.js';
+
 import * as r from '../modules/routes.js';
 import {wrapConstructorToFactory} from '../modules/utils.js';
 import {Router, initAnchorsRouting} from '../modules/router.js';
+import * as c from '../modules/controllers.js';
+import {subscribeAdapter as subscriber} from '../modules/dispatcher.js';
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js')
@@ -12,41 +13,22 @@ if ('serviceWorker' in navigator) {
 }
 
 function initUI(root, router) {
-  router.addRoute('/', wrapConstructorToFactory(r.IndexRoute));
-  router.addRoute('/login', wrapConstructorToFactory(r.LoginRoute));
-  router.addRoute('/profile', wrapConstructorToFactory(r.ProfileRoute));
-  router.addRoute('/settings', wrapConstructorToFactory(r.SettingsRoute));
-  router.addRoute('/signup', wrapConstructorToFactory(r.SignUpRoute));
-  router.addRoute('/leaderboard', wrapConstructorToFactory(r.LeaderBoardRoute));
+  router.addRoute('/', wrapConstructorToFactory(r.IndexRoute, c.userController, subscriber));
+  router.addRoute('/login', wrapConstructorToFactory(r.LoginRoute, c.loginController, subscriber));
+  router.addRoute('/profile', wrapConstructorToFactory(r.ProfileRoute, c.userController, subscriber));
+  router.addRoute('/settings', wrapConstructorToFactory(r.SettingsRoute, c.settingsController, subscriber));
+  router.addRoute('/signup', wrapConstructorToFactory(r.SignUpRoute, c.signUpController, subscriber));
+  router.addRoute('/leaderboard', wrapConstructorToFactory(r.LeaderBoardRoute, c.leaderboardController, subscriber));
   router.addRoute('/about', wrapConstructorToFactory(r.AboutRoute));
-  router.addRoute('/logout', wrapConstructorToFactory(r.LogoutRoute));
+  router.addRoute('/logout', wrapConstructorToFactory(r.LogoutRoute, c.logoutController, subscriber));
   router.setDefaultRoute('/');
 
   router.init();
   initAnchorsRouting(root, router);
 }
 
-function loadUser(router) {
-  apiModule.getUserInfo()
-      .then((object) => {
-        const image = object.avatar || '';
-        window.User = new UserModel(object.email, object.login,
-                                    object.score, image);
-        router.routeTo('/');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-}
-
 window.onload = () => {
   const root = document.getElementById('root');
   const router = new Router(root);
   initUI(root, router);
-  loadUser(router);
-  router.routeTo(location.pathname);
-  window.addEventListener('popstate', function(e) {
-    // window.history.back();
-    router.routeTo(location.pathname);
-  }, false);
 };

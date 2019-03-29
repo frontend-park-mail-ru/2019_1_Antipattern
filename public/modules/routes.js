@@ -12,7 +12,7 @@ class BaseRoute {
    * @param {Node} rootEl - DOM element
    * @param {function} router - route object
    */
-  constructor(rootEl, router) {
+  constructor(rootEl, router, controller = null, subscriber = null) {
     if (!(rootEl instanceof Node)) {
       throw new TypeError('rootEl must be Node');
     }
@@ -22,6 +22,8 @@ class BaseRoute {
 
     this._rootEl = rootEl;
     this._router = router;
+    this._controller = controller;
+    this._subscriber = subscriber;
     this._eventHandlers = {};
   }
   /**
@@ -71,276 +73,260 @@ class BaseRoute {
 /**
  * BaseRoute extension for index.html render
  */
+
 class IndexRoute extends BaseRoute {
   /**
    *
    * @param {Node} rootEl - DOM element in which to insert template
    * @param {BaseRoute} router - class which constructor needs to be called
    */
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
   }
   /**
    * initializer
    */
-  init() {
+  prerender() {
     this._rootEl.innerHTML = Handlebars.templates['menu.html']({
-      isAuthorized: window.User,
+      isAuthorized: null,
     });
+  }
+
+  render(state, key, value) {
+    this._rootEl.innerHTML = Handlebars.templates['menu.html']({
+      isAuthorized: value,
+    });
+  }
+
+  init() {
+    this.prerender();
+    this._subscriber.subscribeEvent('UserLoaded', this.render.bind(this));
+    this._controller.getUser();
     super.init();
   }
   /**
    * deinitializer
    */
   deinit() {
+    this._subscriber.unsubscribeEvent('UserLoaded', this.render.bind(this));
     super.deinit();
   }
 }
-/**
- * login route
- */
+
 class LoginRoute extends BaseRoute {
   /**
    *
    * @param {Node} rootEl - DOM element in which to insert template
    * @param {BaseRoute} router - class which constructor needs to be called
    */
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
   }
-  /**
-   * initializer
-   */
+
+  render(state, key, value) {
+    if (value === 'success') {
+      this._router.routeTo('/');
+      return;
+    }
+
+    showErrorMsg(this._form, value.errorField, value.error);
+  }
+
   init() {
     this._rootEl.innerHTML = Handlebars.templates['login.html']();
     this._addListener('submit', (event) => {
       event.preventDefault();
-      const form = event.target;
-      clearErrors(form);
+      this._form = event.target;
+      clearErrors(this._form);
 
-      const login = form.elements['login'].value;
-      const password = form.elements['password'].value;
-
-      const errorStruct = validator.validateLogin(login,
-          password);
-      const error = errorStruct.error;
-      const errorField = errorStruct.errorField;
-
-      if (error !== null) {
-        showErrorMsg(form, errorField, error);
-        return;
-      }
-
-      apiModule.authorize(login, password)
-          .then((object) => {
-            const image = object.avatar || null;
-            window.User = new UserModel(object.email, object.login,
-                                        object.score, image);
-            this._router.routeTo('/');
-          })
-          .catch((error) => {
-            if (typeof error === 'string') {
-              console.log(error);
-            } else {
-              error = error.payload;
-              showErrorMsg(form, error.field, error.message);
-            }
-          });
+      const login = this._form.elements['login'].value;
+      const password = this._form.elements['password'].value;
+      this._controller.login(login, password);
     });
+
+    this._subscriber.subscribeEvent('LoggedIn', this.render.bind(this));
     super.init();
   }
 
   deinit() {
+    this._subscriber.unsubscribeEvent('LoggedIn', this.render.bind(this));
     super.deinit();
   }
 }
 
 class SettingsRoute extends BaseRoute {
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
+  }
+
+  render(state, key, value) {
+    if (value !== 'success') {
+      showErrorMsg(this._form, value.errorField, value.error);
+      return;
+    }
+
+    if (key === 'ProfileUpdated') {
+      this._waitingAvatarUpdate = false;
+    }
+
+    if (key === 'AvatarUpdated') {
+      this._waitingAvatarUpdate = false;
+    }
+
+    if (this._waitingProfileUpdate && this._waitingAvatarUpdate) {
+      return;
+    }
+
+    this._router.routeTo('/');
   }
 
   init() {
     this._rootEl.innerHTML = Handlebars.templates['settings.html']();
     this._addListener('submit', (event) => {
       event.preventDefault();
-      const form = event.target;
-      clearErrors(form);
+      this._form = event.target;
+      clearErrors(this._form);
 
-      let login = form.elements['login'].value;
-      if (login === window.User.getLogin()) {
+      let login = this._form.elements['login'].value;
+      if (login === window.User.login) {
         login = '';
       }
-      const password = form.elements['password'].value;
-      const rePassword = form.elements['repeat_password'].value;
-      const input = form.elements['avatar'];
+      const password = this._form.elements['password'].value;
+      const repassword = this._form.elements['repeat_password'].value;
+      const input = this._form.elements['avatar'];
 
-      const errorStruct = validator.validateUpdate(login,
-          password,
-          rePassword);
-      const error = errorStruct.error;
-      const errorField = errorStruct.errorField;
-
-      if (error !== null) {
-        showErrorMsg(form, errorField, error);
-        return;
-      }
-
-      apiModule.updateUserInfo(login, password)
-          .then((object) => {
-            const image = object.avatar || null;
-            window.User = new UserModel(object.email, object.login,
-                                        object.score, image);
-            this._router.routeTo('/');
-          })
-          .catch((error) => {
-            if (typeof error === 'string') {
-              console.log(error);
-            } else {
-              error = error.payload;
-              showErrorMsg(form, error.field, error.message);
-            }
-          });
+      this._waitingProfileUpdate = true;
+      this._subscriber.subscribeEvent('ProfileUpdated', this.render.bind(this));
 
       if (input.value) {
-        const avatar = new FormData();
-        avatar.append('avatar', input.files[0]);
-        apiModule.uploadAvatar(avatar)
-            .then((object) => {
-              const image = object.avatar || null;
-              window.User = new UserModel(object.email, object.login,
-                                          object.score, image);
-              this._router.routeTo('/');
-            })
-            .catch((error) => {
-              if (typeof error === 'string') {
-                console.log(error);
-              } else {
-                error = error.payload;
-                showErrorMsg(form, error.field, error.message);
-              }
-            });
+        this._subscriber.subscribeEvent('AvatarUpdated', this.render.bind(this));
+        this._waitingAvatarUpdate = true;
       }
+
+      this._controller.updateProfile(login, password, repassword, input);
     });
     super.init();
   }
 
   deinit() {
+    this._subscriber.unsubscribeEvent('ProfileUpdated', this.render.bind(this));
+    this._subscriber.unsubscribeEvent('AvatarUpdated', this.render.bind(this));
     super.deinit();
   }
 }
 
 class ProfileRoute extends BaseRoute {
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
   }
 
-  init() {
-    super.init();
-    if (window.User !== undefined) {
+  render(state, key, value) {
+    if (value) {
       /* TODO(everyone): make settings file */
-      const avatarPath = window.User.getImg() || 'public/img/avatar.jpg';
+      const user = value;
+      const avatarPath = user.img || 'public/img/avatar.jpg';  // TODO: remove this hardcode(incapsulate in user model)
       this._rootEl.innerHTML = Handlebars.templates['profile.html']({
-        login: window.User.getLogin(),
-        email: window.User.getEmail(),
+        login: user.login,
+        email: user.email,
         avatar_path: avatarPath,
-        score: window.User.getScore(),
+        score: user.score,
       });
     } else {
       this._router.routeTo('/');
     }
   }
 
+  init() {
+    this._subscriber.subscribeEvent('UserLoaded', this.render.bind(this));
+    this._controller.getUser();
+    super.init();
+  }
+
   deinit() {
+    this._subscriber.unsubscribeEvent('UserLoaded', this.render.bind(this));
     super.deinit();
   }
 }
 
 class SignUpRoute extends BaseRoute {
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
+  }
+
+  render(state, key, value) {
+    if (value === 'success') {
+      this._router.routeTo('/');
+      return;
+    }
+
+    showErrorMsg(this._form, value.errorField, value.error);
   }
 
   init() {
     this._rootEl.innerHTML = Handlebars.templates['signup.html']();
     this._addListener('submit', (event) => {
       event.preventDefault();
-      const form = event.target;
-      clearErrors(form);
+      this._form = event.target;
+      clearErrors(this._form);
 
-      const login = form.elements['login'].value;
-      const email = form.elements['email'].value;
-      const password = form.elements['password'].value;
-      const repassword = form.elements['repeat_password'].value;
+      const login = this._form.elements['login'].value;
+      const email = this._form.elements['email'].value;
+      const password = this._form.elements['password'].value;
+      const repassword = this._form.elements['repeat_password'].value;
 
-      const errorStruct = validator.validateRegistration(login,
-          password, email, repassword);
-      const error = errorStruct.error;
-      const errorField = errorStruct.errorField;
-
-      if (error !== null) {
-        showErrorMsg(form, errorField, error);
-        return;
-      }
-
-      apiModule.register(login, email, password)
-          .then((object) => {
-            window.User = new UserModel(object.email, object.login,
-                                        object.score);
-            this._router.routeTo('/');
-          })
-          .catch((error) => {
-            if (typeof error === 'string') {
-              console.log(error);
-            } else {
-              error = error.payload;
-              showErrorMsg(form, error.field, error.message);
-            }
-          });
+      this._controller.signUp(login, email, password, repassword);
     });
+
+    this._subscriber.subscribeEvent('SignedUp', this.render.bind(this));
     super.init();
   }
 
   deinit() {
+    this._subscriber.unsubscribeEvent('SignedUp', this.render.bind(this));
     super.deinit();
   }
 }
 
 class LeaderBoardRoute extends BaseRoute {
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
   }
 
-  _getAndPaginate(page) {
-    return apiModule.getUsers(page)
-        .then((object) => {
-          this._rootEl.innerHTML =
-          Handlebars.templates['leaderboard.html']({
-            users: object.users,
-            pageCount: Math.ceil(object.count / 10),
-            currentPage: page - 1,
-            size: '5',
-          });
+  prerender() {
+    this.render({}, '', {
+      users: [],
+      pageCount: 0,
+      currentPage: 0
+    })
+  }
 
-          const pagination = document.getElementById('pagination');
-          pagination.addEventListener('click', (event) => {
-            event.preventDefault();
-            const link = event.target;
-            const page = link.getAttribute('href');
-            this._getAndPaginate(page);
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  render(state, key, value) {
+    this._rootEl.innerHTML =
+      Handlebars.templates['leaderboard.html']({
+        users: value.users,
+        pageCount: value.pageCount,
+        currentPage: value.currentPage,
+        size: '5',
+      });
+
+    const pagination = document.getElementById('pagination');
+    pagination.addEventListener('click', (event) => {
+      event.preventDefault();
+      const link = event.target;
+      const page = link.getAttribute('href');
+      this._controller.getLeaderboard(page);
+    });
   }
 
   init() {
-    this._getAndPaginate(1);
+    this.prerender();
+    this._subscriber.subscribeEvent('LeaderboardLoaded', this.render.bind(this));
+    this._controller.getLeaderboard(1);
     super.init();
   }
 
   deinit() {
+    this._subscriber.unsubscribeEvent('LeaderboardLoaded', this.render.bind(this));
     super.deinit();
   }
 }
@@ -361,23 +347,24 @@ class AboutRoute extends BaseRoute {
 }
 
 class LogoutRoute extends BaseRoute {
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(...args) {
+    super(...args);
+  }
+
+  render(state, key, value) {
+    if (value === 'success') {
+      this._router.routeTo('/');
+    }
   }
 
   init() {
-    apiModule.logout()
-        .then((emptyObj) => {
-          window.User = null;
-          this._router.routeTo('/');
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    this._subscriber.subscribeEvent('LoggedOut', this.render.bind(this));
+    this._controller.logout();
     super.init();
   }
 
   deinit() {
+    this._subscriber.unsubscribeEvent('LoggedOut', this.render.bind(this));
     super.deinit();
   }
 }

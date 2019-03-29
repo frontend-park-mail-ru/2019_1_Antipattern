@@ -6,8 +6,8 @@
  * @param {constructor} C - constructor to be wrapped
  * @return {function} - wrapper function that returns a new object
  */
-function wrapConstructorToFactory(C) {
-  return (...args) => new C(...args);
+function wrapConstructorToFactory(C, ...injectedArgs) {
+  return (...args) => new C(...args, ...injectedArgs);
 }
 
 /**

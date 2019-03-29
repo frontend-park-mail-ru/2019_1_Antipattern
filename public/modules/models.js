@@ -14,46 +14,22 @@ class UserModel {
     this._img = img;
     this._score = score;
   }
-
-  /**
-   * Returns user email
-   * @return {string} - user email
-   */
-  getEmail() {
+  get email() {
     return this._email;
   }
 
-  /**
-   * Returns user avatar path
-   * @return {string} - avatar path
-   */
-  getImg() {
-    return this._img;
-  }
-
-  /**
-   * Returns user score
-   * @return {string} - user score
-   */
-  getScore() {
-    return this._score;
-  }
-
-  /**
-   * Returns user login
-   * @return {string} - user login
-   */
-  getLogin() {
+  get login() {
     return this._login;
   }
 
-  /**
-   * Updates login
-   * @param {string} login - new login
-   */
-  updateLogin(login) {
-    this._login = login;
+  get img() {
+    return this._img;
+  }
+
+  get score() {
+    return this._score;
   }
 }
 
+// TODO(AntonyMoes): implement UserModel holder
 export default UserModel;
