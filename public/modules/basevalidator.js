@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * Class containing validation methods
+ */
 class BaseValidator {
   /**
    * Checks whether text's length is correct

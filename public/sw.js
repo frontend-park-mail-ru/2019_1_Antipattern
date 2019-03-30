@@ -57,6 +57,11 @@ self.addEventListener('install', (event) => {
   );
 });
 
+/**
+ * Tries to refresh target page in cache
+ * @param {Request} request - request to be cached
+ * @return {Promise<Response | never>}
+ */
 function getFromNetwork(request) {
   if (navigator.onLine) {
     return caches.open(STORAGE_NAME).then((cache) => {
@@ -71,6 +76,12 @@ function getFromNetwork(request) {
   }
 }
 
+/**
+ * Gets page from cache and tries to refresh it if cache contains target page,
+ *  otherwise fetches request
+ * @param {Event} event - fetch event object containing request
+ * @return {Promise<Response|undefined>} - response to be returned to fetches
+ */
 function getFromCache(event) {
   return caches.open(STORAGE_NAME).then((cache) => {
     return cache.match(event.request).then((cacheResponce) => {

@@ -2,24 +2,27 @@
 
 /**
  * Wraps a constructor.
- * @function
  * @param {constructor} C - constructor to be wrapped
  * @return {function} - wrapper function that returns a new object
+ */
+
+/**
+ *
+ * @param {Class} C - class to be wrapped to factory
+ * @param {Array} injectedArgs - arguments to be injected in each object
+ *  fabricated by returning method
+ * @return {function(...[*]): C} - fabricator
  */
 function wrapConstructorToFactory(C, ...injectedArgs) {
   return (...args) => new C(...args, ...injectedArgs);
 }
 
 /**
- * Shows the `errMsg` in the div block with the error-msg class,
- * located in the `form` after input with id = `field`.
- * Example:
- * <input type="" id="field">
- * <div class="error-msg">{message will be here}</div>
- * @function
- * @param {object HTMLFormElement} form - invalid form
- * @param {string} field - input field id
- * @param {string} errorMsg - error message
+ * Shows the error message near the form's input field which contains
+ *  statement caused the error
+ * @param {HTMLFormElement} form - target form
+ * @param {String} field - input field id
+ * @param {String} errorMsg - error message
  */
 function showErrorMsg(form, field, errorMsg) {
   const errorInput = form.elements[field];
@@ -32,8 +35,12 @@ function showErrorMsg(form, field, errorMsg) {
 /**
  * Clear all div blocks with error-msg class in this form, like a:
  * <div class="error-msg"><p>error</p></div>
- * @function
- * @param {object HTMLFormElement} form - form to be cleaned
+ * @param {HTMLFormElement} form - form to be cleaned
+ */
+
+/**
+ * Cleans error messages in the target form
+ * @param {HTMLFormElement} form - form to be cleaned
  */
 function clearErrors(form) {
   const errors = form.getElementsByClassName('error-msg');
