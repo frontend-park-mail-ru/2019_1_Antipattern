@@ -3,6 +3,9 @@
 import {showErrorMsg, clearErrors} from './utils.js';
 import {Router} from './router.js';
 
+/**
+ * Base view class
+ */
 class BaseRoute {
   /**
    * BaseRoute constructor
@@ -96,12 +99,21 @@ class IndexRoute extends BaseRoute {
     });
   }
 
+  /**
+   * Renders route after receiving event
+   * @param {Object} state - passed global state
+   * @param {String} key - event type
+   * @param {*} value - event data
+   */
   render(state, key, value) {
     this._rootEl.innerHTML = Handlebars.templates['menu.html']({
       isAuthorized: value,
     });
   }
 
+  /**
+   * Inits route
+   */
   init() {
     this.prerender();
     this._subscriber.subscribeEvent('UserLoaded', this._render);
@@ -129,6 +141,12 @@ class LoginRoute extends BaseRoute {
     super(...args);
   }
 
+  /**
+   * Renders route after receiving event
+   * @param {Object} state - passed global state
+   * @param {String} key - event type
+   * @param {*} value - event data
+   */
   render(state, key, value) {
     if (value === 'success') {
       this._router.routeTo('/');
@@ -138,6 +156,9 @@ class LoginRoute extends BaseRoute {
     showErrorMsg(this._form, value.errorField, value.error);
   }
 
+  /**
+   * Inits route
+   */
   init() {
     this._rootEl.innerHTML = Handlebars.templates['login.html']();
     this._addListener('submit', (event) => {
@@ -154,17 +175,33 @@ class LoginRoute extends BaseRoute {
     super.init();
   }
 
+  /**
+   * Reverts route init
+   */
   deinit() {
     this._subscriber.unsubscribeEvent('LoggedIn', this._render);
     super.deinit();
   }
 }
 
+/**
+ * BaseRoute extension for settings.html render
+ */
 class SettingsRoute extends BaseRoute {
+  /**
+   * SettingsRoute constructor
+   * @param {Array} args - argumets to pass to BaseRoute constructor
+   */
   constructor(...args) {
     super(...args);
   }
 
+  /**
+   * Renders route after receiving event
+   * @param {Object} state - passed global state
+   * @param {String} key - event type
+   * @param {*} value - event data
+   */
   render(state, key, value) {
     if (value !== 'success') {
       showErrorMsg(this._form, value.errorField, value.error);
@@ -186,6 +223,9 @@ class SettingsRoute extends BaseRoute {
     this._router.routeTo('/');
   }
 
+  /**
+   * Inits route
+   */
   init() {
     this._rootEl.innerHTML = Handlebars.templates['settings.html']();
     this._addListener('submit', (event) => {
@@ -215,6 +255,9 @@ class SettingsRoute extends BaseRoute {
     super.init();
   }
 
+  /**
+   * Reverts route init
+   */
   deinit() {
     this._subscriber.unsubscribeEvent('ProfileUpdated', this._render);
     this._subscriber.unsubscribeEvent('AvatarUpdated', this._render);
@@ -223,11 +266,24 @@ class SettingsRoute extends BaseRoute {
   }
 }
 
+/**
+ * BaseRoute extension for profile.html render
+ */
 class ProfileRoute extends BaseRoute {
+  /**
+   * ProfileRoute constructor
+   * @param {Array} args - argumets to pass to BaseRoute constructor
+   */
   constructor(...args) {
     super(...args);
   }
 
+  /**
+   * Renders route after receiving event
+   * @param {Object} state - passed global state
+   * @param {String} key - event type
+   * @param {*} value - event data
+   */
   render(state, key, value) {
     if (value) {
       /* TODO(everyone): make settings file */
@@ -245,23 +301,42 @@ class ProfileRoute extends BaseRoute {
     }
   }
 
+  /**
+   * Inits route
+   */
   init() {
     this._subscriber.subscribeEvent('UserLoaded', this._render);
     this._controller.getUser();
     super.init();
   }
 
+  /**
+   * Reverts route init
+   */
   deinit() {
     this._subscriber.unsubscribeEvent('UserLoaded', this._render);
     super.deinit();
   }
 }
 
+/**
+ * BaseRoute extension for signup.html render
+ */
 class SignUpRoute extends BaseRoute {
+  /**
+   * SignUpRoute constructor
+   * @param {Array} args - argumets to pass to BaseRoute constructor
+   */
   constructor(...args) {
     super(...args);
   }
 
+  /**
+   * Renders route after receiving event
+   * @param {Object} state - passed global state
+   * @param {String} key - event type
+   * @param {*} value - event data
+   */
   render(state, key, value) {
     if (value === 'success') {
       this._router.routeTo('/');
@@ -271,6 +346,9 @@ class SignUpRoute extends BaseRoute {
     showErrorMsg(this._form, value.errorField, value.error);
   }
 
+  /**
+   * Inits route
+   */
   init() {
     this._rootEl.innerHTML = Handlebars.templates['signup.html']();
     this._addListener('submit', (event) => {
@@ -290,17 +368,30 @@ class SignUpRoute extends BaseRoute {
     super.init();
   }
 
+  /**
+   * Reverts route init
+   */
   deinit() {
     this._subscriber.unsubscribeEvent('SignedUp', this._render);
     super.deinit();
   }
 }
 
+/**
+ * BaseRoute extension for leaderboard.html render
+ */
 class LeaderBoardRoute extends BaseRoute {
+  /**
+   * LeaderBoardRoute constructor
+   * @param {Array} args - argumets to pass to BaseRoute constructor
+   */
   constructor(...args) {
     super(...args);
   }
 
+  /**
+   * Initial route render
+   */
   prerender() {
     this.render({}, '', {
       users: [],
@@ -309,6 +400,12 @@ class LeaderBoardRoute extends BaseRoute {
     });
   }
 
+  /**
+   * Renders route after receiving event
+   * @param {Object} state - passed global state
+   * @param {String} key - event type
+   * @param {*} value - event data
+   */
   render(state, key, value) {
     this._rootEl.innerHTML =
       Handlebars.templates['leaderboard.html']({
@@ -327,6 +424,9 @@ class LeaderBoardRoute extends BaseRoute {
     });
   }
 
+  /**
+   * Inits route
+   */
   init() {
     this.prerender();
     this._subscriber.subscribeEvent('LeaderboardLoaded', this._render);
@@ -335,6 +435,9 @@ class LeaderBoardRoute extends BaseRoute {
     super.init();
   }
 
+  /**
+   * Reverts route init
+   */
   deinit() {
     this._subscriber.unsubscribeEvent('LeaderboardLoaded', this._render);
 
@@ -342,38 +445,71 @@ class LeaderBoardRoute extends BaseRoute {
   }
 }
 
+/**
+ * BaseRoute extension for about.html render
+ */
 class AboutRoute extends BaseRoute {
+  /**
+   * AboutRoute constructor
+   * @param {Node} rootEl - DOM element
+   * @param {Router} router - route object
+   */
   constructor(rootEl, router) {
     super(rootEl, router);
   }
 
+  /**
+   * Inits route
+   */
   init() {
     this._rootEl.innerHTML = Handlebars.templates['about.html']();
     super.init();
   }
 
+  /**
+   * Reverts route init
+   */
   deinit() {
     super.deinit();
   }
 }
 
+/**
+ * BaseRoute extension for logout pseudo-render
+ */
 class LogoutRoute extends BaseRoute {
+  /**
+   * LogoutRoute constructor
+   * @param {Array} args - argumets to pass to BaseRoute constructor
+   */
   constructor(...args) {
     super(...args);
   }
 
+  /**
+   * Renders route after receiving event
+   * @param {Object} state - passed global state
+   * @param {String} key - event type
+   * @param {*} value - event data
+   */
   render(state, key, value) {
     if (value === 'success') {
       this._router.routeTo('/');
     }
   }
 
+  /**
+   * Inits route
+   */
   init() {
     this._subscriber.subscribeEvent('LoggedOut', this._render);
     this._controller.logout();
     super.init();
   }
 
+  /**
+   * Reverts route init
+   */
   deinit() {
     this._subscriber.unsubscribeEvent('LoggedOut', this._render);
     super.deinit();
