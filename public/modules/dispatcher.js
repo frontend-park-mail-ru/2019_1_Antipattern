@@ -1,16 +1,30 @@
 'use strict';
 
+/**
+ * State holder capable of dispatching events
+ */
 class Dispatcher {
+  /**
+   * Dispatcher constructor
+   */
   constructor() {
     this._state = {};
     this._subscribers = {};
   }
 
+  /**
+   * Returns dispatcher's state copy
+   * @return {Object} - state
+   */
   getState() {
-    // TODO(AntonyMoes): refactor this later. May throw exceptions.
     return JSON.parse(JSON.stringify(this._state));
   }
 
+  /**
+   * Subscribes callback to a specific event type
+   * @param {String} key - event type
+   * @param {Function} callback - callback to be subscribed
+   */
   subscribeEvent(key, callback) {
     if (typeof key !== 'string') {
       throw new TypeError('key expected to be string');
@@ -27,6 +41,11 @@ class Dispatcher {
     this._subscribers[key].push(callback);
   }
 
+  /**
+   * Unsubscribes callback from a specific event type
+   * @param {String} key - event type
+   * @param {Function} callback - callback to be unsubscribed
+   */
   unsubscribeEvent(key, callback) {
     if (typeof key !== 'string') {
       throw new TypeError('key expected to be string');
@@ -47,6 +66,11 @@ class Dispatcher {
     this._subscribers[key].splice(index, 1);
   }
 
+  /**
+   * Dispatches new event that modifies internal state
+   * @param {String} key - event type
+   * @param {*} value - event data
+   */
   dispatchEvent(key, value) {
     if (typeof key !== 'string') {
       throw new TypeError('key expected to be string');
@@ -60,7 +84,14 @@ class Dispatcher {
   }
 }
 
+/**
+ * Dispatcher adapter allowing to dispatch events
+ */
 class DispatchAdapter {
+  /**
+   * DispatchAdapter constructor
+   * @param {Dispatcher} dispatcher - dispatcher to be adapted
+   */
   constructor(dispatcher) {
     if (!dispatcher instanceof Dispatcher) {
       throw new TypeError('instance of Dispatcher expected');
@@ -69,12 +100,24 @@ class DispatchAdapter {
     this._dispatcher = dispatcher;
   }
 
+  /**
+   * See Dispatcher.dispatchEvent()
+   * @param {String} key - event type
+   * @param {*} value - event data
+   */
   dispatchEvent(key, value) {
     this._dispatcher.dispatchEvent(key, value);
   }
 }
 
+/**
+ * Dispatcher adapter allowing to (un)subscribe (from)to events
+ */
 class SubscribeAdapter {
+  /**
+   * SubscribeAdapter constructor
+   * @param {Dispatcher} dispatcher - dispatcher to be adapted
+   */
   constructor(dispatcher) {
     if (!dispatcher instanceof Dispatcher) {
       throw new TypeError('instance of Dispatcher expected');
@@ -83,10 +126,20 @@ class SubscribeAdapter {
     this._dispatcher = dispatcher;
   }
 
+  /**
+   * See Dispatcher.subscribeEvent()
+   * @param {String} key - event type
+   * @param {Function} callback - callback to be subscribed
+   */
   subscribeEvent(key, callback) {
     this._dispatcher.subscribeEvent(key, callback);
   }
 
+  /**
+   * See Dispatcher.unsubscribeEvent()
+   * @param {String} key - event type
+   * @param {Function} callback - callback to be unsubscribed
+   */
   unsubscribeEvent(key, callback) {
     this._dispatcher.unsubscribeEvent(key, callback);
   }
