@@ -24,6 +24,9 @@ class BaseRoute {
     this._controller = controller;
     this._subscriber = subscriber;
     this._eventHandlers = {};
+    if (this.render) {
+      this._render = this.render.bind(this);
+    }
   }
 
   /**
@@ -101,7 +104,7 @@ class IndexRoute extends BaseRoute {
 
   init() {
     this.prerender();
-    this._subscriber.subscribeEvent('UserLoaded', this.render.bind(this));
+    this._subscriber.subscribeEvent('UserLoaded', this._render);
     this._controller.getUser();
     super.init();
   }
@@ -109,7 +112,7 @@ class IndexRoute extends BaseRoute {
    * deinitializer
    */
   deinit() {
-    this._subscriber.unsubscribeEvent('UserLoaded', this.render.bind(this));
+    this._subscriber.unsubscribeEvent('UserLoaded', this._render);
     super.deinit();
   }
 }
@@ -147,12 +150,12 @@ class LoginRoute extends BaseRoute {
       this._controller.login(login, password);
     });
 
-    this._subscriber.subscribeEvent('LoggedIn', this.render.bind(this));
+    this._subscriber.subscribeEvent('LoggedIn', this._render);
     super.init();
   }
 
   deinit() {
-    this._subscriber.unsubscribeEvent('LoggedIn', this.render.bind(this));
+    this._subscriber.unsubscribeEvent('LoggedIn', this._render);
     super.deinit();
   }
 }
@@ -198,26 +201,23 @@ class SettingsRoute extends BaseRoute {
       const repassword = this._form.elements['repeat_password'].value;
       const input = this._form.elements['avatar'];
 
-      this._waitingProfileUpdate = true;
-      this._subscriber.subscribeEvent('ProfileUpdated',
-          this.render.bind(this));
-
       if (input.value) {
-        this._subscriber.subscribeEvent('AvatarUpdated',
-            this.render.bind(this));
         this._waitingAvatarUpdate = true;
       }
 
       this._controller.updateProfile(login, password, repassword, input);
     });
+
+    this._waitingProfileUpdate = true;
+    this._subscriber.subscribeEvent('ProfileUpdated', this._render);
+    this._subscriber.subscribeEvent('AvatarUpdated', this._render);
+
     super.init();
   }
 
   deinit() {
-    this._subscriber.unsubscribeEvent('ProfileUpdated',
-        this.render.bind(this));
-    this._subscriber.unsubscribeEvent('AvatarUpdated',
-        this.render.bind(this));
+    this._subscriber.unsubscribeEvent('ProfileUpdated', this._render);
+    this._subscriber.unsubscribeEvent('AvatarUpdated', this._render);
 
     super.deinit();
   }
@@ -246,13 +246,13 @@ class ProfileRoute extends BaseRoute {
   }
 
   init() {
-    this._subscriber.subscribeEvent('UserLoaded', this.render.bind(this));
+    this._subscriber.subscribeEvent('UserLoaded', this._render);
     this._controller.getUser();
     super.init();
   }
 
   deinit() {
-    this._subscriber.unsubscribeEvent('UserLoaded', this.render.bind(this));
+    this._subscriber.unsubscribeEvent('UserLoaded', this._render);
     super.deinit();
   }
 }
@@ -286,12 +286,12 @@ class SignUpRoute extends BaseRoute {
       this._controller.signUp(login, email, password, repassword);
     });
 
-    this._subscriber.subscribeEvent('SignedUp', this.render.bind(this));
+    this._subscriber.subscribeEvent('SignedUp', this._render);
     super.init();
   }
 
   deinit() {
-    this._subscriber.unsubscribeEvent('SignedUp', this.render.bind(this));
+    this._subscriber.unsubscribeEvent('SignedUp', this._render);
     super.deinit();
   }
 }
@@ -329,16 +329,14 @@ class LeaderBoardRoute extends BaseRoute {
 
   init() {
     this.prerender();
-    this._subscriber.subscribeEvent('LeaderboardLoaded',
-        this.render.bind(this));
+    this._subscriber.subscribeEvent('LeaderboardLoaded', this._render);
     this._controller.getLeaderboard(1);
 
     super.init();
   }
 
   deinit() {
-    this._subscriber.unsubscribeEvent('LeaderboardLoaded',
-        this.render.bind(this));
+    this._subscriber.unsubscribeEvent('LeaderboardLoaded', this._render);
 
     super.deinit();
   }
@@ -371,13 +369,13 @@ class LogoutRoute extends BaseRoute {
   }
 
   init() {
-    this._subscriber.subscribeEvent('LoggedOut', this.render.bind(this));
+    this._subscriber.subscribeEvent('LoggedOut', this._render);
     this._controller.logout();
     super.init();
   }
 
   deinit() {
-    this._subscriber.unsubscribeEvent('LoggedOut', this.render.bind(this));
+    this._subscriber.unsubscribeEvent('LoggedOut', this._render);
     super.deinit();
   }
 }

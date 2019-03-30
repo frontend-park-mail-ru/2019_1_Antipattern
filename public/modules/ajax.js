@@ -3,14 +3,14 @@
 /** class performing Ajax requests with following callbacks. */
 class AjaxModule {
   /**
-   * Make an ajax request.
-   * @param {function} callback - Function to perform on xhr object.
+   * Make a fetch request.
    * @param {string} method - GET/POST/... method.
    * @param {string} path - URL path for making a xhr request.
    * @param {Object} body - context object for callbacks.
+   * @return {Promise<Response>} - fetch promise returned
    * @private
    */
-  _ajax({
+  doFetch({
     method = 'GET',
     path = '/',
     body = {},
@@ -42,22 +42,6 @@ class AjaxModule {
         credentials: 'include',
       });
     }
-  }
-
-  /**
-   *  Decorator for custom request.
-   * @param {Object} - Same params as _ajax({}) func.
-   */
-  doAjax({
-    path = '/',
-    body = {},
-    method = 'GET',
-  } = {}) {
-    return this._ajax({
-      path,
-      body,
-      method: method,
-    });
   }
 }
 

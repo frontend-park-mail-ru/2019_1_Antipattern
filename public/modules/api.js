@@ -14,7 +14,7 @@ class API {
    * @private
    */
   _sendRequest(method, url, body, type) {
-    return ajax.doAjax( {
+    return ajax.doFetch( {
       path: apiPrefix + url,
       body: body,
       method: method,
