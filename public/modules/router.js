@@ -1,8 +1,11 @@
 'use strict';
 
+/**
+ * Class used to manage views (routes) switching
+ */
 class Router {
   /**
-   * Default router constructor
+   * Router constructor
    * @param {Node} rootEl - DOM element
    */
   constructor(rootEl) {
@@ -17,8 +20,8 @@ class Router {
 
   /**
    * Adds route to the router
-   * @param {string} path - url
-   * @param {function} routeMakerFn - function returning new Route object
+   * @param {String} path - url
+   * @param {Function} routeMakerFn - function returning new Route object
    */
   addRoute(path, routeMakerFn) {
     if (typeof path !== 'string') {
@@ -33,7 +36,7 @@ class Router {
 
   /**
    * Sets default route
-   * @param {string} path - url
+   * @param {String} path - url
    */
   setDefaultRoute(path) {
     if (typeof path !== 'string') {
@@ -55,7 +58,7 @@ class Router {
 
   /**
    * Redirects and renders required page
-   * @param {string} path - url
+   * @param {String} path - url
    */
   routeTo(path) {
     if (typeof path !== 'string') {
@@ -89,7 +92,7 @@ class Router {
 /**
  * Anchors routes on link by event listeners
  * @param {Node} rootEl - DOM element
- * @param {function} router - route object
+ * @param {Function} router - route object
  */
 function initAnchorsRouting(rootEl, router) {
   if (!(rootEl instanceof Node)) {

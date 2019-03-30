@@ -4,8 +4,8 @@
 class AjaxModule {
   /**
    * Make a fetch request.
-   * @param {string} method - GET/POST/... method.
-   * @param {string} path - URL path for making a xhr request.
+   * @param {String} method - GET/POST/... method.
+   * @param {String} path - URL path for making a xhr request.
    * @param {Object} body - context object for callbacks.
    * @return {Promise<Response>} - fetch promise returned
    * @private

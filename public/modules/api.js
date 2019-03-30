@@ -4,13 +4,18 @@ import ajax from './ajax.js';
 
 const apiPrefix = 'https://api.kpacubo.xyz'; // use upstream api; change to blank for local
 
+/**
+ * Class containing methods working with application's API
+ */
 class API {
   /**
-   * doAjax wrapper that execs callback and passes request result and payload
-   * @param {string} method - GET/POST/... method
-   * @param {string} url - target URL
-   * @param {*} body - request body
-   * @param {string} type - expected response type
+   * doFetch wrapper that returns promises with parsed data
+   * @param {String} method - GET/POST/... method
+   * @param {String} url - target URL
+   * @param {Object} body - request body
+   * @param {String} type - expected response type
+   * @return {Promise<Object|null>} - response body
+   *    parsed into an object
    * @private
    */
   _sendRequest(method, url, body, type) {
@@ -26,7 +31,6 @@ class API {
           return response.text().then((text) => {
             return text ? JSON.parse(text) : null;
           });
-          // const resp = response.body;
         })
         .then((data) => {
           if (data && data.status !== 'success') {
@@ -34,14 +38,22 @@ class API {
           }
 
           return data;
+        })
+        .then((response) => {
+          if (response.type !== type) {
+            throw 'wrong response type';
+          }
+
+          return response.payload;
         });
   }
 
   /**
    * API method to register a new user
-   * @param {string} login - user login
-   * @param {string} email - user email
-   * @param {string} password - user password
+   * @param {String} login - user login
+   * @param {String} email - user email
+   * @param {String} password - user password
+   * @return {Promise<Object|null>} - response body
    */
   register(login, email, password) {
     const url = '/api/register';
@@ -51,20 +63,14 @@ class API {
       password: password,
     };
 
-    return this._sendRequest('POST', url, data, 'reg')
-        .then((response) => {
-          if (response.type !== 'reg') {
-            throw 'wrong response type';
-          }
-
-          return response.payload;
-        });
+    return this._sendRequest('POST', url, data, 'reg');
   }
 
   /**
    * API method to authorize a user
-   * @param {string} login - user login
-   * @param {string} password - user password
+   * @param {String} login - user login
+   * @param {String} password - user password
+   * @return {Promise<Object|null>} - response body
    */
   authorize(login, password) {
     const url = '/api/auth';
@@ -73,21 +79,14 @@ class API {
       password: password,
     };
 
-
-    return this._sendRequest('POST', url, data, 'log')
-        .then((response) => {
-          if (response.type !== 'log') {
-            throw 'wrong response type';
-          }
-
-          return response.payload;
-        });
+    return this._sendRequest('POST', url, data, 'log');
   }
 
   /**
    * API method to update user login and/or password
-   * @param {string} newLogin - new user login
-   * @param {string} newPassword - new user password
+   * @param {String} newLogin - new user login
+   * @param {String} newPassword - new user password
+   * @return {Promise<Object|null>} - response body
    */
   updateUserInfo(newLogin, newPassword) {
     const url = '/api/profile';
@@ -96,73 +95,45 @@ class API {
       password: newPassword,
     };
 
-    return this._sendRequest('PUT', url, data, 'usinfo')
-        .then((response) => {
-          if (response.type !== 'usinfo') {
-            throw 'wrong response type';
-          }
-
-          return response.payload;
-        });
+    return this._sendRequest('PUT', url, data, 'usinfo');
   }
 
   /**
    * API method to get current user's info
+   * @return {Promise<Object|null>} - response body
    */
   getUserInfo() {
     const url = '/api/profile';
     const data = {};
 
-    return this._sendRequest('GET', url, data, 'usinfo')
-        .then((response) => {
-          if (response.type !== 'usinfo') {
-            throw 'wrong response type';
-          }
-
-          return response.payload;
-        });
+    return this._sendRequest('GET', url, data, 'usinfo');
   }
 
   /**
    * API method to gey user list for leaderboard
-   * @param {number} page - page of the leaderboard
-   * @return {Promise} - promise as a return value of fetch function
+   * @param {Number} page - page of the leaderboard
+   * @return {Promise<Object|null>} - response body
    */
   getUsers(page) {
     const url = '/api/leaderboard/' + page;
 
-    return this._sendRequest('GET', url, {}, 'uslist')
-        .then((response) => {
-          if (response.type !== 'uslist') {
-            throw 'wrong response type';
-          }
-
-          return response.payload;
-        });
+    return this._sendRequest('GET', url, {}, 'uslist');
   }
 
   /**
    * API method to upload user avatar
    * @param {FormData} avatar - FormData var with avatar file
-   * @param {function} callback - function with 2 params that executes when
-   *                            the response is returned
+   * @return {Promise<Object|null>} - response body
    */
   uploadAvatar(avatar) {
     const imgUrl = '/api/upload_avatar';
 
-    return this._sendRequest('POST', imgUrl, avatar, 'usinfo')
-        .then((response) => {
-          if (response.type !== 'usinfo') {
-            throw 'wrong response type';
-          }
-
-          return response.payload;
-        });
+    return this._sendRequest('POST', imgUrl, avatar, 'usinfo');
   }
 
   /**
    * API method to logout
-   * @return {Boolean} - true, if logout was successfull
+   * @return {Promise<Object|null>} - response body
    */
   logout() {
     const logoutUrl = '/api/login';
