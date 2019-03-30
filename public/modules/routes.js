@@ -1,16 +1,15 @@
 'use strict';
 
-import apiModule from './api.js';
-import validator from './basevalidator.js';
-import UserModel from './models.js';
 import {showErrorMsg, clearErrors} from './utils.js';
 import {Router} from './router.js';
 
 class BaseRoute {
   /**
-   * Default BaseRoute constructor
+   * BaseRoute constructor
    * @param {Node} rootEl - DOM element
-   * @param {function} router - route object
+   * @param {Router} router - route object
+   * @param {Object} controller - business logic implementer
+   * @param {SubscribeAdapter} subscriber - adapter allowint event subscription
    */
   constructor(rootEl, router, controller = null, subscriber = null) {
     if (!(rootEl instanceof Node)) {
@@ -26,10 +25,11 @@ class BaseRoute {
     this._subscriber = subscriber;
     this._eventHandlers = {};
   }
+
   /**
    * Adds listener of specific event
    * @param {Event} event - DOM event
-   * @param {function} handler - handler, duh
+   * @param {Function} handler - handler, duh
    */
   _addListener(event, handler) {
     if (!(event in this._eventHandlers)) {
@@ -39,6 +39,7 @@ class BaseRoute {
     this._eventHandlers[event].push(handler);
     this._rootEl.addEventListener(event, handler);
   }
+
   /**
    * Remove listeners of specific event
    * @param {Event} event - event to remove
@@ -70,19 +71,19 @@ class BaseRoute {
     }
   }
 }
+
 /**
  * BaseRoute extension for index.html render
  */
-
 class IndexRoute extends BaseRoute {
   /**
-   *
-   * @param {Node} rootEl - DOM element in which to insert template
-   * @param {BaseRoute} router - class which constructor needs to be called
+   * IndexRoute constructor
+   * @param {Array} args - argumets to pass to BaseRoute constructor
    */
   constructor(...args) {
     super(...args);
   }
+
   /**
    * initializer
    */
@@ -113,11 +114,13 @@ class IndexRoute extends BaseRoute {
   }
 }
 
+/**
+ * BaseRoute extension for login.html render
+ */
 class LoginRoute extends BaseRoute {
   /**
-   *
-   * @param {Node} rootEl - DOM element in which to insert template
-   * @param {BaseRoute} router - class which constructor needs to be called
+   * LoginRoute constructor
+   * @param {Array} args - argumets to pass to BaseRoute constructor
    */
   constructor(...args) {
     super(...args);
@@ -196,10 +199,12 @@ class SettingsRoute extends BaseRoute {
       const input = this._form.elements['avatar'];
 
       this._waitingProfileUpdate = true;
-      this._subscriber.subscribeEvent('ProfileUpdated', this.render.bind(this));
+      this._subscriber.subscribeEvent('ProfileUpdated',
+          this.render.bind(this));
 
       if (input.value) {
-        this._subscriber.subscribeEvent('AvatarUpdated', this.render.bind(this));
+        this._subscriber.subscribeEvent('AvatarUpdated',
+            this.render.bind(this));
         this._waitingAvatarUpdate = true;
       }
 
@@ -209,8 +214,11 @@ class SettingsRoute extends BaseRoute {
   }
 
   deinit() {
-    this._subscriber.unsubscribeEvent('ProfileUpdated', this.render.bind(this));
-    this._subscriber.unsubscribeEvent('AvatarUpdated', this.render.bind(this));
+    this._subscriber.unsubscribeEvent('ProfileUpdated',
+        this.render.bind(this));
+    this._subscriber.unsubscribeEvent('AvatarUpdated',
+        this.render.bind(this));
+
     super.deinit();
   }
 }
@@ -224,7 +232,8 @@ class ProfileRoute extends BaseRoute {
     if (value) {
       /* TODO(everyone): make settings file */
       const user = value;
-      const avatarPath = user.img || 'public/img/avatar.jpg';  // TODO: remove this hardcode(incapsulate in user model)
+      // TODO: remove this hardcode(incapsulate in user model)
+      const avatarPath = user.img || 'public/img/avatar.jpg';
       this._rootEl.innerHTML = Handlebars.templates['profile.html']({
         login: user.login,
         email: user.email,
@@ -296,8 +305,8 @@ class LeaderBoardRoute extends BaseRoute {
     this.render({}, '', {
       users: [],
       pageCount: 0,
-      currentPage: 0
-    })
+      currentPage: 0,
+    });
   }
 
   render(state, key, value) {
@@ -320,13 +329,17 @@ class LeaderBoardRoute extends BaseRoute {
 
   init() {
     this.prerender();
-    this._subscriber.subscribeEvent('LeaderboardLoaded', this.render.bind(this));
+    this._subscriber.subscribeEvent('LeaderboardLoaded',
+        this.render.bind(this));
     this._controller.getLeaderboard(1);
+
     super.init();
   }
 
   deinit() {
-    this._subscriber.unsubscribeEvent('LeaderboardLoaded', this.render.bind(this));
+    this._subscriber.unsubscribeEvent('LeaderboardLoaded',
+        this.render.bind(this));
+
     super.deinit();
   }
 }

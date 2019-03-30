@@ -38,24 +38,23 @@ class LoginController {
     }
 
     apiModule.authorize(login, password)
-      .then((object) => {
-        const image = object.avatar || '';
-        window.User = new UserModel(object.email, object.login,
-          object.score, image);
-        this._dispatcher.dispatchEvent('LoggedIn', 'success');
-      })
-      .catch((error) => {
-        if (typeof error === 'string') {
-          console.log(error);
-        } else {
-          error = error.payload;
-          errorStruct.error = error.message;
-          errorStruct.errorField = error.field;
+        .then((object) => {
+          const image = object.avatar || '';
+          window.User = new UserModel(object.email, object.login,
+              object.score, image);
+          this._dispatcher.dispatchEvent('LoggedIn', 'success');
+        })
+        .catch((error) => {
+          if (typeof error === 'string') {
+            console.log(error);
+          } else {
+            error = error.payload;
+            errorStruct.error = error.message;
+            errorStruct.errorField = error.field;
 
-          this._dispatcher.dispatchEvent('LoggedIn', errorStruct);
-        }
-      });
-
+            this._dispatcher.dispatchEvent('LoggedIn', errorStruct);
+          }
+        });
   }
 }
 
@@ -74,18 +73,18 @@ class UserController {
     }
 
     apiModule.getUserInfo()
-      .then((object) => {
-        const image = object.avatar || '';
-        window.User = new UserModel(object.email, object.login,
-          object.score, image);
+        .then((object) => {
+          const image = object.avatar || '';
+          window.User = new UserModel(object.email, object.login,
+              object.score, image);
 
-        this._dispatcher.dispatchEvent('UserLoaded', window.User);
-      })
-      .catch((error) => {
-        console.log(error);
-        window.User = null;
-        this._dispatcher.dispatchEvent('UserLoaded', null);
-      });
+          this._dispatcher.dispatchEvent('UserLoaded', window.User);
+        })
+        .catch((error) => {
+          console.log(error);
+          window.User = null;
+          this._dispatcher.dispatchEvent('UserLoaded', null);
+        });
   }
 }
 
@@ -96,7 +95,7 @@ class SignUpController {
 
   signUp(login, email, password, repassword) {
     const errorStruct = validator.validateRegistration(login, password, email,
-      repassword);
+        repassword);
 
     if (errorStruct.error !== null) {
       this._dispatcher.dispatchEvent('SignedUp', errorStruct);
@@ -104,22 +103,22 @@ class SignUpController {
     }
 
     apiModule.register(login, email, password)
-      .then((object) => {
-        window.User = new UserModel(object.email, object.login,
-          object.score);
-        this._dispatcher.dispatchEvent('SignedUp', 'success');
-      })
-      .catch((error) => {
-        if (typeof error === 'string') {
-          console.log(error);
-        } else {
-          error = error.payload;
-          errorStruct.error = error.message;
-          errorStruct.errorField = error.field;
+        .then((object) => {
+          window.User = new UserModel(object.email, object.login,
+              object.score);
+          this._dispatcher.dispatchEvent('SignedUp', 'success');
+        })
+        .catch((error) => {
+          if (typeof error === 'string') {
+            console.log(error);
+          } else {
+            error = error.payload;
+            errorStruct.error = error.message;
+            errorStruct.errorField = error.field;
 
-          this._dispatcher.dispatchEvent('SignedUp', errorStruct);
-        }
-      });
+            this._dispatcher.dispatchEvent('SignedUp', errorStruct);
+          }
+        });
   }
 }
 
@@ -130,14 +129,14 @@ class LogoutController {
 
   logout() {
     apiModule.logout()
-      .then(() => {
-        window.User = null;
-        this._dispatcher.dispatchEvent('LoggedOut', 'success');
-      })
-      .catch((error) => {
-        console.log(error);
-        this._dispatcher.dispatchEvent('LoggedOut', error);
-      });
+        .then(() => {
+          window.User = null;
+          this._dispatcher.dispatchEvent('LoggedOut', 'success');
+        })
+        .catch((error) => {
+          console.log(error);
+          this._dispatcher.dispatchEvent('LoggedOut', error);
+        });
   }
 }
 
@@ -148,61 +147,59 @@ class SettingsController {
 
   updateProfile(login, password, repassword, input) {
     const errorStruct = validator.validateUpdate(login, password, repassword);
-    const error = errorStruct.error;
-    const errorField = errorStruct.errorField;
 
-    if (error !== null) {
-      //showErrorMsg(form, errorField, error);
+    if (errorStruct.error !== null) {
+      // showErrorMsg(form, errorField, error);
       this._dispatcher.dispatchEvent('ProfileUpdated', errorStruct);
       return;
     }
 
     apiModule.updateUserInfo(login, password)
-      .then((object) => {
-        const image = object.avatar || null;
-        window.User = new UserModel(object.email, object.login,
-          object.score, image);
-        this._dispatcher.dispatchEvent('ProfileUpdated', 'success');
-        //this._router.routeTo('/');
-      })
-      .catch((error) => {
-        if (typeof error === 'string') {
-          console.log(error);
-        } else {
-          error = error.payload;
-          //showErrorMsg(form, error.field, error.message);
-          const errorStruct = {
-            error: error.message,
-            errorField: error.field
-          };
-          this._dispatcher.dispatchEvent('ProfileUpdated', errorStruct);
-        }
-      });
-
-    if (input.value) {
-      const avatar = new FormData();
-      avatar.append('avatar', input.files[0]);
-      apiModule.uploadAvatar(avatar)
         .then((object) => {
           const image = object.avatar || null;
           window.User = new UserModel(object.email, object.login,
-            object.score, image);
-          //this._router.routeTo('/');
-          this._dispatcher.dispatchEvent('AvatarUpdated', 'success');
+              object.score, image);
+          this._dispatcher.dispatchEvent('ProfileUpdated', 'success');
+        // this._router.routeTo('/');
         })
         .catch((error) => {
           if (typeof error === 'string') {
             console.log(error);
           } else {
             error = error.payload;
-            //showErrorMsg(form, error.field, error.message);
+            // showErrorMsg(form, error.field, error.message);
             const errorStruct = {
               error: error.message,
-              errorField: error.field
+              errorField: error.field,
             };
-            this._dispatcher.dispatchEvent('AvatarUpdated', errorStruct);
+            this._dispatcher.dispatchEvent('ProfileUpdated', errorStruct);
           }
         });
+
+    if (input.value) {
+      const avatar = new FormData();
+      avatar.append('avatar', input.files[0]);
+      apiModule.uploadAvatar(avatar)
+          .then((object) => {
+            const image = object.avatar || null;
+            window.User = new UserModel(object.email, object.login,
+                object.score, image);
+            // this._router.routeTo('/');
+            this._dispatcher.dispatchEvent('AvatarUpdated', 'success');
+          })
+          .catch((error) => {
+            if (typeof error === 'string') {
+              console.log(error);
+            } else {
+              error = error.payload;
+              // showErrorMsg(form, error.field, error.message);
+              const errorStruct = {
+                error: error.message,
+                errorField: error.field,
+              };
+              this._dispatcher.dispatchEvent('AvatarUpdated', errorStruct);
+            }
+          });
     }
   }
 }
@@ -228,5 +225,5 @@ export {
   userController,
   signUpController,
   logoutController,
-  settingsController
+  settingsController,
 };
