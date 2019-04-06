@@ -233,10 +233,11 @@ class SettingsRoute extends BaseRoute {
       this._form = event.target;
       clearErrors(this._form);
 
-      let login = this._form.elements['login'].value;
-      if (login === window.User.login) {
-        login = '';
-      }
+      // let login = this._form.elements['login'].value;
+      const login = this._form.elements['login'].value;
+      // if (login === window.User.login) {
+      //   login = '';
+      // }
       const password = this._form.elements['password'].value;
       const repassword = this._form.elements['repeat_password'].value;
       const input = this._form.elements['avatar'];

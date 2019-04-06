@@ -4,5 +4,6 @@ node_js:
   - "10"
 install:
   - npm i
+  - npm i eslint
 script:
   - npm test

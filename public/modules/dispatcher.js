@@ -17,7 +17,9 @@ class Dispatcher {
    * @return {Object} - state
    */
   getState() {
-    return JSON.parse(JSON.stringify(this._state));
+    // TODO: make deep copy w/ methods n shiet
+    // return JSON.parse(JSON.stringify(this._state));
+    return this._state;
   }
 
   /**
@@ -76,6 +78,8 @@ class Dispatcher {
       throw new TypeError('key expected to be string');
     }
 
+    this._state[key] = value;
+
     if (this._subscribers[key]) {
       for (const cb of this._subscribers[key]) {
         cb(this.getState(), key, value);
@@ -107,6 +111,14 @@ class DispatchAdapter {
    */
   dispatchEvent(key, value) {
     this._dispatcher.dispatchEvent(key, value);
+  }
+
+  /**
+   * See Dispatcher.getState()
+   * @return {Object} - state
+   */
+  getState() {
+    return this._dispatcher.getState();
   }
 }
 

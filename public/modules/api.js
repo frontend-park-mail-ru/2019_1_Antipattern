@@ -40,6 +40,10 @@ class API {
           return data;
         })
         .then((response) => {
+          if (!response) {
+            return response;
+          }
+
           if (response.type !== type) {
             throw 'wrong response type';
           }

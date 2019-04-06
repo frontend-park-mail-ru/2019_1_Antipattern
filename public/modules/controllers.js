@@ -48,10 +48,6 @@ class LoginController {
     this._apiModule = apiModule;
     this._validator = validator;
     this._userStorage = userStorage;
-    console.log(this._dispatcher);
-    console.log(this._apiModule);
-    console.log(this._validator);
-    console.log(this._userStorage);
   }
 
   /**
@@ -70,8 +66,11 @@ class LoginController {
     this._apiModule.authorize(login, password)
         .then((object) => {
           const image = object.avatar || '';
-          window.User = new UserModel(object.email, object.login,
-              object.score, image);
+          // window.User = new UserModel(object.email, object.login,
+          //     object.score, image);
+          this._dispatcher.dispatchEvent('User', new UserModel(
+              object.email, object.login, object.score, image
+          ));
           this._dispatcher.dispatchEvent('LoggedIn', 'success');
         })
         .catch((error) => {
@@ -106,10 +105,15 @@ class UserController {
    * Gets current user
    */
   getUser() {
-    if (window.User) {
-      this._dispatcher.dispatchEvent('UserLoaded', window.User);
+    const state = this._dispatcher.getState();
+    console.log(state['User'] instanceof UserModel);
+    // if (window.User) {
+    if (state['User']) {
+      // this._dispatcher.dispatchEvent('UserLoaded', window.User);
+      this._dispatcher.dispatchEvent('UserLoaded', state['User']);
       return;
-    } else if (window.User === null) {
+    // } else if (window.User === null) {
+    } else if (state['User'] === null) {
       this._dispatcher.dispatchEvent('UserLoaded', null);
       return;
     }
@@ -117,14 +121,19 @@ class UserController {
     this._apiModule.getUserInfo()
         .then((object) => {
           const image = object.avatar || '';
-          window.User = new UserModel(object.email, object.login,
-              object.score, image);
+          // window.User = new UserModel(object.email, object.login,
+          //     object.score, image);
+          this._dispatcher.dispatchEvent('User', new UserModel(
+              object.email, object.login, object.score, image
+          ));
 
-          this._dispatcher.dispatchEvent('UserLoaded', window.User);
+          // this._dispatcher.dispatchEvent('UserLoaded', window.User);
+          this._dispatcher.dispatchEvent('UserLoaded', state['User']);
         })
         .catch((error) => {
           console.log(error);
-          window.User = null;
+          // window.User = null;
+          this._dispatcher.dispatchEvent('User', null);
           this._dispatcher.dispatchEvent('UserLoaded', null);
         });
   }
@@ -164,8 +173,11 @@ class SignUpController {
 
     this._apiModule.register(login, email, password)
         .then((object) => {
-          window.User = new UserModel(object.email, object.login,
-              object.score);
+          // window.User = new UserModel(object.email, object.login,
+          //     object.score);
+          this._dispatcher.dispatchEvent('User', new UserModel(
+              object.email, object.login, object.score
+          ));
           this._dispatcher.dispatchEvent('SignedUp', 'success');
         })
         .catch((error) => {
@@ -202,7 +214,8 @@ class LogoutController {
   logout() {
     this._apiModule.logout()
         .then(() => {
-          window.User = null;
+          // window.User = null;
+          this._dispatcher.dispatchEvent('User', null);
           this._dispatcher.dispatchEvent('LoggedOut', 'success');
         })
         .catch((error) => {
@@ -246,8 +259,11 @@ class SettingsController {
     this._apiModule.updateUserInfo(login, password)
         .then((object) => {
           const image = object.avatar || null;
-          window.User = new UserModel(object.email, object.login,
-              object.score, image);
+          // window.User = new UserModel(object.email, object.login,
+          //     object.score, image);
+          this._dispatcher.dispatchEvent('User', new UserModel(
+              object.email, object.login, object.score, image
+          ));
           this._dispatcher.dispatchEvent('ProfileUpdated', 'success');
         })
         .catch((error) => {
@@ -269,8 +285,11 @@ class SettingsController {
       this._apiModule.uploadAvatar(avatar)
           .then((object) => {
             const image = object.avatar || null;
-            window.User = new UserModel(object.email, object.login,
-                object.score, image);
+            // window.User = new UserModel(object.email, object.login,
+            //     object.score, image);
+            this._dispatcher.dispatchEvent('User', new UserModel(
+                object.email, object.login, object.score, image
+            ));
             this._dispatcher.dispatchEvent('AvatarUpdated', 'success');
           })
           .catch((error) => {
