@@ -12,7 +12,7 @@ class LeaderboardController {
    * LeaderboardController constructor
    * @param {DispatchAdapter} dispatcher - internal dispatcher
    */
-  constructor(dispatcher) {
+  constructor(dispatcher, apiModule) {
     this._dispatcher = dispatcher;
   }
 
@@ -43,8 +43,15 @@ class LoginController {
    * LoginController constructor
    * @param {DispatchAdapter} dispatcher - internal dispatcher
    */
-  constructor(dispatcher) {
+  constructor(dispatcher, apiModule, validator, userStorage) {
     this._dispatcher = dispatcher;
+    this._apiModule = apiModule;
+    this._validator = validator;
+    this._userStorage = userStorage;
+    console.log(this._dispatcher);
+    console.log(this._apiModule);
+    console.log(this._validator);
+    console.log(this._userStorage);
   }
 
   /**
@@ -53,14 +60,14 @@ class LoginController {
    * @param {String} password - user password
    */
   login(login, password) {
-    const errorStruct = validator.validateLogin(login, password);
+    const errorStruct = this._validator.validateLogin(login, password);
 
     if (errorStruct.error !== null) {
       this._dispatcher.dispatchEvent('LoggedIn', errorStruct);
       return;
     }
 
-    apiModule.authorize(login, password)
+    this._apiModule.authorize(login, password)
         .then((object) => {
           const image = object.avatar || '';
           window.User = new UserModel(object.email, object.login,
@@ -89,8 +96,10 @@ class UserController {
    * UserController constructor
    * @param {DispatchAdapter} dispatcher - internal dispatcher
    */
-  constructor(dispatcher) {
+  constructor(dispatcher, apiModule, userStorage) {
     this._dispatcher = dispatcher;
+    this._apiModule = apiModule;
+    this._userStorage = userStorage;
   }
 
   /**
@@ -105,7 +114,7 @@ class UserController {
       return;
     }
 
-    apiModule.getUserInfo()
+    this._apiModule.getUserInfo()
         .then((object) => {
           const image = object.avatar || '';
           window.User = new UserModel(object.email, object.login,
@@ -129,8 +138,11 @@ class SignUpController {
    * SignUpController constructor
    * @param {DispatchAdapter} dispatcher - internal dispatcher
    */
-  constructor(dispatcher) {
+  constructor(dispatcher, apiModule, validator, userStorage) {
     this._dispatcher = dispatcher;
+    this._apiModule = apiModule;
+    this._validator = validator;
+    this._userStorage = userStorage;
   }
 
 
@@ -142,15 +154,15 @@ class SignUpController {
    * @param {String} repassword - password confirmation
    */
   signUp(login, email, password, repassword) {
-    const errorStruct = validator.validateRegistration(login, password, email,
-        repassword);
+    const errorStruct = this._validator.validateRegistration(login, password,
+        email, repassword);
 
     if (errorStruct.error !== null) {
       this._dispatcher.dispatchEvent('SignedUp', errorStruct);
       return;
     }
 
-    apiModule.register(login, email, password)
+    this._apiModule.register(login, email, password)
         .then((object) => {
           window.User = new UserModel(object.email, object.login,
               object.score);
@@ -178,15 +190,17 @@ class LogoutController {
    * LogoutController constructor
    * @param {DispatchAdapter} dispatcher - internal dispatcher
    */
-  constructor(dispatcher) {
+  constructor(dispatcher, apiModule, userStorage) {
     this._dispatcher = dispatcher;
+    this._apiModule = apiModule;
+    this._userStorage = userStorage;
   }
 
   /**
    * Logs user out
    */
   logout() {
-    apiModule.logout()
+    this._apiModule.logout()
         .then(() => {
           window.User = null;
           this._dispatcher.dispatchEvent('LoggedOut', 'success');
@@ -206,8 +220,11 @@ class SettingsController {
    * SettingsController constructor
    * @param {DispatchAdapter} dispatcher - internal dispatcher
    */
-  constructor(dispatcher) {
+  constructor(dispatcher, apiModule, validator, userStorage) {
     this._dispatcher = dispatcher;
+    this._apiModule = apiModule;
+    this._validator = validator;
+    this._userStorage = userStorage;
   }
 
   /**
@@ -218,14 +235,15 @@ class SettingsController {
    * @param {Object} input - image form input
    */
   updateProfile(login, password, repassword, input) {
-    const errorStruct = validator.validateUpdate(login, password, repassword);
+    const errorStruct = this._validator.validateUpdate(login, password,
+        repassword);
 
     if (errorStruct.error !== null) {
       this._dispatcher.dispatchEvent('ProfileUpdated', errorStruct);
       return;
     }
 
-    apiModule.updateUserInfo(login, password)
+    this._apiModule.updateUserInfo(login, password)
         .then((object) => {
           const image = object.avatar || null;
           window.User = new UserModel(object.email, object.login,
@@ -248,7 +266,7 @@ class SettingsController {
     if (input.value) {
       const avatar = new FormData();
       avatar.append('avatar', input.files[0]);
-      apiModule.uploadAvatar(avatar)
+      this._apiModule.uploadAvatar(avatar)
           .then((object) => {
             const image = object.avatar || null;
             window.User = new UserModel(object.email, object.login,
@@ -271,13 +289,32 @@ class SettingsController {
   }
 }
 
-const controllerFactory = new Factory(dispatchAdapter);
-controllerFactory.addConstructor(LeaderboardController);
+const controllerFactory = new Factory({
+  'apiModule': apiModule,
+  'validator': validator,
+  'userStorage': {/* TODO: insert here */},
+  'dispatcher': dispatchAdapter,
+});
+controllerFactory.addConstructor(LeaderboardController,
+    ['dispatcher', 'apiModule']);
+controllerFactory.addConstructor(LoginController,
+    ['dispatcher', 'apiModule', 'validator', 'userStorage']);
+controllerFactory.addConstructor(UserController,
+    ['dispatcher', 'apiModule', 'userStorage']);
+controllerFactory.addConstructor(SignUpController,
+    ['dispatcher', 'apiModule', 'validator', 'userStorage']);
+controllerFactory.addConstructor(LogoutController,
+    ['dispatcher', 'apiModule', 'userStorage']);
+controllerFactory.addConstructor(SettingsController,
+    ['dispatcher', 'apiModule', 'validator', 'userStorage']);
+
+/*controllerFactory.addConstructor(LeaderboardController);
 controllerFactory.addConstructor(LoginController);
 controllerFactory.addConstructor(UserController);
 controllerFactory.addConstructor(SignUpController);
 controllerFactory.addConstructor(LogoutController);
-controllerFactory.addConstructor(SettingsController);
+controllerFactory.addConstructor(SettingsController);*/
+
 
 const leaderboardController = controllerFactory.newLeaderboardController();
 const loginController = controllerFactory.newLoginController();
