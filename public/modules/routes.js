@@ -499,6 +499,7 @@ class LogoutRoute extends BaseRoute {
    * Inits route
    */
   init() {
+    // TODO: actually we can draw logged menu to exclude short glitch on logout
     this._subscriber.subscribeEvent('LoggedOut', this._render);
     this._controller.logout();
     super.init();

@@ -82,6 +82,9 @@ class Router {
       return;
     }
 
+    // TODO: maybe we shouldn't push logout?
+    history.pushState(null, null, path);
+
     if (route.init) {
       route.init();
     }
@@ -110,7 +113,6 @@ function initAnchorsRouting(rootEl, router) {
     ev.preventDefault();
 
     const path = ev.target.getAttribute('href');
-    history.pushState(null, null, path);
     router.routeTo(path);
     console.log(`<a> go to ${path}`);
   });
