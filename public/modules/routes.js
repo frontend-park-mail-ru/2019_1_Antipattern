@@ -514,6 +514,32 @@ class LogoutRoute extends BaseRoute {
   }
 }
 
+class SinglePlayerRoute extends BaseRoute {
+  /**
+   * AboutRoute constructor
+   * @param {Node} rootEl - DOM element
+   * @param {Router} router - route object
+   */
+  constructor(rootEl, router) {
+    super(rootEl, router);
+  }
+
+  /**
+   * Inits route
+   */
+  init() {
+    this._rootEl.innerHTML = Handlebars.templates['singleplayer.html']();
+    super.init();
+  }
+
+  /**
+   * Reverts route init
+   */
+  deinit() {
+    super.deinit();
+  }
+}
+
 export {
   IndexRoute,
   LoginRoute,
@@ -523,4 +549,5 @@ export {
   SettingsRoute,
   AboutRoute,
   LogoutRoute,
+  SinglePlayerRoute
 };

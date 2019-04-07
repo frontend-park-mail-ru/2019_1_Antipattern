@@ -58,6 +58,11 @@ function initUIFactory() {
         factoryArgs: ['rootEl', 'router'],
         injections: {'controller': c.logoutController},
       });
+  UIFactory.addConstructor(r.SinglePlayerRoute,
+      ['rootEl', 'router'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+      });
 
   return UIFactory;
 }
@@ -76,6 +81,7 @@ function initUI(UIFactory, root, router) {
   router.addRoute('/leaderboard', UIFactory.newLeaderBoardRoute);
   router.addRoute('/about', UIFactory.newAboutRoute);
   router.addRoute('/logout', UIFactory.newLogoutRoute);
+  router.addRoute('/singleplayer', UIFactory.newSinglePlayerRoute);
   router.setDefaultRoute('/');
 
   router.init();
