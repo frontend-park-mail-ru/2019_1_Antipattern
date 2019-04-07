@@ -3,6 +3,10 @@ import apiModule from './api.js';
 import validator from './basevalidator.js';
 import UserModel from './models.js';
 import Factory from './factory.js';
+import {GraphicController} from './graphic/graphic.js';
+
+// TODO: incapsulate figures in GameUI
+import * as f from './graphic/figures.js';
 
 /**
  * Class implementing leaderboard logic
@@ -291,6 +295,75 @@ class SettingsController {
   }
 }
 
+class SinglePlayerController {
+  constructor(dispatcher, apiModule, graphicController) {
+    this._dispatcher = dispatcher;
+    this._apiModule = apiModule;
+    this._graphicController = graphicController;
+    this._fps = 50;
+  }
+
+  gameloop() {
+    if (this.gameloop.dx === undefined) {
+      this.gameloop.size = 10;
+      const size = this.gameloop.size;
+      const dims = this._graphicController.getCanvasSize();
+
+      const xPos = (dims.width - size) / 2;
+      const yPos = (dims.height - size) / 2;
+
+      this.gameloop.figure = new f.Rectangle(xPos, yPos, size, size);
+
+      this.gameloop.dx = 2;
+      this.gameloop.dy = 2;
+    }
+
+    const size = this.gameloop.size;
+    const coords = this.gameloop.figure.coordinates;
+    const dims = this._graphicController.getCanvasSize();
+
+    if (coords.x + size >= dims.width || coords.x <= 0) {
+      this.gameloop.dx = -this.gameloop.dx;
+    }
+
+    if (coords.y + size >= dims.height || coords.y <= 0) {
+      this.gameloop.dy = -this.gameloop.dy;
+    }
+
+    const newx = coords.x + this.gameloop.dx;
+    const newy = coords.y + this.gameloop.dy;
+
+    this.gameloop.figure.coordinates = {
+      x: newx,
+      y: newy,
+    };
+
+    this._graphicController.addFigure(this.gameloop.figure);
+    this._graphicController.draw();
+  }
+
+  _clearLoopParams() {
+    for (const i in this.gameloop) {
+      if (this.gameloop.hasOwnProperty(i)) {
+        this.gameloop[i] = undefined;
+      }
+    }
+  }
+
+  initGame() {
+    this._graphicController.initController();
+    // const binding =
+    //    this._graphicController.draw.bind(this._graphicController);
+    const binding = this.gameloop.bind(this);
+    this._timer = setInterval(binding, 1000 / this._fps);
+  }
+
+  deinitGame() {
+    clearInterval(this._timer);
+    this._clearLoopParams();
+  }
+}
+
 const controllerFactory = new Factory({
   'apiModule': apiModule,
   'validator': validator,
@@ -309,6 +382,10 @@ controllerFactory.addConstructor(LogoutController,
     ['dispatcher', 'apiModule', 'UserModel']);
 controllerFactory.addConstructor(SettingsController,
     ['dispatcher', 'apiModule', 'validator', 'UserModel']);
+controllerFactory.addConstructor(SinglePlayerController,
+    ['dispatcher', 'apiModule', 'graphicController'], {
+      injections: {'graphicController': new GraphicController()},
+    });
 
 const leaderboardController = controllerFactory.newLeaderboardController();
 const loginController = controllerFactory.newLoginController();
@@ -316,6 +393,7 @@ const userController = controllerFactory.newUserController();
 const signUpController = controllerFactory.newSignUpController();
 const logoutController = controllerFactory.newLogoutController();
 const settingsController = controllerFactory.newSettingsController();
+const singlePlayerController = controllerFactory.newSinglePlayerController();
 
 export {
   leaderboardController,
@@ -324,4 +402,5 @@ export {
   signUpController,
   logoutController,
   settingsController,
+  singlePlayerController,
 };

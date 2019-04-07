@@ -520,8 +520,8 @@ class SinglePlayerRoute extends BaseRoute {
    * @param {Node} rootEl - DOM element
    * @param {Router} router - route object
    */
-  constructor(rootEl, router) {
-    super(rootEl, router);
+  constructor(rootEl, router, controller) {
+    super(rootEl, router, controller);
   }
 
   /**
@@ -530,12 +530,15 @@ class SinglePlayerRoute extends BaseRoute {
   init() {
     this._rootEl.innerHTML = Handlebars.templates['singleplayer.html']();
     super.init();
+    this._controller.initGame();
+    console.log('ПРИГНАЛИ');
   }
 
   /**
    * Reverts route init
    */
   deinit() {
+    this._controller.deinitGame();
     super.deinit();
   }
 }

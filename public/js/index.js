@@ -59,9 +59,10 @@ function initUIFactory() {
         injections: {'controller': c.logoutController},
       });
   UIFactory.addConstructor(r.SinglePlayerRoute,
-      ['rootEl', 'router'],
+      ['rootEl', 'router', 'controller'],
       {
         factoryArgs: ['rootEl', 'router'],
+        injections: {'controller': c.singlePlayerController},
       });
 
   return UIFactory;
