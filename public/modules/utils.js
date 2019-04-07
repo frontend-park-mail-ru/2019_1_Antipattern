@@ -1,23 +1,6 @@
 'use strict';
 
 /**
- * Wraps a constructor.
- * @param {constructor} C - constructor to be wrapped
- * @return {function} - wrapper function that returns a new object
- */
-
-/**
- *
- * @param {Class} C - class to be wrapped to factory
- * @param {Array} injectedArgs - arguments to be injected in each object
- *  fabricated by returning method
- * @return {function(...[*]): C} - fabricator
- */
-function wrapConstructorToFactory(C, ...injectedArgs) {
-  return (...args) => new C(...args, ...injectedArgs);
-}
-
-/**
  * Shows the error message near the form's input field which contains
  *  statement caused the error
  * @param {HTMLFormElement} form - target form
@@ -50,7 +33,6 @@ function clearErrors(form) {
 }
 
 export {
-  wrapConstructorToFactory,
   showErrorMsg,
   clearErrors,
 };

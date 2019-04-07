@@ -1,32 +1,81 @@
 'use strict';
 
 import * as r from '../modules/routes.js';
-import {wrapConstructorToFactory} from '../modules/utils.js';
 import {Router, initAnchorsRouting} from '../modules/router.js';
 import * as c from '../modules/controllers.js';
 import {subscribeAdapter as subscriber} from '../modules/dispatcher.js';
+import Factory from '../modules/factory.js';
+
+function initUIFactory() {
+  const UIFactory = new Factory({
+    'subscriber': subscriber,
+  });
+
+  UIFactory.addConstructor(r.IndexRoute,
+      ['rootEl', 'router', 'controller', 'subscriber'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+        injections: {'controller': c.userController},
+      });
+  UIFactory.addConstructor(r.LoginRoute,
+      ['rootEl', 'router', 'controller', 'subscriber'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+        injections: {'controller': c.loginController},
+      });
+  UIFactory.addConstructor(r.ProfileRoute,
+      ['rootEl', 'router', 'controller', 'subscriber'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+        injections: {'controller': c.userController},
+      });
+  UIFactory.addConstructor(r.SettingsRoute,
+      ['rootEl', 'router', 'controller', 'subscriber'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+        injections: {'controller': c.settingsController},
+      });
+  UIFactory.addConstructor(r.SignUpRoute,
+      ['rootEl', 'router', 'controller', 'subscriber'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+        injections: {'controller': c.signUpController},
+      });
+  UIFactory.addConstructor(r.LeaderBoardRoute,
+      ['rootEl', 'router', 'controller', 'subscriber'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+        injections: {'controller': c.leaderboardController},
+      });
+  UIFactory.addConstructor(r.AboutRoute,
+      ['rootEl', 'router'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+      });
+  UIFactory.addConstructor(r.LogoutRoute,
+      ['rootEl', 'router', 'controller', 'subscriber'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+        injections: {'controller': c.logoutController},
+      });
+
+  return UIFactory;
+}
 
 /**
  * Function initializing UI
  * @param {Node} root - DOM element
  * @param {Router} router - route object
  */
-function initUI(root, router) {
-  router.addRoute('/', wrapConstructorToFactory(r.IndexRoute, c.userController,
-      subscriber));
-  router.addRoute('/login', wrapConstructorToFactory(r.LoginRoute,
-      c.loginController, subscriber));
-  router.addRoute('/profile', wrapConstructorToFactory(r.ProfileRoute,
-      c.userController, subscriber));
-  router.addRoute('/settings', wrapConstructorToFactory(r.SettingsRoute,
-      c.settingsController, subscriber));
-  router.addRoute('/signup', wrapConstructorToFactory(r.SignUpRoute,
-      c.signUpController, subscriber));
-  router.addRoute('/leaderboard', wrapConstructorToFactory(r.LeaderBoardRoute,
-      c.leaderboardController, subscriber));
-  router.addRoute('/about', wrapConstructorToFactory(r.AboutRoute));
-  router.addRoute('/logout', wrapConstructorToFactory(r.LogoutRoute,
-      c.logoutController, subscriber));
+function initUI(UIFactory, root, router) {
+  router.addRoute('/', UIFactory.newIndexRoute);
+  router.addRoute('/login', UIFactory.newLoginRoute);
+  router.addRoute('/profile', UIFactory.newProfileRoute);
+  router.addRoute('/settings', UIFactory.newSettingsRoute);
+  router.addRoute('/signup', UIFactory.newSignupRoute);
+  router.addRoute('/leaderboard', UIFactory.newLeaderBoardRoute);
+  router.addRoute('/about', UIFactory.newAboutRoute);
+  router.addRoute('/logout', UIFactory.newLogoutRoute);
   router.setDefaultRoute('/');
 
   router.init();
@@ -51,6 +100,8 @@ function registerServiceWorker() {
 window.onload = () => {
   const root = document.getElementById('root');
   const router = new Router(root);
-  initUI(root, router);
+
+  const UIFactory = initUIFactory();
+  initUI(UIFactory, root, router);
   registerServiceWorker();
 };
