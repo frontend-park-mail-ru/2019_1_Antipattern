@@ -18,7 +18,23 @@ class API {
    *    parsed into an object
    * @private
    */
-  _sendRequest(method, url, body, type) {
+  _sendRequest(method, url, body, type, required = []) {
+    if (typeof method !== 'string') {
+      throw new TypeError('\"method\" is not a string');
+    }
+
+    if (typeof url !== 'string') {
+      throw new TypeError('\"url\" is not a string');
+    }
+
+    if (typeof type !== 'string') {
+      throw new TypeError('\"type\" is not a string');
+    }
+
+    if (!Array.isArray(required)) {
+      throw new TypeError('\"required\" is not an Array');
+    }
+
     return ajax.doFetch( {
       path: apiPrefix + url,
       body: body,
@@ -49,6 +65,20 @@ class API {
           }
 
           return response.payload;
+        })
+        .then((payload) => {
+          if (required.length === 0) {
+            return payload;
+          }
+
+          for (const attr of required) {
+            if (!payload.hasOwnProperty(attr)) {
+              console.log('Lack of property \"' + attr + '\" in payload');
+              throw 'payload is missing some required fields';
+            }
+          }
+
+          return payload;
         });
   }
 
@@ -66,8 +96,9 @@ class API {
       email: email,
       password: password,
     };
+    const required = ['login', 'email', 'score'];
 
-    return this._sendRequest('POST', url, data, 'reg');
+    return this._sendRequest('POST', url, data, 'reg', required);
   }
 
   /**
@@ -82,8 +113,9 @@ class API {
       login: login,
       password: password,
     };
+    const required = ['login', 'email', 'score'];
 
-    return this._sendRequest('POST', url, data, 'log');
+    return this._sendRequest('POST', url, data, 'log', required);
   }
 
   /**
@@ -98,8 +130,9 @@ class API {
       login: newLogin,
       password: newPassword,
     };
+    const required = ['login', 'email', 'score'];
 
-    return this._sendRequest('PUT', url, data, 'usinfo');
+    return this._sendRequest('PUT', url, data, 'usinfo', required);
   }
 
   /**
@@ -108,9 +141,9 @@ class API {
    */
   getUserInfo() {
     const url = '/api/profile';
-    const data = {};
+    const required = ['login', 'email', 'score'];
 
-    return this._sendRequest('GET', url, data, 'usinfo');
+    return this._sendRequest('GET', url, {}, 'usinfo', required);
   }
 
   /**
@@ -120,8 +153,9 @@ class API {
    */
   getUsers(page) {
     const url = '/api/leaderboard/' + page;
+    const required = ['users'];
 
-    return this._sendRequest('GET', url, {}, 'uslist');
+    return this._sendRequest('GET', url, {}, 'uslist', required);
   }
 
   /**
@@ -131,8 +165,9 @@ class API {
    */
   uploadAvatar(avatar) {
     const imgUrl = '/api/upload_avatar';
+    const required = ['login', 'email', 'avatar', 'score'];
 
-    return this._sendRequest('POST', imgUrl, avatar, 'usinfo');
+    return this._sendRequest('POST', imgUrl, avatar, 'usinfo', required);
   }
 
   /**
@@ -141,9 +176,8 @@ class API {
    */
   logout() {
     const logoutUrl = '/api/login';
-    const data = {};
 
-    return this._sendRequest('DELETE', logoutUrl, data, 'logout');
+    return this._sendRequest('DELETE', logoutUrl, {}, 'logout');
   }
 }
 

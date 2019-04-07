@@ -72,7 +72,7 @@ function initUI(UIFactory, root, router) {
   router.addRoute('/login', UIFactory.newLoginRoute);
   router.addRoute('/profile', UIFactory.newProfileRoute);
   router.addRoute('/settings', UIFactory.newSettingsRoute);
-  router.addRoute('/signup', UIFactory.newSignupRoute);
+  router.addRoute('/signup', UIFactory.newSignUpRoute);
   router.addRoute('/leaderboard', UIFactory.newLeaderBoardRoute);
   router.addRoute('/about', UIFactory.newAboutRoute);
   router.addRoute('/logout', UIFactory.newLogoutRoute);

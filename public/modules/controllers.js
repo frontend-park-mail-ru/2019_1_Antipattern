@@ -104,7 +104,6 @@ class UserController {
    */
   getUser() {
     const state = this._dispatcher.getState();
-    console.log(state['User'] instanceof this._UserModel);
     if (state['User']) {
       this._dispatcher.dispatchEvent('UserLoaded', state['User']);
       return;
