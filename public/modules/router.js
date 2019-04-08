@@ -53,16 +53,25 @@ class Router {
    * Initializes the router
    */
   init() {
-    this.routeTo(this._defaultRoutePath);
+    this.routeTo(this._defaultRoutePath, false);
   }
 
   /**
    * Redirects and renders required page
    * @param {String} path - url
    */
-  routeTo(path) {
+  routeTo(path, shouldBePushed = true) {
     if (typeof path !== 'string') {
       return;
+    }
+
+    if (shouldBePushed) {
+      console.log('Pushing', path);
+
+      // TODO: maybe we shouldn't push logout?
+      history.pushState(null, null, path);
+    } else {
+      console.log('Poping', path);
     }
 
     if (this._currentRoute) {
@@ -81,9 +90,6 @@ class Router {
     if (!route) {
       return;
     }
-
-    // TODO: maybe we shouldn't push logout?
-    history.pushState(null, null, path);
 
     if (route.init) {
       route.init();
@@ -116,6 +122,11 @@ function initAnchorsRouting(rootEl, router) {
     router.routeTo(path);
     console.log(`<a> go to ${path}`);
   });
+
+  window.addEventListener('popstate', function(e) {
+    console.log(location.pathname);
+    router.routeTo(location.pathname, false);
+  }, false);
 }
 
 Handlebars.registerHelper('pagination',
