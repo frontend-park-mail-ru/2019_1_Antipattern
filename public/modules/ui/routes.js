@@ -14,7 +14,7 @@ class BaseRoute {
    * @param {Object} controller - business logic implementer
    * @param {SubscribeAdapter} subscriber - adapter allowint event subscription
    */
-  constructor(rootEl, router, controller = null, subscriber = null) {
+  constructor(rootEl, router, controller, subscriber) {
     if (!(rootEl instanceof Node)) {
       throw new TypeError('rootEl must be Node');
     }
@@ -81,7 +81,7 @@ class BaseRoute {
 /**
  * BaseRoute extension for index.html render
  */
-class IndexRoute extends BaseRoute {
+export class IndexRoute extends BaseRoute {
   /**
    * IndexRoute constructor
    * @param {Array} args - argumets to pass to BaseRoute constructor
@@ -132,7 +132,7 @@ class IndexRoute extends BaseRoute {
 /**
  * BaseRoute extension for login.html render
  */
-class LoginRoute extends BaseRoute {
+export class LoginRoute extends BaseRoute {
   /**
    * LoginRoute constructor
    * @param {Array} args - argumets to pass to BaseRoute constructor
@@ -187,7 +187,7 @@ class LoginRoute extends BaseRoute {
 /**
  * BaseRoute extension for settings.html render
  */
-class SettingsRoute extends BaseRoute {
+export class SettingsRoute extends BaseRoute {
   /**
    * SettingsRoute constructor
    * @param {Array} args - argumets to pass to BaseRoute constructor
@@ -266,7 +266,7 @@ class SettingsRoute extends BaseRoute {
 /**
  * BaseRoute extension for profile.html render
  */
-class ProfileRoute extends BaseRoute {
+export class ProfileRoute extends BaseRoute {
   /**
    * ProfileRoute constructor
    * @param {Array} args - argumets to pass to BaseRoute constructor
@@ -319,7 +319,7 @@ class ProfileRoute extends BaseRoute {
 /**
  * BaseRoute extension for signup.html render
  */
-class SignUpRoute extends BaseRoute {
+export class SignUpRoute extends BaseRoute {
   /**
    * SignUpRoute constructor
    * @param {Array} args - argumets to pass to BaseRoute constructor
@@ -377,7 +377,7 @@ class SignUpRoute extends BaseRoute {
 /**
  * BaseRoute extension for leaderboard.html render
  */
-class LeaderBoardRoute extends BaseRoute {
+export class LeaderBoardRoute extends BaseRoute {
   /**
    * LeaderBoardRoute constructor
    * @param {Array} args - argumets to pass to BaseRoute constructor
@@ -445,7 +445,7 @@ class LeaderBoardRoute extends BaseRoute {
 /**
  * BaseRoute extension for about.html render
  */
-class AboutRoute extends BaseRoute {
+export class AboutRoute extends BaseRoute {
   /**
    * AboutRoute constructor
    * @param {Node} rootEl - DOM element
@@ -474,7 +474,7 @@ class AboutRoute extends BaseRoute {
 /**
  * BaseRoute extension for logout pseudo-render
  */
-class LogoutRoute extends BaseRoute {
+export class LogoutRoute extends BaseRoute {
   /**
    * LogoutRoute constructor
    * @param {Array} args - argumets to pass to BaseRoute constructor
@@ -513,14 +513,3 @@ class LogoutRoute extends BaseRoute {
     super.deinit();
   }
 }
-
-export {
-  IndexRoute,
-  LoginRoute,
-  LeaderBoardRoute,
-  SignUpRoute,
-  ProfileRoute,
-  SettingsRoute,
-  AboutRoute,
-  LogoutRoute,
-};

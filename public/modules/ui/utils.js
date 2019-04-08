@@ -7,7 +7,7 @@
  * @param {String} field - input field id
  * @param {String} errorMsg - error message
  */
-function showErrorMsg(form, field, errorMsg) {
+export function showErrorMsg(form, field, errorMsg) {
   const errorInput = form.elements[field];
   const errorElement = document.createElement('p');
   errorElement.setAttribute('style', 'margin: 0;');
@@ -25,14 +25,9 @@ function showErrorMsg(form, field, errorMsg) {
  * Cleans error messages in the target form
  * @param {HTMLFormElement} form - form to be cleaned
  */
-function clearErrors(form) {
+export function clearErrors(form) {
   const errors = form.getElementsByClassName('error-msg');
   Array.prototype.forEach.call(errors, (element) => {
     element.innerHTML = '';
   });
 }
-
-export {
-  showErrorMsg,
-  clearErrors,
-};

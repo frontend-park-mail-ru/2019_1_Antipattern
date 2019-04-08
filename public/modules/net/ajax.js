@@ -1,7 +1,7 @@
 'use strict';
 
 /** class performing Ajax requests with following callbacks. */
-class AjaxModule {
+export default class Ajax {
   /**
    * Make a fetch request.
    * @param {String} method - GET/POST/... method.
@@ -44,6 +44,3 @@ class AjaxModule {
     }
   }
 }
-
-const ajaxModule = new AjaxModule();
-export default ajaxModule;

@@ -1,90 +1,10 @@
 'use strict';
 
-import * as r from '../modules/routes.js';
-import {Router, initAnchorsRouting} from '../modules/router.js';
-import * as c from '../modules/controllers.js';
-import {subscribeAdapter as subscriber} from '../modules/dispatcher.js';
-import Factory from '../modules/factory.js';
+import makeDataFactory from '../modules/data/factory.js';
+import makeNetFactory from '../modules/net/factory.js';
+import makeControllersFactory from '../modules/controllers/factory.js';
+import {makeUIFactory, initUI} from '../modules/ui/factory.js';
 
-function initUIFactory() {
-  const UIFactory = new Factory({
-    'subscriber': subscriber,
-  });
-
-  UIFactory.addConstructor(r.IndexRoute,
-      ['rootEl', 'router', 'controller', 'subscriber'],
-      {
-        factoryArgs: ['rootEl', 'router'],
-        injections: {'controller': c.userController},
-      });
-  UIFactory.addConstructor(r.LoginRoute,
-      ['rootEl', 'router', 'controller', 'subscriber'],
-      {
-        factoryArgs: ['rootEl', 'router'],
-        injections: {'controller': c.loginController},
-      });
-  UIFactory.addConstructor(r.ProfileRoute,
-      ['rootEl', 'router', 'controller', 'subscriber'],
-      {
-        factoryArgs: ['rootEl', 'router'],
-        injections: {'controller': c.userController},
-      });
-  UIFactory.addConstructor(r.SettingsRoute,
-      ['rootEl', 'router', 'controller', 'subscriber'],
-      {
-        factoryArgs: ['rootEl', 'router'],
-        injections: {'controller': c.settingsController},
-      });
-  UIFactory.addConstructor(r.SignUpRoute,
-      ['rootEl', 'router', 'controller', 'subscriber'],
-      {
-        factoryArgs: ['rootEl', 'router'],
-        injections: {'controller': c.signUpController},
-      });
-  UIFactory.addConstructor(r.LeaderBoardRoute,
-      ['rootEl', 'router', 'controller', 'subscriber'],
-      {
-        factoryArgs: ['rootEl', 'router'],
-        injections: {'controller': c.leaderboardController},
-      });
-  UIFactory.addConstructor(r.AboutRoute,
-      ['rootEl', 'router'],
-      {
-        factoryArgs: ['rootEl', 'router'],
-      });
-  UIFactory.addConstructor(r.LogoutRoute,
-      ['rootEl', 'router', 'controller', 'subscriber'],
-      {
-        factoryArgs: ['rootEl', 'router'],
-        injections: {'controller': c.logoutController},
-      });
-
-  return UIFactory;
-}
-
-/**
- * Function initializing UI
- * @param {Node} root - DOM element
- * @param {Router} router - route object
- */
-function initUI(UIFactory, root, router) {
-  router.addRoute('/', UIFactory.newIndexRoute);
-  router.addRoute('/login', UIFactory.newLoginRoute);
-  router.addRoute('/profile', UIFactory.newProfileRoute);
-  router.addRoute('/settings', UIFactory.newSettingsRoute);
-  router.addRoute('/signup', UIFactory.newSignUpRoute);
-  router.addRoute('/leaderboard', UIFactory.newLeaderBoardRoute);
-  router.addRoute('/about', UIFactory.newAboutRoute);
-  router.addRoute('/logout', UIFactory.newLogoutRoute);
-  router.setDefaultRoute('/');
-
-  router.init();
-  initAnchorsRouting(root, router);
-}
-
-/**
- * Function registering service worker
- */
 function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
@@ -98,10 +18,26 @@ function registerServiceWorker() {
 }
 
 window.onload = () => {
-  const root = document.getElementById('root');
-  const router = new Router(root);
+  const dataFactory = makeDataFactory();
 
-  const UIFactory = initUIFactory();
-  initUI(UIFactory, root, router);
+  const netFactory = makeNetFactory();
+
+  const controllersFactory = makeControllersFactory({
+    dispatcher: dataFactory.newDispatcherAdapter(),
+    api:        netFactory.newAPI();
+  });
+
+  const uiFactory = makeUIFactory({
+    userController:        controllersFactory.newUserController(), 
+    loginController:       controllersFactory.newLoginController()
+    settingsController:    controllersFactory.newSettingsController(),
+    signUpController:      controllersFactory.newSignUpController(),
+    leaderboardController: controllersFactory.newLeaderboardController(),
+    logoutController:      controllersFactory.newLogoutController(),
+    subscriber:            dataFactory.newSubscribeAdapter()
+  });
+  const rootEl = document.getElementById('root');
+  initUI(rootEl, uiFactory);
+
   registerServiceWorker();
 };

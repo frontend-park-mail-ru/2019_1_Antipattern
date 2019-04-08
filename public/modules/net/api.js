@@ -1,13 +1,15 @@
 'use strict';
 
-import ajax from './ajax.js';
-
 const apiPrefix = 'https://api.kpacubo.xyz'; // use upstream api; change to blank for local
 
 /**
  * Class containing methods working with application's API
  */
-class API {
+export default class API {
+  contructor(ajax) {
+    this._ajax = ajax;
+  }
+
   /**
    * doFetch wrapper that returns promises with parsed data
    * @param {String} method - GET/POST/... method
@@ -35,11 +37,12 @@ class API {
       throw new TypeError('\"required\" is not an Array');
     }
 
-    return ajax.doFetch( {
-      path: apiPrefix + url,
-      body: body,
-      method: method,
-    })
+    return this._ajax.doFetch( 
+        {
+          path: apiPrefix + url,
+          body: body,
+          method: method,
+        })
         .then((response) => {
           if (!response.ok) {
             throw response.statusText;
@@ -180,6 +183,3 @@ class API {
     return this._sendRequest('DELETE', logoutUrl, {}, 'logout');
   }
 }
-
-const apiModule = new API();
-export default apiModule;
