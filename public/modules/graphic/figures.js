@@ -23,10 +23,11 @@ class Figure {
 }
 
 class Rectangle extends Figure {
-  constructor(x, y, width, height) {
+  constructor(x, y, width, height, colour = 'white') {
     super(x, y);
     this._width = width;
     this._height = height;
+    this._colour = colour;
   }
 
   draw(ctx) {
@@ -34,7 +35,7 @@ class Rectangle extends Figure {
 
     ctx.beginPath();
     ctx.rect(this._x, this._y, this._width, this._height);
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = this._colour;
     ctx.fill();
     ctx.closePath();
   }

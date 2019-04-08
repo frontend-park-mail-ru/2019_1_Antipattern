@@ -312,7 +312,8 @@ class SinglePlayerController {
       const xPos = (dims.width - size) / 2;
       const yPos = (dims.height - size) / 2;
 
-      this.gameloop.figure = new f.Rectangle(xPos, yPos, size, size);
+      // this.gameloop.figure = new f.Rectangle(xPos, yPos, size, size, 'blue');
+      this.gameloop.figure = new f.Rectangle(xPos, yPos, size, size, 'rgb(44, 117, 255)');
 
       this.gameloop.dx = 2;
       this.gameloop.dy = 2;
@@ -339,28 +340,34 @@ class SinglePlayerController {
     };
 
     this._graphicController.addFigure(this.gameloop.figure);
+  }
+
+  uiloop() {
+    const dims = this._graphicController.getCanvasSize();
+    const background = new f.Rectangle(0, 0, dims.width, dims.height, 'rgb(64,64,64)');
+    this._graphicController.addFigure(background);
+    this.gameloop();
     this._graphicController.draw();
   }
 
-  _clearLoopParams() {
-    for (const i in this.gameloop) {
-      if (this.gameloop.hasOwnProperty(i)) {
-        this.gameloop[i] = undefined;
+  _clearParams(obj) {
+    for (const i in obj) {
+      if (obj.hasOwnProperty(i)) {
+        obj[i] = undefined;
       }
     }
   }
 
   initGame() {
     this._graphicController.initController();
-    // const binding =
-    //    this._graphicController.draw.bind(this._graphicController);
-    const binding = this.gameloop.bind(this);
+    const binding = this.uiloop.bind(this);
     this._timer = setInterval(binding, 1000 / this._fps);
   }
 
   deinitGame() {
     clearInterval(this._timer);
-    this._clearLoopParams();
+    this._clearParams(this.gameloop);
+    this._clearParams(this.uiloop);
   }
 }
 

@@ -91,10 +91,6 @@ class Router {
       return;
     }
 
-    // TODO: maybe we shouldn't push logout?
-    history.pushState(null, null, path);
-
-
     this._currentRoute = route;
 
     if (route.init) {
