@@ -1,5 +1,6 @@
 'use strict';
 
+import Factory from '../utils/factory.js';
 import {Dispatcher, DispatchAdapter, SubscribeAdapter} from './controllers.js';
 
 export default function makeDataFactory() {

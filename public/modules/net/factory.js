@@ -1,5 +1,6 @@
 'use strict';
 
+import Factory from '../utils/factory.js';
 import Ajax from './ajax.js';
 import API from './api.js';
 

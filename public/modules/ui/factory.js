@@ -1,5 +1,6 @@
 'use strict';
 
+import Factory from '../utils/factory.js';
 import {Router, initAnchorsRouting} from './router.js';
 import {IndexRoute, LoginRoute, SettingsRoute, ProfileRoute, 
         SignUpRoute, LeaderBoardRoute, AboutRoute, LogoutRoute} from './routes.js';

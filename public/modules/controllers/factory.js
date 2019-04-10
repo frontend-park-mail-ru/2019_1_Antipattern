@@ -1,5 +1,6 @@
 'use strict';
 
+import Factory from '../utils/factory.js';
 import {LeaderboardController, LoginController, UserController, 
         SignUpController, LogoutController, SettingsController} from './controllers.js';
 
