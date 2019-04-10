@@ -4,11 +4,8 @@
     "es6": true
   },
   "extends": "google",
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
   "parserOptions": {
+    "sourceType": "module",
     "ecmaVersion": 2018
   },
   "rules": {
@@ -16,7 +13,7 @@
       "require": {
         "FunctionDeclaration": true,
         "MethodDefinition": true,
-        "ClassDeclaration": false,
+        "ClassDeclaration": true,
         "ArrowFunctionExpression": false,
         "FunctionExpression": false
       }

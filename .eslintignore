@@ -1,2 +1,3 @@
-/public/templates/build/all.js
-/public/js/lib/*.js
+public/templates/build/all.js
+public/js/lib/*.js
+out/
