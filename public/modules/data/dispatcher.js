@@ -3,7 +3,7 @@
 /**
  * State holder capable of dispatching events
  */
-class Dispatcher {
+export class Dispatcher {
   /**
    * Dispatcher constructor
    */
@@ -91,7 +91,7 @@ class Dispatcher {
 /**
  * Dispatcher adapter allowing to dispatch events
  */
-class DispatchAdapter {
+export class DispatchAdapter {
   /**
    * DispatchAdapter constructor
    * @param {Dispatcher} dispatcher - dispatcher to be adapted
@@ -125,7 +125,7 @@ class DispatchAdapter {
 /**
  * Dispatcher adapter allowing to (un)subscribe (from)to events
  */
-class SubscribeAdapter {
+export class SubscribeAdapter {
   /**
    * SubscribeAdapter constructor
    * @param {Dispatcher} dispatcher - dispatcher to be adapted
@@ -156,13 +156,3 @@ class SubscribeAdapter {
     this._dispatcher.unsubscribeEvent(key, callback);
   }
 }
-
-
-const dispatcher = new Dispatcher();
-const subscribeAdapter = new SubscribeAdapter(dispatcher);
-const dispatchAdapter = new DispatchAdapter(dispatcher);
-
-export {
-  subscribeAdapter,
-  dispatchAdapter,
-};

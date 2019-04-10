@@ -3,7 +3,7 @@
 /**
  * Class implementing user model
  */
-class UserModel {
+export class UserModel {
   /**
    * Default UserModel constructor
    * @param {string} email - user email
@@ -52,4 +52,3 @@ class UserModel {
 }
 
 // TODO(AntonyMoes): implement UserModel holder
-export default UserModel;
