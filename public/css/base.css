@@ -10,7 +10,7 @@ body {
 
 body {
   overflow: hidden;
-  background-image: url("../vhs.jpeg");
+  background-color: #0d56a6;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -27,7 +27,6 @@ body::after {
   background: rgba(18, 16, 16, 0.1);
   opacity: 0;
   pointer-events: none;
-  animation: flicker 3s infinite;
 }
 
 /* body {

@@ -528,9 +528,9 @@ class SinglePlayerRoute extends BaseRoute {
    * Inits route
    */
   init() {
-    this._rootEl.innerHTML = Handlebars.templates['singleplayer.html']();
+    this._rootEl.innerHTML = Handlebars.templates['svoyak.html']();
     super.init();
-    this._controller.initGame();
+    // this._controller.initGame();
     console.log('ПРИГНАЛИ');
   }
 
