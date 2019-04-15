@@ -3,11 +3,6 @@ import apiModule from './api.js';
 import validator from './basevalidator.js';
 import UserModel from './models.js';
 import Factory from './factory.js';
-import {GraphicController} from './graphic/graphic.js';
-
-// TODO: incapsulate figures in GameUI
-import * as f from './graphic/figures.js';
-
 /**
  * Class implementing leaderboard logic
  */
@@ -296,78 +291,78 @@ class SettingsController {
 }
 
 class SinglePlayerController {
-  constructor(dispatcher, apiModule, graphicController) {
+  constructor(dispatcher, apiModule, UserModel) {
     this._dispatcher = dispatcher;
     this._apiModule = apiModule;
-    this._graphicController = graphicController;
-    this._fps = 50;
+    this._UserModel = UserModel;
   }
 
-  gameloop() {
-    if (this.gameloop.dx === undefined) {
-      this.gameloop.size = 10;
-      const size = this.gameloop.size;
-      const dims = this._graphicController.getCanvasSize();
+  init() {
+    fetch('/public/gameresources/singleplayer.json')
+        .then((response) => {
+          return response.text();
+        })
+        .then((response) => {
+          this._pack = JSON.parse(response);
 
-      const xPos = (dims.width - size) / 2;
-      const yPos = (dims.height - size) / 2;
+          // this._validatePack();
 
-      // this.gameloop.figure = new f.Rectangle(xPos, yPos, size, size, 'blue');
-      this.gameloop.figure = new f.Rectangle(xPos, yPos, size, size, 'rgb(44, 117, 255)');
+          for (const round of this._pack.rounds) {
+            round.questionCount = round.themes[0].questions.length;
+          }
 
-      this.gameloop.dx = 2;
-      this.gameloop.dy = 2;
+          this._pack.currentRound = 0;
+
+          this.displayQuestions();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  }
+
+  displayQuestions() {
+    const state = this._dispatcher.getState();
+    const users = [];
+
+    if (state['User']) {
+      users.push(state['User']);
+    } else {
+      const user = {
+        login: 'Guest',
+        avatarPath: '/public/img/avatar.jpg',
+        score: 0,
+      };
+
+      users.push(user);
     }
 
-    const size = this.gameloop.size;
-    const coords = this.gameloop.figure.coordinates;
-    const dims = this._graphicController.getCanvasSize();
-
-    if (coords.x + size >= dims.width || coords.x <= 0) {
-      this.gameloop.dx = -this.gameloop.dx;
-    }
-
-    if (coords.y + size >= dims.height || coords.y <= 0) {
-      this.gameloop.dy = -this.gameloop.dy;
-    }
-
-    const newx = coords.x + this.gameloop.dx;
-    const newy = coords.y + this.gameloop.dy;
-
-    this.gameloop.figure.coordinates = {
-      x: newx,
-      y: newy,
+    const obj = {
+      round: this._pack.rounds[this._pack.currentRound],
+      users: users,
     };
 
-    this._graphicController.addFigure(this.gameloop.figure);
+    this._dispatcher.dispatchEvent('QuestionList', obj);
   }
 
-  uiloop() {
-    const dims = this._graphicController.getCanvasSize();
-    const background = new f.Rectangle(0, 0, dims.width, dims.height, 'rgb(64,64,64)');
-    this._graphicController.addFigure(background);
-    this.gameloop();
-    this._graphicController.draw();
-  }
+  displayQuestion(tile) {
+    if (!tile instanceof Node) {
+      throw new TypeError('node expected');
+    }
 
-  _clearParams(obj) {
-    for (const i in obj) {
-      if (obj.hasOwnProperty(i)) {
-        obj[i] = undefined;
+    let num = -1;
+    const parent = tile.parentElement;
+    for (const i in parent.childNodes) {
+      if (parent.childNodes.hasOwnProperty(i)) {
+        if (parent.childNodes[i] === tile) {
+          num = i;
+          break;
+        }
       }
     }
-  }
 
-  initGame() {
-    this._graphicController.initController();
-    const binding = this.uiloop.bind(this);
-    this._timer = setInterval(binding, 1000 / this._fps);
-  }
+    const actualNum = (num - 1) / 2 - 1;
 
-  deinitGame() {
-    clearInterval(this._timer);
-    this._clearParams(this.gameloop);
-    this._clearParams(this.uiloop);
+    console.log(actualNum);
   }
 }
 
@@ -390,9 +385,7 @@ controllerFactory.addConstructor(LogoutController,
 controllerFactory.addConstructor(SettingsController,
     ['dispatcher', 'apiModule', 'validator', 'UserModel']);
 controllerFactory.addConstructor(SinglePlayerController,
-    ['dispatcher', 'apiModule', 'graphicController'], {
-      injections: {'graphicController': new GraphicController()},
-    });
+    ['dispatcher', 'apiModule', 'UserModel']);
 
 const leaderboardController = controllerFactory.newLeaderboardController();
 const loginController = controllerFactory.newLoginController();

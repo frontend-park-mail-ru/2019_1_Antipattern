@@ -2,36 +2,30 @@
     <div id="main-field" class="l-flex-column space-between">
         <div id="game-field" class="l-flex-row">
             <div id="questions" class="grid">
-                <div class="item l-flex-row justify-center align-center"><div>items</div></div>
-                <div class="item l-flex-row justify-center align-center"><div>items</div></div>
-                <div class="item l-flex-row justify-center align-center"><div>items</div></div>
-                <div class="item l-flex-row justify-center align-center"><div>items</div></div>
-                <div class="item l-flex-row justify-center align-center"><div>items</div></div>
-                <div class="item l-flex-row justify-center align-center"><div>items</div></div>
+                <!--{{#fillthemes themes}}-->
+                {{#each themes}}
+                    <div class="item l-flex-row justify-center align-center"><div>{{this.name}}</div></div>
+                    {{#each this.questions}}
+                        <div class="item l-flex-row justify-center align-center">
+                            <div>
+                                {{this.value}}
+                            </div>
+                        </div>
+                    {{/each}}
+                {{/each}}
+                <!--{{/fillthemes}}-->
             </div>
         </div>
         <div id="player-field" class="l-flex-row">
+            {{#each users}}
             <div class="card l-flex-column justify-center align-center">
-                <img src="#"></img>
+                <img src="{{this.avatarPath}}" width="50" height="50"></img>
                 <div class="l-flex-column">
-                        <p>Login</p>
-                        <p>Points</p>
-                </div>
-            </div>
-            <div class="card l-flex-column justify-center align-center">
-                <img src="#"></img>
-                <div class="l-flex-column">
-                    <p>Login</p>
-                    <p>Points</p>
+                    <p>{{this.login}}</p>
+                    <p>{{this.score}}</p>
                 </div>
              </div>
-            <div class="card l-flex-column justify-center align-center">
-                <img src="#"></img>
-                <div class="l-flex-column">
-                        <p>Login</p>
-                        <p>Points</p>
-                </div>
-            </div>
+            {{/each}}
         </div>
     </div>
     <div id="second-field" class="l-flex-column space-between justify-start">
@@ -49,7 +43,7 @@
             justify-content: center;
             height: 15%; width: 100%; 
             background-color: blueviolet;}
-        .grid { display: grid; grid-template-columns: repeat(6, 1fr);}
+        .grid { display: grid; grid-template-columns: repeat({{num}}, 1fr);}
         .item:nth-child(even) { background-color: rgb(39, 189, 189);}
         .item:nth-child(odd) { background-color: rgb(46, 170, 129)}
         .card {width: 100%;}

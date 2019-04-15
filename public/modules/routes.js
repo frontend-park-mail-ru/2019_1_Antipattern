@@ -520,26 +520,56 @@ class SinglePlayerRoute extends BaseRoute {
    * @param {Node} rootEl - DOM element
    * @param {Router} router - route object
    */
-  constructor(rootEl, router, controller) {
-    super(rootEl, router, controller);
+  constructor(rootEl, router, controller, subscriber) {
+    super(rootEl, router, controller, subscriber);
+  }
+
+  render(state, key, value) {
+    const round = value.round;
+    const users = value.users;
+    this._rootEl.innerHTML = Handlebars.templates['svoyak.html']({
+      num: round.questionCount + 1,
+      themes: round.themes,
+      users: users,
+    });
   }
 
   /**
    * Inits route
    */
   init() {
-    this._rootEl.innerHTML = Handlebars.templates['svoyak.html']();
+    this._controller.init();
+
+    this._addListener('click', (event) => {
+      const questionEl = document.getElementById('questions');
+      if (!questionEl) {
+        return;
+      }
+
+      let tile = event.target;
+      if (!questionEl.isSameNode(tile.parentElement)) {
+        tile = tile.parentElement;
+
+        if (!questionEl.isSameNode(tile.parentElement)) {
+          return;
+        }
+      }
+
+      event.preventDefault();
+
+      this._controller.displayQuestion(tile);
+    });
+
+    this._subscriber.subscribeEvent('QuestionList', this._render);
     super.init();
-    // this._controller.initGame();
-    console.log('ПРИГНАЛИ');
   }
 
   /**
    * Reverts route init
    */
   deinit() {
-    this._controller.deinitGame();
     super.deinit();
+    this._subscriber.unsubscribeEvent('QuestionList', this._render);
   }
 }
 
