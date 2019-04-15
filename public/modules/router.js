@@ -91,10 +91,10 @@ class Router {
       return;
     }
 
+    this._currentRoute = route;
     if (route.init) {
       route.init();
     }
-    this._currentRoute = route;
   }
 }
 

@@ -75,14 +75,8 @@
   font-style: normal;
 }
 
-.font-street-gathering {
-  font-family: "Street Gathering", sans-serif;
-  letter-spacing: 4px;
-}
-
-.font-hacked {
-  font-family: "Hacked", sans-serif;
-  letter-spacing: 4px;
+.color-text {
+  color: #0d5252;
 }
 
 .font-brandon {

@@ -514,6 +514,100 @@ class LogoutRoute extends BaseRoute {
   }
 }
 
+class SinglePlayerRoute extends BaseRoute {
+  /**
+   * AboutRoute constructor
+   * @param {Node} rootEl - DOM element
+   * @param {Router} router - route object
+   */
+  constructor(rootEl, router, controller, subscriber) {
+    super(rootEl, router, controller, subscriber);
+  }
+
+  render(state, key, value) {
+    let context = {};
+    if (key === 'QuestionList') {
+      const round = value.round;
+      const users = value.users;
+
+      context = {
+        num: round.questionCount + 1,
+        themes: round.themes,
+        users: users,
+        isQuestionList: true,
+      };
+    } else if (key === 'Question') {
+      context = {
+        users: value.users,
+        question: value.question,
+        isQuestion: true,
+        num: 1,
+      };
+    } else if (key === 'Message') {
+      context = {
+        users: value.users,
+        message: value.message,
+        isMessage: true,
+        num: 1,
+      };
+    }
+
+    this._rootEl.innerHTML = Handlebars.templates['svoyak.html'](context);
+  }
+
+  /**
+   * Inits route
+   */
+  init() {
+    this._controller.init();
+
+    this._addListener('click', (event) => {
+      const questionEl = document.getElementById('questions');
+      if (!questionEl) {
+        return;
+      }
+
+      let tile = event.target;
+      if (!questionEl.isSameNode(tile.parentElement)) {
+        tile = tile.parentElement;
+
+        if (!questionEl.isSameNode(tile.parentElement)) {
+          return;
+        }
+      }
+
+      event.preventDefault();
+
+      this._controller.displayQuestion(tile);
+    });
+
+    this._addListener('submit', (event) => {
+      event.preventDefault();
+      this._form = event.target;
+      clearErrors(this._form);
+
+      const answer = this._form.elements['answer'].value;
+
+      this._controller.displayAnswer(answer);
+    });
+
+    this._subscriber.subscribeEvent('QuestionList', this._render);
+    this._subscriber.subscribeEvent('Question', this._render);
+    this._subscriber.subscribeEvent('Message', this._render);
+    super.init();
+  }
+
+  /**
+   * Reverts route init
+   */
+  deinit() {
+    super.deinit();
+    this._subscriber.unsubscribeEvent('QuestionList', this._render);
+    this._subscriber.unsubscribeEvent('Question', this._render);
+    this._subscriber.unsubscribeEvent('Message', this._render);
+  }
+}
+
 export {
   IndexRoute,
   LoginRoute,
@@ -523,4 +617,5 @@ export {
   SettingsRoute,
   AboutRoute,
   LogoutRoute,
+  SinglePlayerRoute,
 };

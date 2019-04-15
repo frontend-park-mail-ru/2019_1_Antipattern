@@ -2,7 +2,7 @@
 
 import ajax from './ajax.js';
 
-const apiPrefix = 'https://api.kpacubo.xyz'; // use upstream api; change to blank for local
+const apiPrefix = ''; // use upstream api; change to blank for local
 
 /**
  * Class containing methods working with application's API

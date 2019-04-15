@@ -3,6 +3,7 @@ import apiModule from './api.js';
 import validator from './basevalidator.js';
 import UserModel from './models.js';
 import Factory from './factory.js';
+import {SinglePlayerController} from './gamecontrollers.js';
 
 /**
  * Class implementing leaderboard logic
@@ -291,6 +292,7 @@ class SettingsController {
   }
 }
 
+
 const controllerFactory = new Factory({
   'apiModule': apiModule,
   'validator': validator,
@@ -309,6 +311,8 @@ controllerFactory.addConstructor(LogoutController,
     ['dispatcher', 'apiModule', 'UserModel']);
 controllerFactory.addConstructor(SettingsController,
     ['dispatcher', 'apiModule', 'validator', 'UserModel']);
+controllerFactory.addConstructor(SinglePlayerController,
+    ['dispatcher', 'apiModule', 'UserModel']);
 
 const leaderboardController = controllerFactory.newLeaderboardController();
 const loginController = controllerFactory.newLoginController();
@@ -316,6 +320,7 @@ const userController = controllerFactory.newUserController();
 const signUpController = controllerFactory.newSignUpController();
 const logoutController = controllerFactory.newLogoutController();
 const settingsController = controllerFactory.newSettingsController();
+const singlePlayerController = controllerFactory.newSinglePlayerController();
 
 export {
   leaderboardController,
@@ -324,4 +329,5 @@ export {
   signUpController,
   logoutController,
   settingsController,
+  singlePlayerController,
 };

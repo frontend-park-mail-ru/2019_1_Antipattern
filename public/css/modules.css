@@ -134,102 +134,50 @@
   margin-right: 20px;
 }
 
-/* Buttons */
-
-.button-round {
-  border-radius: 0.7em;
-}
-
-.button-p-sm {
-  padding: 0.02em 0.2em 0.02em;
-  font-size: 0.25em;
-}
-
-.button-p-md {
-  padding: 0.08em 0.32em 0.08em;
-  font-size: 1em;
-}
-
-.button-p-lg {
-  padding: 0.2em 0.7em 0.2em;
-  font-size: 2.175em;
-}
-
-.button-p-xl {
-  padding: 0.35em 0.9em 0.35em;
-  font-size: 4em;
-}
-
 @media only screen and (max-width: 768px) {
   .button {
     height: calc(var(--width) / 10 * 3);
   }
-
-  .button-sm {
-    --width: 90px;
-  }
-
-  .button-md {
-    --width: 130px;
-  }
-
-  .button-lg {
-    --width: 190px;
-  }
-
-  .button-xl {
-    --width: 250px;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .button {
-    height: calc(var(--width) / 10 * 4);
-  }
-
-  .button-sm {
-    --width: 110px;
-  }
-
-  .button-md {
-    --width: 140px;
-  }
-
-  .button-lg {
-    --width: 210px;
-  }
-
-  .button-xl {
-    --width: 280px;
-  }
 }
 
 .button {
-  width: var(--width);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Spread out */
-
-.spread {
-  padding-left: var(--spread);
-  padding-right: var(--spread);
+input[type="text"],input[type="email"],input[type="password"] {
+ background-color: #009999;
+ border: none;
+ box-shadow: 0px 2px 0px 0px #749c96;
+  -webkit-transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s;
 }
 
-.spread-sm {
-  --spread: 25px;
+input[type="text"]:focus,input[type="email"]:focus,input[type="password"]:focus {
+  outline: none;
+  box-shadow: 0px 2px 0px 0px #f8b64c;
 }
 
-.spread-md {
-  --spread: 35px;
+input[type="text"]::placeholder,input[type="email"]::placeholder,input[type="password"]::placeholder {
+  color: #e0ffff;
 }
 
-.spread-lg {
-  --spread: 45px;
+input[type="submit"] {
+  background-color: #b55100;
+  color: #ffac68;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 12px;
 }
 
-.spread-xl {
-  --spread: 55px;
+input[type="submit"]:active {
+  background-color: #ffcc73;
+  color: #ff9033;
 }
+
+
+/* 
