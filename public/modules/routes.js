@@ -525,13 +525,34 @@ class SinglePlayerRoute extends BaseRoute {
   }
 
   render(state, key, value) {
-    const round = value.round;
-    const users = value.users;
-    this._rootEl.innerHTML = Handlebars.templates['svoyak.html']({
-      num: round.questionCount + 1,
-      themes: round.themes,
-      users: users,
-    });
+    let context = {};
+    if (key === 'QuestionList') {
+      const round = value.round;
+      const users = value.users;
+
+      context = {
+        num: round.questionCount + 1,
+        themes: round.themes,
+        users: users,
+        isQuestionList: true,
+      };
+    } else if (key === 'Question') {
+      context = {
+        users: value.users,
+        question: value.question,
+        isQuestion: true,
+        num: 1,
+      };
+    } else if (key === 'Message') {
+      context = {
+        users: value.users,
+        message: value.message,
+        isMessage: true,
+        num: 1,
+      };
+    }
+
+    this._rootEl.innerHTML = Handlebars.templates['svoyak.html'](context);
   }
 
   /**
@@ -560,7 +581,19 @@ class SinglePlayerRoute extends BaseRoute {
       this._controller.displayQuestion(tile);
     });
 
+    this._addListener('submit', (event) => {
+      event.preventDefault();
+      this._form = event.target;
+      clearErrors(this._form);
+
+      const answer = this._form.elements['answer'].value;
+
+      this._controller.displayAnswer(answer);
+    });
+
     this._subscriber.subscribeEvent('QuestionList', this._render);
+    this._subscriber.subscribeEvent('Question', this._render);
+    this._subscriber.subscribeEvent('Message', this._render);
     super.init();
   }
 
@@ -570,6 +603,8 @@ class SinglePlayerRoute extends BaseRoute {
   deinit() {
     super.deinit();
     this._subscriber.unsubscribeEvent('QuestionList', this._render);
+    this._subscriber.unsubscribeEvent('Question', this._render);
+    this._subscriber.unsubscribeEvent('Message', this._render);
   }
 }
 
@@ -582,5 +617,5 @@ export {
   SettingsRoute,
   AboutRoute,
   LogoutRoute,
-  SinglePlayerRoute
+  SinglePlayerRoute,
 };

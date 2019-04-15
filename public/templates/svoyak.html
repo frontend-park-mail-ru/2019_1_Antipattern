@@ -1,25 +1,59 @@
     <div class="l-flex-row font-brandon">
     <div id="main-field" class="l-flex-column space-between">
-        <div id="game-field" class="l-flex-row">
+        {{#unless isQuestion}}
+            <div id="game-field" class="l-flex-row">
+        {{else}}
+            <div id="game-field" class="l-flex-column">
+        {{/unless}}
             <div id="questions" class="grid">
-                <!--{{#fillthemes themes}}-->
-                {{#each themes}}
-                    <div class="item l-flex-row justify-center align-center"><div>{{this.name}}</div></div>
-                    {{#each this.questions}}
+                {{#if isQuestionList}}
+                    {{#each themes}}
                         <div class="item l-flex-row justify-center align-center">
                             <div>
-                                {{this.value}}
+                                {{this.name}}
                             </div>
                         </div>
+                        {{#each this.questions}}
+                            <div class="item l-flex-row justify-center align-center">
+                                <div>
+                                    {{#if active}}
+                                        {{this.value}}
+                                    {{/if}}
+                                </div>
+                            </div>
+                        {{/each}}
                     {{/each}}
-                {{/each}}
-                <!--{{/fillthemes}}-->
+                {{/if}}
+
+                {{#if isQuestion}}
+                <div class="item l-flex-row justify-center align-center">
+                    <div>
+                        {{question}}
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#if isMessage}}
+                <div class="item l-flex-row justify-center align-center">
+                    <div>
+                        {{message}}
+                    </div>
+                </div>
+                {{/if}}
             </div>
+            {{#if isQuestion}}
+                <div id="input" class="l-flex-row">
+                    <form class="l-flex-row justify-center align-center">
+                        <input type="text" id="answer">
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            {{/if}}
         </div>
         <div id="player-field" class="l-flex-row">
             {{#each users}}
             <div class="card l-flex-column justify-center align-center">
-                <img src="{{this.avatarPath}}" width="50" height="50"></img>
+                <img src="{{this.img}}" width="50" height="50"></img>
                 <div class="l-flex-column">
                     <p>{{this.login}}</p>
                     <p>{{this.score}}</p>
@@ -33,12 +67,36 @@
     </div>
     </div>
     <style type="text/css">
+        form {
+            width: 100%;
+            height: 100%;
+        }
+        input {
+            width: 90%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            width: 10%;
+            height: 100%;
+        }
         #main-field { height: 99vh; width: 75vw; padding: 3px; }
         #second-field { height: 99vh; width: 25vw; padding: 3px;}
         #game-field { height: 80%; width: auto; border: solid 1px white;}
         #player-field { height: 18%; width: auto; border: solid 1px white;}
         #pause-button { height: 100%; width: 8%;}
-        #questions {height: 100%; width: 100%; }
+        {{#unless isQuestion}}
+            #questions {
+                height: 100%; width: 100%;
+            }
+        {{else}}
+        #questions {
+            height: 90%; width: 100%;
+        }
+        {{/unless}}
+        #input {
+            height: 10%; width: 100%;
+        }
         #exit-button {display: flex; align-items: center;
             justify-content: center;
             height: 15%; width: 100%; 

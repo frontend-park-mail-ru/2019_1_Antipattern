@@ -49,6 +49,10 @@ class UserModel {
   get score() {
     return this._score;
   }
+
+  set score(score) {
+    this._score = score;
+  }
 }
 
 // TODO(AntonyMoes): implement UserModel holder

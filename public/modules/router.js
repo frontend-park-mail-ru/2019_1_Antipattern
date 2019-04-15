@@ -177,29 +177,6 @@ Handlebars.registerHelper('pagination',
       return options.fn(context);
     });
 
-Handlebars.registerHelper('fillthemes',
-    function(themes, options) {
-      console.log(themes);
-
-      for (const i in themes) {
-        if (themes.hasOwnProperty(i)) {
-          for (const j in themes[i].questions) {
-            if (themes[i].questions.hasOwnProperty(j)) {
-              themes[i].questions[j].theme = i;
-            }
-          }
-        }
-      }
-
-      const context = {
-        themes: themes,
-      };
-
-      console.log(context);
-
-      return options.fn(context);
-    });
-
 export {
   Router,
   initAnchorsRouting,

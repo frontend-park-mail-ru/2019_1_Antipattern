@@ -3,6 +3,8 @@ import apiModule from './api.js';
 import validator from './basevalidator.js';
 import UserModel from './models.js';
 import Factory from './factory.js';
+import {SinglePlayerController} from './gamecontrollers.js';
+
 /**
  * Class implementing leaderboard logic
  */
@@ -290,81 +292,6 @@ class SettingsController {
   }
 }
 
-class SinglePlayerController {
-  constructor(dispatcher, apiModule, UserModel) {
-    this._dispatcher = dispatcher;
-    this._apiModule = apiModule;
-    this._UserModel = UserModel;
-  }
-
-  init() {
-    fetch('/public/gameresources/singleplayer.json')
-        .then((response) => {
-          return response.text();
-        })
-        .then((response) => {
-          this._pack = JSON.parse(response);
-
-          // this._validatePack();
-
-          for (const round of this._pack.rounds) {
-            round.questionCount = round.themes[0].questions.length;
-          }
-
-          this._pack.currentRound = 0;
-
-          this.displayQuestions();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  }
-
-  displayQuestions() {
-    const state = this._dispatcher.getState();
-    const users = [];
-
-    if (state['User']) {
-      users.push(state['User']);
-    } else {
-      const user = {
-        login: 'Guest',
-        avatarPath: '/public/img/avatar.jpg',
-        score: 0,
-      };
-
-      users.push(user);
-    }
-
-    const obj = {
-      round: this._pack.rounds[this._pack.currentRound],
-      users: users,
-    };
-
-    this._dispatcher.dispatchEvent('QuestionList', obj);
-  }
-
-  displayQuestion(tile) {
-    if (!tile instanceof Node) {
-      throw new TypeError('node expected');
-    }
-
-    let num = -1;
-    const parent = tile.parentElement;
-    for (const i in parent.childNodes) {
-      if (parent.childNodes.hasOwnProperty(i)) {
-        if (parent.childNodes[i] === tile) {
-          num = i;
-          break;
-        }
-      }
-    }
-
-    const actualNum = (num - 1) / 2 - 1;
-
-    console.log(actualNum);
-  }
-}
 
 const controllerFactory = new Factory({
   'apiModule': apiModule,
