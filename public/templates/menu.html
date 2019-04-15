@@ -1,56 +1,57 @@
 <div id="menu">
     <div id="menu-logo">
-        <a class="button button-lg button-p-lg neon-button-red font-lg" href="/">
+        <a class="button button-lg button-p-lg font-lg" href="/">
             KPACUBO
         </a>
     </div>
 
-    <div id="menu-auth">
+    <div id="menu-auth" class="l-flex-column">
         {{#if isAuthorized }}
 
-            <a class="button button-md button-p-md neon-button-green mx-1 font-lg" href='/profile'>
+            <a class="button font-lg " href='/profile'>
                 Profile
             </a>
             
-            <a class="button button-md button-p-md neon-button-yellow mx-1 font-lg" href='/settings'>
+            <a class="button font-lg " href='/settings'>
                 Settings
             </a>
 
-            <a class="button button-md button-p-md neon-button-yellow mx-1 font-lg" href="/logout">
+            <a class="button font-lg " href="/logout">
                 Logout
             </a>
           
         {{ else }}
-            <a class="button button-md button-p-md neon-button-green mx-1 font-lg" href='/signup'>
+            <a class="button font-lg " href='/signup'>
                 Signup
             </a>
 
-            <a class="button button-md button-p-md neon-button-yellow mx-1 font-lg" href='/login'>
+            <a class="button font-lg " href='/login'>
                 Login
             </a>
     
         {{/if }}
-    </div>
+    
 
-    <div id="menu-game">
-        <a class="button button-md button-p-md neon-text-cyan neon-button-cyan mx-1 font-lg" href='/singleplayer'>
+   
+        <a class="button neon-text-cyan  font-lg" href='/singleplayer'>
             Single
         </a>
      
-        <a class="button button-md button-p-md neon-button-red mx-1 font-lg" href='/'>
+        <a class="button font-lg" href='/'>
             Multiplayer
         </a>
-    </div>
+ 
     
-    <div id="menu-help">
+
         
-        <a class="button button-md button-p-md neon-button-white mx-1 font-lg" href='/leaderboard'>
+        <a class="button font-lg " href='/leaderboard'>
             Leaderboard
         </a>
       
-        <a class="button button-md button-p-md neon-button-blue mx-1 font-lg" href='/about'>
+        <a class="button font-lg " href='/about'>
             About
         </a>
      
     </div>
+
 </div>
