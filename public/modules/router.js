@@ -16,6 +16,7 @@ class Router {
     this._routeMakerFns = {};
     this._defaultRoutePath = null;
     this._currentRoute = null;
+    this.notFoundRouteMaker = null;
   }
 
   /**
@@ -42,9 +43,9 @@ class Router {
     if (typeof path !== 'string') {
       return;
     }
-    if (!this._routeMakerFns[path]) {
-      return;
-    }
+    // if (!this._routeMakerFns[path]) {
+    //   return;
+    // }
 
     this._defaultRoutePath = path;
   }
@@ -81,9 +82,10 @@ class Router {
       this._currentRoute = null;
     }
 
-    const routeMakerFn = this._routeMakerFns[path];
+    let routeMakerFn = this._routeMakerFns[path];
     if (!routeMakerFn) {
-      return;
+      console.log('OI MATE');
+      routeMakerFn = this.notFoundRouteMaker;
     }
 
     const route = routeMakerFn(this._rootEl, this);

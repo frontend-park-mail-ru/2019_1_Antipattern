@@ -64,8 +64,25 @@ function initUIFactory() {
         factoryArgs: ['rootEl', 'router'],
         injections: {'controller': c.singlePlayerController},
       });
+  UIFactory.addConstructor(r.NotFoundRoute,
+      ['rootEl', 'router'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+      });
 
   return UIFactory;
+}
+
+
+function getDefaultLocation() {
+  const loc = window.location.href;
+
+  const ds = loc.indexOf('//');
+  let newLoc = loc.slice(ds + 2);
+  const ss = newLoc.indexOf('/');
+  newLoc = newLoc.slice(ss);
+
+  return newLoc;
 }
 
 /**
@@ -83,7 +100,11 @@ function initUI(UIFactory, root, router) {
   router.addRoute('/about', UIFactory.newAboutRoute);
   router.addRoute('/logout', UIFactory.newLogoutRoute);
   router.addRoute('/singleplayer', UIFactory.newSinglePlayerRoute);
-  router.setDefaultRoute('/');
+
+  router.notFoundRouteMaker = UIFactory.newNotFoundRoute;
+
+  const loc = getDefaultLocation();
+  router.setDefaultRoute(loc);
 
   router.init();
   initAnchorsRouting(root, router);

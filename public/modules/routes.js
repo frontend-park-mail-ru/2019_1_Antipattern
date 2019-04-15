@@ -608,6 +608,22 @@ class SinglePlayerRoute extends BaseRoute {
   }
 }
 
+class NotFoundRoute extends BaseRoute {
+  constructor(rootEl, router) {
+    super(rootEl, router);
+  }
+
+  init() {
+    console.log('NOT FND');
+    this._rootEl.innerHTML = Handlebars.templates['404.html']();
+    super.init();
+  }
+
+  deinit() {
+    super.deinit();
+  }
+}
+
 export {
   IndexRoute,
   LoginRoute,
@@ -618,4 +634,5 @@ export {
   AboutRoute,
   LogoutRoute,
   SinglePlayerRoute,
+  NotFoundRoute,
 };
