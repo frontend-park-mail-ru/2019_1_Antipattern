@@ -21,6 +21,10 @@
   justify-content: center;
 }
 
+.full {
+  min-height: 100vh;
+  min-width: 100vh;
+}
 
 .l-flex-column {
   display: flex;
