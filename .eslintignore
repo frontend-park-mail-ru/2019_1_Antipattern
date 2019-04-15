@@ -1,3 +1,2 @@
-public/templates/build/all.js
-public/js/lib/*.js
-out/
+/public/templates/build/all.js
+/public/js/lib/*.js

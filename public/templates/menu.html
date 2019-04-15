@@ -1,54 +1,48 @@
-<div id="menu">
-    <div id="menu-logo">
-        <a class="button button-lg button-p-lg neon-button-red font-lg" href="/">
-            KPACUBO
-        </a>
+<div class="menu">
+    <div class="menu-logo">
+        <a name="index" class="neon-button-red font-xl px-4 py-4" href='/' >KPACUBO</a>
     </div>
 
-    <div id="menu-auth">
+    <div class="menu-auth">
         {{#if isAuthorized }}
-
-            <a class="button button-md button-p-md neon-button-green mx-1 font-lg" href='/profile'>
+           
+            <a  class="neon-button-green menu-button-md menu-button mx-1 d-block" href='/profile'>
                 Profile
             </a>
             
-            <a class="button button-md button-p-md neon-button-yellow mx-1 font-lg" href='/settings'>
+            <a class="neon-button-yellow menu-button-md menu-button mx-1 d-block" href='/settings'>
                 Settings
-            </a>
-
-            <a class="button button-md button-p-md neon-button-yellow mx-1 font-lg" href="/logout">
-                Logout
             </a>
           
         {{ else }}
-            <a class="button button-md button-p-md neon-button-green mx-1 font-lg" href='/signup'>
+            <a class="neon-button-green menu-button-md menu-button mx-1 d-block" href='/signup'>
                 Signup
             </a>
 
-            <a class="button button-md button-p-md neon-button-yellow mx-1 font-lg" href='/login'>
+            <a class="neon-button-yellow menu-button-md menu-button mx-1 d-block" href='/login'>
                 Login
             </a>
     
         {{/if }}
     </div>
 
-    <div id="menu-game">
-        <a class="button button-md button-p-md neon-text-cyan neon-button-cyan mx-1 font-lg" href='/'>
+    <div class="menu-game">
+        <a class = "neon-text-cyan neon-button-cyan menu-button-md menu-button mx-1 d-block" href='/'>
             Single
         </a>
      
-        <a class="button button-md button-p-md neon-button-red mx-1 font-lg" href='/'>
+        <a class="neon-button-red menu-button-md menu-button mx-1 d-block" href='/'>
             Multiplayer
         </a>
     </div>
     
-    <div id="menu-help">
+    <div class="menu-help">
         
-        <a class="button button-md button-p-md neon-button-white mx-1 font-lg" href='/leaderboard'>
+        <a class="neon-button-white menu-button-md menu-button mx-1 d-block" href='/leaderboard'>
             Leaderboard
         </a>
       
-        <a class="button button-md button-p-md neon-button-blue mx-1 font-lg" href='/about'>
+        <a class="neon-button-blue menu-button-md menu-button mx-1 d-block" href='/about'>
             About
         </a>
      

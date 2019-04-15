@@ -1,38 +1,41 @@
-<div id="container">
-    <div class="l-flex-column height-md">
-        <a href="/" class="neon-text-red font-xxl">Leaderboard</a>
-        <table class="font-md font-brandon leaderboard">
-            <tr class="neon-text-blue">
-                <th>Login</th>
-                <th>Scores</th>
-            </tr>
-            {{#each users}}
-                <tr class="neon-text-yellow">
-                    <th>{{this.login}}</th>
-                    <th>{{this.score}}</th>
-                </tr>
-            {{/each}}
-        </table>
-    
-        <div class="font-brandon font-md">
-            {{#pagination currentPage pageCount size}}
-                <div id="pagination">
-                    {{#unless startFromFirstPage}}
-                        <a href="#">&lt;</a>
-                    {{/unless}}
+<div class="container align-items-center text-center">
+	<div id="menu">
+		<a href="/" class="neon-text-red font-xl font-street-gathering">Leaderboard</a>
+		<div class="align-items-center d-flex-row">
+		</div>
+		<div class="align-items-center d-flex-column scroll height-md">
+			<!-- TODO(Xenobyte): адаптация font-size под мобилки -->
+			<table class="font-md font-brandon" id="leaderboard">
+				<tr class="neon-text-blue">
+					<th>Nickname</th>
+					<th>Scores</th>
+				</tr>
+				{{#each users}}
+					<tr class="neon-text-yellow">
+						<th>{{this.name}}</th>
+						<th>{{this.score}}</th>
+					</tr>
+				{{/each}}
+			</table>
+		</div>
+		<div class="font-brandon font-md">
+			{{#pagination currentPage pageCount size}}
+				<div class="pagination" id="pagination">
+					{{#unless startFromFirstPage}}
+						<a href="#">&lt;</a>
+					{{/unless}}
 
-                    {{#each pages}}
-                        {{#unless isCurrent}}
-                            <a href="{{page}}">{{page}}</a>
-                        {{/unless}}
-                    {{/each}}
+					{{#each pages}}
+						{{#unless isCurrent}}
+							<a href="{{page}}">{{page}}</a>
+						{{/unless}}
+					{{/each}}
 
-                    {{#unless endAtLastPage}}
-                        <a class="neon-text-blue" href="#">&gt;</a>
-                    {{/unless}}
-                </div>
-            {{/pagination}}
-        </div>
-    </div>
+					{{#unless endAtLastPage}}
+						<a class="neon-text-blue" href="#">&gt;</a>
+					{{/unless}}
+				</div>
+			{{/pagination}}
+		</div>
+	</div>
 </div>
-
