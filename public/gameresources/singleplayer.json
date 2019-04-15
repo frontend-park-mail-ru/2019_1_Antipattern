@@ -1,0 +1,98 @@
+{
+  "name": "Singleplayer pack",
+  "author": "Antipattern",
+  "rounds": [
+    {
+      "themes": [
+        {
+          "name": "theme1",
+          "questions": [
+            {
+              "question": "what is love?",
+              "answers":[
+                "baby don't hurt me",
+                "don't hurt me",
+                "no more"
+              ],
+              "value": 100
+            },
+            {
+              "question": "never gonna give you up",
+              "answers":[
+                "never gonna let you down"
+              ],
+              "value": 200
+            }
+          ]
+        },
+        {
+          "name": "theme2",
+          "questions": [
+            {
+              "question": "what is love?",
+              "answers":[
+                "baby don't hurt me",
+                "don't hurt me",
+                "no more"
+              ],
+              "value": 300
+            },
+            {
+              "question": "never gonna give you up",
+              "answers":[
+                "never gonna let you down"
+              ],
+              "value": 400
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "themes": [
+        {
+          "name": "theme1",
+          "questions": [
+            {
+              "question": "what is love?",
+              "answers":[
+                "baby don't hurt me",
+                "don't hurt me",
+                "no more"
+              ],
+              "value": 100
+            },
+            {
+              "question": "never gonna give you up",
+              "answers":[
+                "never gonna let you down"
+              ],
+              "value": 100
+            }
+          ]
+        },
+        {
+          "name": "theme2",
+          "questions": [
+            {
+              "question": "what is love?",
+              "answers":[
+                "baby don't hurt me",
+                "don't hurt me",
+                "no more"
+              ],
+              "value": 100
+            },
+            {
+              "question": "never gonna give you up",
+              "answers":[
+                "never gonna let you down"
+              ],
+              "value": 100
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

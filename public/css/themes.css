@@ -1,0 +1,26 @@
+/*
+ *	Themes - defines colours and images
+ */
+
+.button {
+  background-color: #006363; /* Green */
+  border: none;
+  color: #01caa9;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 12px;
+  width: 7em;
+  height: auto;
+}
+
+.button:hover {
+  background-color: #b55100;
+  color: #ffac68;
+}
+
+.button:active {
+  background-color: #ffcc73;
+  color: #ff9033;
+}

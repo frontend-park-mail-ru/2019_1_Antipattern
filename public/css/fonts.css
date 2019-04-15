@@ -1,3 +1,7 @@
+/*
+ *  Fonts - fonts of different sizes and styles
+ */
+
 @media only screen and (min-width: 768px) {
   /* Classes md, lg, xl */
   .font-sm {
@@ -5,19 +9,19 @@
   }
 
   .font-md {
-    font-size: 1.000em;
+    font-size: 1em;
   }
 
   .font-lg {
-    font-size: 2.000em;
+    font-size: 2em;
   }
 
   .font-xl {
-    font-size: 3.700em;
+    font-size: 3.7em;
   }
 
   .font-xxl {
-    font-size: 7.000em;
+    font-size: 7em;
   }
 }
 
@@ -28,19 +32,19 @@
   }
 
   .font-md {
-    font-size: 0.600em;
+    font-size: 0.6em;
   }
 
   .font-lg {
-    font-size: 1.600em;
+    font-size: 1.6em;
   }
 
   .font-xl {
-    font-size: 2.500em;
+    font-size: 2.5em;
   }
 
   .font-xxl {
-    font-size: 5.000em;
+    font-size: 5em;
   }
 }
 
@@ -48,38 +52,34 @@
   font-family: "Street Gathering";
   src: url("../fonts/Street_Gathering.eot");
   src:
-  url("../fonts/Street_Gathering.woff") format("woff"),
-  url("../fonts/Street_Gathering.otf") format("opentype"),
-  url("../fonts/Street_Gathering.svg") format("svg");
+    url("../fonts/Street_Gathering.woff") format("woff"),
+    url("../fonts/Street_Gathering.otf") format("opentype"),
+    url("../fonts/Street_Gathering.svg") format("svg");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Hacked";
   src: url("../fonts/8693.ttf");
-}
-
-.font-street-gathering {
-  font-family: "Street Gathering";
-  letter-spacing: 4px;
-}
-
-
-.font-hacked {
-  font-family: "Hacked";
-  letter-spacing: 4px;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Brandon Grotesque Regular';
   src: url('../fonts/BrandonGrotesque-Regular.eot');
-  src: url('../fonts/BrandonGrotesque-Regular.eot?#iefix') format('embedded-opentype'),
-  url('../fonts/BrandonGrotesque-Regular.woff') format('woff'),
-  url('../fonts/BrandonGrotesque-Regular.ttf') format('truetype');
+  src:
+    url('../fonts/BrandonGrotesque-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/BrandonGrotesque-Regular.woff') format('woff'),
+    url('../fonts/BrandonGrotesque-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
+.color-text {
+  color: #0d5252;
+}
+
 .font-brandon {
-  font-family: 'Brandon Grotesque Regular';
+  font-family: 'Brandon Grotesque Regular', sans-serif;
   letter-spacing: 8px;
 }

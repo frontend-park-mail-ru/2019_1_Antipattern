@@ -1,63 +1,59 @@
 'use strict';
 
-(function() {
-  class UserModel {
-    /**
-     * Default UserModel constructor
-     * @param {string} username - user name
-     * @param {string} email - user email
-     * @param {string} login - user login
-     * @param {string} score - user score
-     * @param {string} img - user avatar path
-     */
-    constructor(username, email, login, score, img = '') {
-      this._username = username;
-      this._email = email;
-      this._login = login;
-      this._img = img;
-      this._score = score;
-    }
-
-    /**
-     * Returns user name
-     * @return {string} - user name
-     */
-    getUsername() {
-      return this._username;
-    }
-
-    /**
-     * Returns user email
-     * @return {string} - user email
-     */
-    getEmail() {
-      return this._email;
-    }
-
-    /**
-     * Returns user avatar path
-     * @return {string} - avatar path
-     */
-    getImg() {
-      return this._img;
-    }
-
-    /**
-     * Returns user score
-     * @return {string} - user score
-     */
-    getScore() {
-      return this._score;
-    }
-
-    /**
-     * Updates username
-     * @param {string} username - new user name
-     */
-    updateUsername(username) {
-      this._username = username;
-    }
+/**
+ * Class implementing user model
+ */
+class UserModel {
+  /**
+   * Default UserModel constructor
+   * @param {string} email - user email
+   * @param {string} login - user login
+   * @param {string} score - user score
+   * @param {string} img - user avatar path
+   */
+  constructor(email, login, score, img = '') {
+    this._email = email;
+    this._login = login;
+    this._img = img;
+    this._score = score;
   }
 
-  window.UserModel = UserModel;
-})();
+  /**
+   * Email getter
+   * @return {string} - email
+   */
+  get email() {
+    return this._email;
+  }
+
+  /**
+   * Login getter
+   * @return {string} - login
+   */
+  get login() {
+    return this._login;
+  }
+
+  /**
+   * Img path getter
+   * @return {string} - img path
+   */
+  get img() {
+    return this._img;
+  }
+
+  /**
+   * Score getter
+   * @return {string} - score
+   */
+  get score() {
+    return this._score;
+  }
+
+  set score(score) {
+    this._score = score;
+  }
+}
+
+// TODO(AntonyMoes): implement UserModel holder
+export default UserModel;

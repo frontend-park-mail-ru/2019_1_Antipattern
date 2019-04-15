@@ -1,172 +1,185 @@
 'use strict';
 
-(function() {
-  const ajax = window.AjaxModule;
-  const apiPrefix = '';
+import ajax from './ajax.js';
 
-  class API {
-    /**
-     * doAjax wrapper that execs callback and passes request result and payload
-     * @param {string} method - GET/POST/... method
-     * @param {string} url - target URL
-     * @param {string} body - request body
-     * @param {string} callback - function with 2 params that executes when
-     *                            the response is returned
-     * @param {string} type - expected response type
-     * @private
-     */
-    _sendRequest(method, url, body, callback, type) {
-      ajax.doAjax( {
-        callback: (xhr) => {
-          let object;
+const apiPrefix = ''; // use upstream api; change to blank for local
 
-          if (!callback) {
-            return true;
+/**
+ * Class containing methods working with application's API
+ */
+class API {
+  /**
+   * doFetch wrapper that returns promises with parsed data
+   * @param {String} method - GET/POST/... method
+   * @param {String} url - target URL
+   * @param {Object} body - request body
+   * @param {String} type - expected response type
+   * @return {Promise<Object|null>} - response body
+   *    parsed into an object
+   * @private
+   */
+  _sendRequest(method, url, body, type, required = []) {
+    if (typeof method !== 'string') {
+      throw new TypeError('\"method\" is not a string');
+    }
+
+    if (typeof url !== 'string') {
+      throw new TypeError('\"url\" is not a string');
+    }
+
+    if (typeof type !== 'string') {
+      throw new TypeError('\"type\" is not a string');
+    }
+
+    if (!Array.isArray(required)) {
+      throw new TypeError('\"required\" is not an Array');
+    }
+
+    return ajax.doFetch( {
+      path: apiPrefix + url,
+      body: body,
+      method: method,
+    })
+        .then((response) => {
+          if (!response.ok) {
+            throw response.statusText;
+          }
+          return response.text().then((text) => {
+            return text ? JSON.parse(text) : null;
+          });
+        })
+        .then((data) => {
+          if (data && data.status !== 'success') {
+            throw data;
           }
 
-          try {
-            object = JSON.parse(xhr.response);
-          } catch (SyntaxError) {
-            if (callback) {
-              callback('broken_response', null);
+          return data;
+        })
+        .then((response) => {
+          if (!response) {
+            return response;
+          }
+
+          if (response.type !== type) {
+            throw 'wrong response type';
+          }
+
+          return response.payload;
+        })
+        .then((payload) => {
+          if (required.length === 0) {
+            return payload;
+          }
+
+          for (const attr of required) {
+            if (!payload.hasOwnProperty(attr)) {
+              console.log('Lack of property \"' + attr + '\" in payload');
+              throw 'payload is missing some required fields';
             }
-            return false;
           }
 
-          if (xhr.status == 403) {
-            callback('unauthorized', null);
-            return false;
-          }
-          if (object.type !== type) {
-            callback('wrong_response', null);
-            return false;
-          }
-
-          callback(object.status, object.payload);
-          return true;
-        },
-        path: apiPrefix + url,
-        body: body,
-        method: method,
-      });
-    }
-
-    /**
-     * API method to register a new user
-     * @param {string} login - user login
-     * @param {string} email - user email
-     * @param {string} password - user password
-     * @param {string} name - user name
-     * @param {string} callback - function with 2 params that executes when
-     *                            the response is returned
-     */
-    register(login, email, password, name, callback) {
-      // Success:
-      // {"type":"reg","status":"success","payload":{"login":"user_login",
-      //  "email":"death.pa_cito@mail.yandex.ru","name":"kek"}}
-      // Errors:
-      // Already exists: {"type":"reg","status":"error","payload":{"message":
-      //  "User already exists","field":"login"}}
-
-      const url = '/api/register';
-      const data = {
-        login: login,
-        email: email,
-        password: password,
-        name: name,
-      };
-
-      this._sendRequest('POST', url, data, callback, 'reg');
-    }
-
-    /**
-     * API method to authorize a user
-     * @param {string} login - user login
-     * @param {string} password - user password
-     * @param {string} callback - function with 2 params that executes when
-     *                            the response is returned
-     */
-    authorize(login, password, callback) {
-      // Success:
-      // {"type":"log","status":"success","payload":{"login":"user_login",
-      //  "email":"death.pa_cito@mail.yandex.ru","name":"kek"}}
-      // Errors:
-      // Wrong login: {"type":"log","status":"error","payload":{"message":
-      //  "Incorrectlogin","field":"login"}}
-      // Wrong password: {"type":"log","status":"error","payload":{"message":
-      //  "Incorrectpassword","field":"password"}}
-      const url = '/api/auth';
-      const data = {
-        login: login,
-        password: password,
-      };
-
-
-      this._sendRequest('POST', url, data, callback, 'log');
-    }
-
-    /**
-     * API method to update user name and/or password
-     * @param {string} newName - new user name
-     * @param {string} newPassword - new user password
-     * @param {string} callback - function with 2 params that executes when
-     *                            the response is returned
-     */
-    updateUserInfo(newName, newPassword, callback) {
-      // Success:
-      // {"type":"usinfo","status":"success","payload":{"login":
-      //  "fake_user_login","email":"mail@mail.ru","name":"new name"}}
-      // Errors:
-      // Not implemeted yet
-      const url = '/api/profile';
-      const data = {
-        name: newName,
-        password: newPassword,
-      };
-
-      this._sendRequest('PUT', url, data, callback, 'usinfo');
-    }
-
-    /**
-     * API method to get current user's info
-     * @param {string} callback - function with 2 params that executes when
-     *                            the response is returned
-     */
-    getUserInfo(callback) {
-      // Request:
-      // Method: "GET"
-      // Url: /api/profile
-      // Body: empty
-      // Success:
-      // {"type":"usinfo","status":"success","payload":{"login":
-      //  "fake_user_login","email":"mail@mail.ru","name":"yasher"}}
-      // or
-      // {"type":"usinfo","status":"success","payload":{"login":
-      //  "fake_user_login","email":"mail@mail.ru","name":"yasher","avatar":
-      //  "/path/to/avatar.png"}}
-      // expectedBody := ``  or
-      // expectedBody := ``
-
-      const url = '/api/profile';
-      const data = {};
-
-      this._sendRequest('GET', url, data, callback, 'usinfo');
-    }
-
-    /**
-     * API method to gey user list for leaderboard
-     * @param {number} page - page of the leaderboard
-     * @param {string} callback - function with 2 params that executes when
-     *                            the response is returned
-     */
-    getUsers(page, callback) {
-      const url = '/api/leaderboard/' + page;
-      const data = {};
-
-      this._sendRequest('GET', url, data, callback, 'uslist');
-    }
+          return payload;
+        });
   }
 
-  window.API = new API();
-})();
+  /**
+   * API method to register a new user
+   * @param {String} login - user login
+   * @param {String} email - user email
+   * @param {String} password - user password
+   * @return {Promise<Object|null>} - response body
+   */
+  register(login, email, password) {
+    const url = '/api/register';
+    const data = {
+      login: login,
+      email: email,
+      password: password,
+    };
+    const required = ['login', 'email', 'score'];
 
+    return this._sendRequest('POST', url, data, 'reg', required);
+  }
+
+  /**
+   * API method to authorize a user
+   * @param {String} login - user login
+   * @param {String} password - user password
+   * @return {Promise<Object|null>} - response body
+   */
+  authorize(login, password) {
+    const url = '/api/auth';
+    const data = {
+      login: login,
+      password: password,
+    };
+    const required = ['login', 'email', 'score'];
+
+    return this._sendRequest('POST', url, data, 'log', required);
+  }
+
+  /**
+   * API method to update user login and/or password
+   * @param {String} newLogin - new user login
+   * @param {String} newPassword - new user password
+   * @return {Promise<Object|null>} - response body
+   */
+  updateUserInfo(newLogin, newPassword) {
+    const url = '/api/profile';
+    const data = {
+      login: newLogin,
+      password: newPassword,
+    };
+    const required = ['login', 'email', 'score'];
+
+    return this._sendRequest('PUT', url, data, 'usinfo', required);
+  }
+
+  /**
+   * API method to get current user's info
+   * @return {Promise<Object|null>} - response body
+   */
+  getUserInfo() {
+    const url = '/api/profile';
+    const required = ['login', 'email', 'score'];
+
+    return this._sendRequest('GET', url, {}, 'usinfo', required);
+  }
+
+  /**
+   * API method to gey user list for leaderboard
+   * @param {Number} page - page of the leaderboard
+   * @return {Promise<Object|null>} - response body
+   */
+  getUsers(page) {
+    const url = '/api/leaderboard/' + page;
+    const required = ['users'];
+
+    return this._sendRequest('GET', url, {}, 'uslist', required);
+  }
+
+  /**
+   * API method to upload user avatar
+   * @param {FormData} avatar - FormData var with avatar file
+   * @return {Promise<Object|null>} - response body
+   */
+  uploadAvatar(avatar) {
+    const imgUrl = '/api/upload_avatar';
+    const required = ['login', 'email', 'avatar', 'score'];
+
+    return this._sendRequest('POST', imgUrl, avatar, 'usinfo', required);
+  }
+
+  /**
+   * API method to logout
+   * @return {Promise<Object|null>} - response body
+   */
+  logout() {
+    const logoutUrl = '/api/login';
+
+    return this._sendRequest('DELETE', logoutUrl, {}, 'logout');
+  }
+}
+
+const apiModule = new API();
+export default apiModule;
