@@ -1,4 +1,13 @@
+#IDEs
+.code
 .idea
+
+#Platform
+.DS_Store
+
+#Project-compiled
 node_modules/
 out/
-.DS_Store
+public/dist/*
+public/templates/build/*
+
