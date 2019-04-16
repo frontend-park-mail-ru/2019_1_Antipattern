@@ -11,6 +11,7 @@ class Factory {
    */
   constructor(injections = {}) {
     this._generalInjections = injections;
+    this._constructors = new Map();
   }
 
   /**
@@ -26,7 +27,7 @@ class Factory {
       return;
     }
 
-    this['new' + Constructor.name] = (...receivedArgs) => {
+    this._constructors[Constructor] = (...receivedArgs) => {
       const resolvedArgs = constructorArgs.map((name) => {
         const factoryArgsIndex = factoryArgs.indexOf(name);
         if (factoryArgsIndex >= 0) {
@@ -41,6 +42,10 @@ class Factory {
       });
       return new Constructor(...resolvedArgs);
     };
+  }
+
+  getFabricator(Class) {
+    return this._constructors[Class];
   }
 }
 
