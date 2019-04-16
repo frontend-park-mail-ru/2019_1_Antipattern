@@ -285,12 +285,10 @@ class ProfileRoute extends BaseRoute {
     if (value) {
       /* TODO(everyone): make settings file */
       const user = value;
-      // TODO: remove this hardcode(incapsulate in user model)
-      const avatarPath = user.img || 'public/img/avatar.jpg';
       this._rootEl.innerHTML = Handlebars.templates['profile.html']({
         login: user.login,
         email: user.email,
-        avatar_path: avatarPath,
+        avatar_path: user.img,
         score: user.score,
       });
     } else {

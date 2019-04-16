@@ -106,6 +106,13 @@ class UserController {
   getUser() {
     const state = this._dispatcher.getState();
     if (state['User']) {
+      if (!state['User'].img) {
+        const us = state['User'];
+        const newUser = new this._UserModel(us.email, us.login,
+            us.score, 'public/img/avatar.jpg');
+        this._dispatcher.dispatchEvent('User', newUser);
+      }
+
       this._dispatcher.dispatchEvent('UserLoaded', state['User']);
       return;
     } else if (state['User'] === null) {
@@ -115,7 +122,7 @@ class UserController {
 
     this._apiModule.getUserInfo()
         .then((object) => {
-          const image = object.avatar || '';
+          const image = object.avatar || 'public/img/avatar.jpg';
           this._dispatcher.dispatchEvent('User', new this._UserModel(
               object.email, object.login, object.score, image
           ));
