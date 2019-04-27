@@ -190,10 +190,11 @@ class API {
     }
 
     const url = '/api/user/' + hexId;
-    const required = ['login'];
+    // const required = ['login'];
 
     return this._sendRequest('GET', url, {}, 'usinfo', required)
         .then((payload) => {
+          console.log(payload);
           this._userMap[hexId] = payload;
           return payload;
         });
