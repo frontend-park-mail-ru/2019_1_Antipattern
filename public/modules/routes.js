@@ -651,6 +651,7 @@ class ChatRoute extends BaseRoute {
       let msg = this._form.elements["text"].value;
       console.log(msg);
       this._controller.sendMsg(msg);
+      document.getElementById('text-field').scrollTop = 8000;
     });
 
     super.init();

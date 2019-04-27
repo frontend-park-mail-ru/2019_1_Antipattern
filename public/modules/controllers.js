@@ -337,6 +337,7 @@ class ChatController {
         this._dispatcher.dispatchEvent('Msg', {
           text: 'anon' + ':' + msg.text,
         });
+        
       }
     };
 
