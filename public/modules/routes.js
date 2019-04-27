@@ -643,6 +643,7 @@ class ChatRoute extends BaseRoute {
    */
   init() {
     this._subscriber.subscribeEvent('Msg', this._render);
+    
     this._rootEl.innerHTML = Handlebars.templates['chat.html']();
     let text = document.getElementById('pop-up');
     text.addEventListener('submit', (event) => {
