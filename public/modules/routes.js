@@ -656,6 +656,7 @@ class ChatRoute extends BaseRoute {
         document.getElementById('text-field').appendChild(p);
       }
     }
+    document.getElementById('text-field').scrollTop = 8000;
   }
   /**
    * Inits route
@@ -671,7 +672,6 @@ class ChatRoute extends BaseRoute {
       let msg = this._form.elements["text"].value;
       console.log(msg);
       this._controller.sendMsg(msg);
-      document.getElementById('text-field').scrollTop = 8000;
     });
 
     this._controller.loadHistory();
