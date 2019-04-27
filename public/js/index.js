@@ -52,6 +52,13 @@ function initUIFactory() {
       {
         factoryArgs: ['rootEl', 'router'],
       });
+  UIFactory.addConstructor(r.ChatRoute,
+    ['rootEl', 'router','controller', 'subscriber'],
+    {
+      factoryArgs: ['rootEl', 'router'],
+      injections: {'controller': c.leaderboardController},
+    });
+    
   UIFactory.addConstructor(r.LogoutRoute,
       ['rootEl', 'router', 'controller', 'subscriber'],
       {
@@ -100,6 +107,7 @@ function initUI(UIFactory, root, router) {
   router.addRoute('/about', UIFactory.newAboutRoute);
   router.addRoute('/logout', UIFactory.newLogoutRoute);
   router.addRoute('/singleplayer', UIFactory.newSinglePlayerRoute);
+  router.addRoute('/chat', UIFactory.newChatRoute);
 
   router.notFoundRouteMaker = UIFactory.newNotFoundRoute;
 

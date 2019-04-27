@@ -2,7 +2,7 @@
 
 import {showErrorMsg, clearErrors} from './utils.js';
 import {Router} from './router.js';
-
+import {sendMsg} from './chatws.js'
 /**
  * Base view class
  */
@@ -622,6 +622,41 @@ class NotFoundRoute extends BaseRoute {
   }
 }
 
+class ChatRoute extends BaseRoute {
+  /**
+   * AboutRoute constructor
+   * @param {Node} rootEl - DOM element
+   * @param {Router} router - route object
+   */
+  constructor(...args) {
+    super(...args);
+  }
+  
+  /**
+   * Inits route
+   */
+  init() {
+    this._rootEl.innerHTML = Handlebars.templates['chat.html']();
+    let text = document.getElementById('pop-up');
+    text.addEventListener('submit', (event) => {
+      event.preventDefault();
+      this._form = event.target;
+      let msg = this._form.elements["text"].value;
+      console.log(msg);
+      sendMsg(msg);
+    });
+    
+    super.init();
+  }
+
+  /**
+   * Reverts route init
+   */
+  deinit() {
+    super.deinit();
+  }
+}
+
 export {
   IndexRoute,
   LoginRoute,
@@ -633,4 +668,5 @@ export {
   LogoutRoute,
   SinglePlayerRoute,
   NotFoundRoute,
+  ChatRoute,
 };

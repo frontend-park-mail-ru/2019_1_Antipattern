@@ -5,6 +5,7 @@ import UserModel from './models.js';
 import Factory from './factory.js';
 import {SinglePlayerController} from './gamecontrollers.js';
 
+
 /**
  * Class implementing leaderboard logic
  */
@@ -299,6 +300,18 @@ class SettingsController {
   }
 }
 
+class ChatController {
+  /**
+   * SettingsController constructor
+   * @param {DispatchAdapter} dispatcher - internal dispatcher
+   */
+  constructor(dispatcher, apiModule, UserModel) {
+    this._dispatcher = dispatcher;
+    this._apiModule = apiModule;
+    this._UserModel = UserModel;
+  }
+}
+
 
 const controllerFactory = new Factory({
   'apiModule': apiModule,
@@ -320,6 +333,8 @@ controllerFactory.addConstructor(SettingsController,
     ['dispatcher', 'apiModule', 'validator', 'UserModel']);
 controllerFactory.addConstructor(SinglePlayerController,
     ['dispatcher', 'apiModule', 'UserModel']);
+controllerFactory.addConstructor(ChatController,
+    ['dispatcher', 'apiModule','UserModel']);
 
 const leaderboardController = controllerFactory.newLeaderboardController();
 const loginController = controllerFactory.newLoginController();
@@ -328,6 +343,7 @@ const signUpController = controllerFactory.newSignUpController();
 const logoutController = controllerFactory.newLogoutController();
 const settingsController = controllerFactory.newSettingsController();
 const singlePlayerController = controllerFactory.newSinglePlayerController();
+const chatController = controllerFactory.newChatController();
 
 export {
   leaderboardController,
@@ -337,4 +353,5 @@ export {
   logoutController,
   settingsController,
   singlePlayerController,
+  chatController,
 };
