@@ -633,10 +633,19 @@ class ChatRoute extends BaseRoute {
   }
 
   render(state, key, value) {
-    let p = document.createElement('p');
+    const div = document.createElement('div');
+    let p = document.createElement('span');
     let img = document.createElement('img');
+    img.src = value.avatar;
+    img.width = 25;
+    img.height = 25;
+    // console.log(value);
     p.innerText = value.text;
-    document.getElementById('text-field').appendChild(p);
+
+    div.appendChild(img);
+    div.appendChild(p);
+
+    document.getElementById('text-field').appendChild(div);
   }
   /**
    * Inits route
