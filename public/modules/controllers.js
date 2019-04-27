@@ -331,11 +331,13 @@ class ChatController {
             .then((payload) => {
               this._dispatcher.dispatchEvent('Msg', {
                 text: payload.login + ':' + msg.text,
+                avatar: payload.avatar || 'public/img/avatar.jpg',
               });
             });
       } else {
         this._dispatcher.dispatchEvent('Msg', {
           text: 'anon' + ':' + msg.text,
+          avatar: 'public/img/avatar.jpg',
         });
         
       }
