@@ -350,6 +350,18 @@ class ChatController {
   sendMsg(msg) {
     this._socket.send(JSON.stringify({ text: msg }));
   }
+
+  loadHistory() {
+    this._apiModule.getChatHistory()
+        .then((payload) => {
+          payload = payload.reverse();
+          this._dispatcher.dispatchEvent('Msgs', payload);
+          console.log(payload);
+        })
+        .catch((govno) => {
+          console.log(govno);
+        });
+  }
 }
 
 

@@ -633,25 +633,36 @@ class ChatRoute extends BaseRoute {
   }
 
   render(state, key, value) {
-    const div = document.createElement('div');
-    let p = document.createElement('span');
-    let img = document.createElement('img');
-    img.src = value.avatar;
-    img.width = 25;
-    img.height = 25;
-    // console.log(value);
-    p.innerText = value.text;
+    if (key === 'Msg') {
+      const div = document.createElement('div');
+      let p = document.createElement('span');
+      let img = document.createElement('img');
+      img.src = value.avatar;
+      img.width = 25;
+      img.height = 25;
+      // console.log(value);
+      p.innerText = value.text;
 
-    div.appendChild(img);
-    div.appendChild(p);
+      div.appendChild(img);
+      div.appendChild(p);
 
-    document.getElementById('text-field').appendChild(div);
+      document.getElementById('text-field').appendChild(div);
+    } else {
+      for (const msg of value) {
+        const p = document.createElement('p');
+        // console.log(value);
+        p.innerText = msg.uid.slice(0, 5) + ':' + msg.text;
+
+        document.getElementById('text-field').appendChild(p);
+      }
+    }
   }
   /**
    * Inits route
    */
   init() {
     this._subscriber.subscribeEvent('Msg', this._render);
+    this._subscriber.subscribeEvent('Msgs', this._render);
     this._rootEl.innerHTML = Handlebars.templates['chat.html']();
     let text = document.getElementById('pop-up');
     text.addEventListener('submit', (event) => {
@@ -662,6 +673,7 @@ class ChatRoute extends BaseRoute {
       this._controller.sendMsg(msg);
     });
 
+    this._controller.loadHistory();
     super.init();
   }
 
@@ -670,6 +682,7 @@ class ChatRoute extends BaseRoute {
    */
   deinit() {
     this._subscriber.unsubscribeEvent('Msg', this._render);
+    this._subscriber.unsubscribeEvent('Msgs', this._render);
     super.deinit();
   }
 }

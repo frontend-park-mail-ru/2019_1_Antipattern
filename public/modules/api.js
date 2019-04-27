@@ -198,6 +198,35 @@ class API {
           return payload;
         });
   }
+
+  getChatHistory() {
+    const method = 'GET';
+    const path = 'https://chat.kpacubo.xyz:2000/messages';
+
+    // Body must be empty with GET and HEAD requests
+    return fetch(path, {
+      method: method,
+      mode: 'cors',
+      // credentials: 'include',
+    })
+        .then((response) => {
+          if (!response.ok) {
+            throw response.statusText;
+          }
+          return response.text().then((text) => {
+            return text ? JSON.parse(text) : null;
+          });
+        })
+        .then((data) => {
+          if (data && data.status !== 'success') {
+            throw data;
+          }
+          return data.payload;
+        });
+
+
+    // return this._sendRequest('GET', url, {}, 'usinfo');
+  }
 }
 
 const apiModule = new API();
