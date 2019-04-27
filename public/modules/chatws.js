@@ -18,13 +18,13 @@ socket.onclose = function(event) {
 socket.onmessage = function(event) {
     //alert("Получены данные " + event.data);
     let msg = JSON.parse(event.data);
+    console.log("MESSAGE:", msg);
     let p = document.createElement("p");
-    let username //= apiModule.getUserById(msg.uid).then((payload) => {return payload;});
-    //if (username == 'undefined') {
-        username = 'anon';
-    //}
-    p.innerText = username + ":" + msg.text;
-    document.getElementById("text-field").appendChild(p);
+    apiModule.getUserById(msg.uid)
+        .then((payload)=>{
+            p.innerText = payload.login + ":" + msg.text;
+            document.getElementById("text-field").appendChild(p);
+        });
 };
 
 socket.onerror = function(error) {
