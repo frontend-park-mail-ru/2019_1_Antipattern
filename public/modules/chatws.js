@@ -1,6 +1,6 @@
 'use strict'
-
-let socket = new WebSocket("ws://chat.kpacubo.xyz:2000/ws");
+import apiModule from './api.js'
+let socket = new WebSocket("wss://chat.kpacubo.xyz:2000/ws");
     
 socket.onopen = function() {
     console.log("Соединение установлено.");
@@ -19,7 +19,11 @@ socket.onmessage = function(event) {
     //alert("Получены данные " + event.data);
     let msg = JSON.parse(event.data);
     let p = document.createElement("p");
-    p.innerText = msg.uid + ":" + msg.text;
+    let username //= apiModule.getUserById(msg.uid).then((payload) => {return payload;});
+    //if (username == 'undefined') {
+        username = 'anon';
+    //}
+    p.innerText = username + ":" + msg.text;
     document.getElementById("text-field").appendChild(p);
 };
 
