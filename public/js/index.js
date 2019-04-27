@@ -139,5 +139,5 @@ window.onload = () => {
 
   const UIFactory = initUIFactory();
   initUI(UIFactory, root, router);
-  registerServiceWorker();
+  // registerServiceWorker();
 };
