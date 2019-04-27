@@ -305,10 +305,48 @@ class ChatController {
    * SettingsController constructor
    * @param {DispatchAdapter} dispatcher - internal dispatcher
    */
-  constructor(dispatcher, apiModule, UserModel) {
+  constructor(dispatcher, apiModule) {
     this._dispatcher = dispatcher;
     this._apiModule = apiModule;
-    this._UserModel = UserModel;
+
+    this._socket = new WebSocket('wss://chat.kpacubo.xyz:2000/ws');
+
+    this._socket.onopen = () => {
+      console.log('Соединение установлено.');
+    };
+
+    this._socket.onclose = (event) => {
+      if (event.wasClean) {
+        console.log('Соединение закрыто чисто');
+      } else {
+        console.log('Обрыв соединения'); // например, "убит" процесс сервера
+      }
+      console.log('Код: ' + event.code + ' причина: ' + event.reason);
+    };
+
+    this._socket.onmessage = (event) => {
+      let msg = JSON.parse(event.data);
+      if (msg.uid !== '') {
+        this._apiModule.getUserById(msg.uid)
+            .then((payload) => {
+              this._dispatcher.dispatchEvent('Msg', {
+                text: payload.login + ':' + msg.text,
+              });
+            });
+      } else {
+        this._dispatcher.dispatchEvent('Msg', {
+          text: 'anon' + ':' + msg.text,
+        });
+      }
+    };
+
+    this._socket.onerror = (error) => {
+      console.log('Ошибка ' + error.message);
+    };
+  }
+
+  sendMsg(msg) {
+    this._socket.send(JSON.stringify({ text: msg }));
   }
 }
 
@@ -334,7 +372,7 @@ controllerFactory.addConstructor(SettingsController,
 controllerFactory.addConstructor(SinglePlayerController,
     ['dispatcher', 'apiModule', 'UserModel']);
 controllerFactory.addConstructor(ChatController,
-    ['dispatcher', 'apiModule','UserModel']);
+    ['dispatcher', 'apiModule']);
 
 const leaderboardController = controllerFactory.newLeaderboardController();
 const loginController = controllerFactory.newLoginController();

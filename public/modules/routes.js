@@ -2,7 +2,7 @@
 
 import {showErrorMsg, clearErrors} from './utils.js';
 import {Router} from './router.js';
-import {sendMsg} from './chatws.js'
+// import {sendMsg} from './chatws.js'
 /**
  * Base view class
  */
@@ -650,7 +650,7 @@ class ChatRoute extends BaseRoute {
       this._form = event.target;
       let msg = this._form.elements["text"].value;
       console.log(msg);
-      sendMsg(msg);
+      this._controller.sendMsg(msg);
     });
 
     super.init();
