@@ -339,6 +339,7 @@ class ChatController {
           text: 'anon' + ':' + msg.text,
           avatar: 'public/img/avatar.jpg',
         });
+        
       }
     };
 

@@ -38,51 +38,51 @@ class API {
       throw new TypeError('\"required\" is not an Array');
     }
 
-    return ajax.doFetch( {
+    return ajax.doFetch({
       path: apiPrefix + url,
       body: body,
       method: method,
     })
-        .then((response) => {
-          if (!response.ok) {
-            throw response.statusText;
-          }
-          return response.text().then((text) => {
-            return text ? JSON.parse(text) : null;
-          });
-        })
-        .then((data) => {
-          if (data && data.status !== 'success') {
-            throw data;
-          }
-
-          return data;
-        })
-        .then((response) => {
-          if (!response) {
-            return response;
-          }
-
-          if (response.type !== type) {
-            throw 'wrong response type';
-          }
-
-          return response.payload;
-        })
-        .then((payload) => {
-          if (required.length === 0) {
-            return payload;
-          }
-
-          for (const attr of required) {
-            if (!payload.hasOwnProperty(attr)) {
-              console.log('Lack of property \"' + attr + '\" in payload');
-              throw 'payload is missing some required fields';
-            }
-          }
-
-          return payload;
+      .then((response) => {
+        if (!response.ok) {
+          throw response.statusText;
+        }
+        return response.text().then((text) => {
+          return text ? JSON.parse(text) : null;
         });
+      })
+      .then((data) => {
+        if (data && data.status !== 'success') {
+          throw data;
+        }
+
+        return data;
+      })
+      .then((response) => {
+        if (!response) {
+          return response;
+        }
+
+        if (response.type !== type) {
+          throw 'wrong response type';
+        }
+
+        return response.payload;
+      })
+      .then((payload) => {
+        if (required.length === 0) {
+          return payload;
+        }
+
+        for (const attr of required) {
+          if (!payload.hasOwnProperty(attr)) {
+            console.log('Lack of property \"' + attr + '\" in payload');
+            throw 'payload is missing some required fields';
+          }
+        }
+
+        return payload;
+      });
   }
 
   /**
@@ -192,11 +192,18 @@ class API {
     const url = '/api/user/' + hexId;
 
     return this._sendRequest('GET', url, {}, 'usinfo')
-        .then((payload) => {
-          console.log(payload);
-          this._userMap[hexId] = payload;
-          return payload;
-        });
+      .then((payload) => {
+        this._userMap[hexId] = payload;
+        return payload;
+      });
+  }
+
+  getHistory() {
+    return fetch('https://chat.kpacubo.xyz:2000/messages')
+      .this((payload) => {
+        console.log(payload);
+        return payload;
+      })
   }
 
   getChatHistory() {
