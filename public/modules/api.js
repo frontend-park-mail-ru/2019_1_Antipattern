@@ -8,6 +8,9 @@ const apiPrefix = 'https://api.kpacubo.xyz'; // use upstream api; change to blan
  * Class containing methods working with application's API
  */
 class API {
+  constructor() {
+    this._userMap = new Map();
+  }
   /**
    * doFetch wrapper that returns promises with parsed data
    * @param {String} method - GET/POST/... method
@@ -164,10 +167,10 @@ class API {
    * @return {Promise<Object|null>} - response body
    */
   uploadAvatar(avatar) {
-    const imgUrl = '/api/upload_avatar';
+    const url = '/api/upload_avatar';
     const required = ['login', 'email', 'avatar', 'score'];
 
-    return this._sendRequest('POST', imgUrl, avatar, 'usinfo', required);
+    return this._sendRequest('POST', url, avatar, 'usinfo', required);
   }
 
   /**
@@ -175,9 +178,25 @@ class API {
    * @return {Promise<Object|null>} - response body
    */
   logout() {
-    const logoutUrl = '/api/login';
+    const url = '/api/login';
 
-    return this._sendRequest('DELETE', logoutUrl, {}, 'logout');
+    return this._sendRequest('DELETE', url, {}, 'logout');
+  }
+
+
+  getUserById(hexId) {
+    if (this._userMap.has(hexId)) {
+      return this._userMap[hexId];
+    }
+
+    const url = '/api/user/' + hexId;
+    const required = ['login'];
+
+    return this._sendRequest('GET', url, {}, 'usinfo', required)
+        .then((payload) => {
+          this._userMap[hexId] = payload;
+          return payload;
+        });
   }
 }
 
