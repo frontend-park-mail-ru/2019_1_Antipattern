@@ -631,11 +631,18 @@ class ChatRoute extends BaseRoute {
   constructor(...args) {
     super(...args);
   }
-  
+
+  render(state, key, value) {
+    let p = document.createElement('p');
+    let img = document.createElement('img');
+    p.innerText = value.text;
+    document.getElementById('text-field').appendChild(p);
+  }
   /**
    * Inits route
    */
   init() {
+    this._subscriber.subscribeEvent('Msg', this._render);
     this._rootEl.innerHTML = Handlebars.templates['chat.html']();
     let text = document.getElementById('pop-up');
     text.addEventListener('submit', (event) => {
@@ -645,7 +652,7 @@ class ChatRoute extends BaseRoute {
       console.log(msg);
       sendMsg(msg);
     });
-    
+
     super.init();
   }
 
@@ -653,6 +660,7 @@ class ChatRoute extends BaseRoute {
    * Reverts route init
    */
   deinit() {
+    this._subscriber.unsubscribeEvent('Msg', this._render);
     super.deinit();
   }
 }

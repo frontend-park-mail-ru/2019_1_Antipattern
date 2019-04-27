@@ -53,12 +53,11 @@ function initUIFactory() {
         factoryArgs: ['rootEl', 'router'],
       });
   UIFactory.addConstructor(r.ChatRoute,
-    ['rootEl', 'router','controller', 'subscriber'],
-    {
-      factoryArgs: ['rootEl', 'router'],
-      injections: {'controller': c.leaderboardController},
-    });
-    
+      ['rootEl', 'router', 'controller', 'subscriber'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+        injections: {'controller': c.chatController},
+      });
   UIFactory.addConstructor(r.LogoutRoute,
       ['rootEl', 'router', 'controller', 'subscriber'],
       {
