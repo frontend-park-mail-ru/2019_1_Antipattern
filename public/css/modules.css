@@ -146,17 +146,19 @@
   align-items: center;
 }
 
+input {
+  color: #8ddbf3;
+}
+
 input[type="text"],input[type="email"],input[type="password"] {
- background-color: #009999;
+ background-color:  #006363; 
  border: none;
- box-shadow: 0px 2px 0px 0px #749c96;
   -webkit-transition: box-shadow 0.3s;
   transition: box-shadow 0.3s;
 }
 
 input[type="text"]:focus,input[type="email"]:focus,input[type="password"]:focus {
   outline: none;
-  box-shadow: 0px 2px 0px 0px #f8b64c;
 }
 
 input[type="text"]::placeholder,input[type="email"]::placeholder,input[type="password"]::placeholder {

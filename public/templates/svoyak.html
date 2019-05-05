@@ -45,7 +45,7 @@
                 <div id="input" class="l-flex-row">
                     <form class="l-flex-row justify-center align-center">
                         <input type="text" id="answer">
-                        <button type="submit">Submit</button>
+                        <button class="answer" type="submit">Submit</button>
                     </form>
                 </div>
             {{/if}}
@@ -80,6 +80,13 @@
             width: 10%;
             height: 100%;
         }
+
+        @media screen and (max-width: 798px) {
+        .answer {
+            width: 30%;
+
+        }
+    }
         #main-field { height: 99vh; width: 75vw; padding: 3px; }
         #second-field { height: 99vh; width: 25vw; padding: 3px;}
         #game-field { height: 80%; width: auto; border: solid 1px white;}
