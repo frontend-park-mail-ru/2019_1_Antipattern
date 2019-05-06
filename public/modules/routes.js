@@ -136,7 +136,6 @@ class IndexRoute extends BaseRoute {
       }
     }
     window.openTab = function (evt, cityName) {
-      console.log('heh');
       var i, tabcontent, tablinks;
       tabcontent = document.getElementsByClassName("tabcontent");
       for (i = 0; i < tabcontent.length; i++) {

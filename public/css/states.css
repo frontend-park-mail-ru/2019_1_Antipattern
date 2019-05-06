@@ -1,7 +1,5 @@
-/*
- *	States - state-styles with prefix "is-" and etc.
- */
-
+/* *	States - state-styles with prefix "is-" and etc.
+ * */
 .justify-around,
 .justify-end,
 .justify-start {
@@ -22,7 +20,7 @@
 .justify-start {
   justify-content: flex-start !important;
 }
- 
+
 .space-between {
   justify-content: space-between !important;
 }
@@ -35,4 +33,33 @@
   align-items: center !important;
 }
 
+.hidden {
+  display: none !important;
+}
 
+#input {
+  height: 10%;
+  width: 100%;
+}
+
+#exit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15%;
+  width: 100%;
+  background-color: blueviolet;
+}
+
+.card {
+  width: 100%;
+}
+
+.item:nth-child(even) {
+  background-color: #27bdbd;
+}
+.item:nth-child(odd) {
+  background-color: #2eaa81;
+}
+
+/*# sourceMappingURL=states.css.map */

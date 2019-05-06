@@ -43,9 +43,6 @@ class Router {
     if (typeof path !== 'string') {
       return;
     }
-    // if (!this._routeMakerFns[path]) {
-    //   return;
-    // }
 
     this._defaultRoutePath = path;
   }

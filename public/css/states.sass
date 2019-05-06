@@ -1,0 +1,66 @@
+/*
+ *	States - state-styles with prefix "is-" and etc.
+ */
+
+.justify-around,
+.justify-end,
+.justify-start 
+  display: flex
+  flex-direction: row
+
+@mixin center() 
+  display: flex
+  justify-content: center
+  align-items: center
+
+.justify-around 
+  align-items: flex-start
+  justify-content: space-around !important
+
+
+.justify-end 
+  align-items: flex-start
+  justify-content: space-between !important
+
+
+.justify-start 
+  justify-content: flex-start !important
+
+ 
+.space-between 
+  justify-content: space-between !important
+
+
+.justify-center 
+  justify-content: center !important
+
+
+.align-center 
+  align-items: center !important
+
+
+.hidden 
+  display: none !important
+
+
+#input 
+  height: 10%
+  width: 100%
+
+#exit-button 
+  @include center()
+  height: 15%
+  width: 100%
+  background-color: blueviolet
+  
+
+// .item:nth-child(even) { background-color: rgb(39, 189, 189);}
+// .item:nth-child(odd) { background-color: rgb(46, 170, 129)}
+.card
+  width: 100%
+
+.item
+  &:nth-child(even)
+    background-color: rgb(39, 189, 189)
+  &:nth-child(odd)
+    background-color: rgb(46, 170, 129)

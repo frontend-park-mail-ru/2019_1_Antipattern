@@ -1,9 +1,6 @@
-/*
- *	Module - reusable styles, elements and submodules (answer how look element: height, width, etc.)
- */
-
+/* *	Module - reusable styles, elements and submodules (answer how look element: height, width, etc.)
+ * */
 /* Elements */
-
 .error-msg {
   margin: 0 auto;
   word-wrap: break-word;
@@ -48,7 +45,6 @@
 }
 
 /* Limiters, margins, paddings */
-
 .fill-width {
   width: 100vh;
 }
@@ -139,7 +135,6 @@
     height: calc(var(--width) / 10 * 3);
   }
 }
-
 .button {
   display: flex;
   justify-content: center;
@@ -150,22 +145,20 @@ input {
   color: #8ddbf3;
 }
 
-input[type="text"],input[type="email"],input[type="password"] {
- background-color:  #006363; 
- border: none;
-  -webkit-transition: box-shadow 0.3s;
+input[type=text], input[type=email], input[type=password] {
+  background-color: #006363;
+  border: none;
   transition: box-shadow 0.3s;
+  -webkit-transition: box-shadow 0.3s;
 }
-
-input[type="text"]:focus,input[type="email"]:focus,input[type="password"]:focus {
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus {
   outline: none;
 }
-
-input[type="text"]::placeholder,input[type="email"]::placeholder,input[type="password"]::placeholder {
+input[type=text]::placeholder, input[type=email]::placeholder, input[type=password]::placeholder {
   color: #e0ffff;
 }
 
-input[type="submit"] {
+input[type=submit] {
   background-color: #b55100;
   color: #ffac68;
   border: none;
@@ -175,11 +168,11 @@ input[type="submit"] {
   display: block;
   font-size: 12px;
 }
-
-input[type="submit"]:active {
+input[type=submit]:active {
   background-color: #ffcc73;
   color: #ff9033;
 }
 
+/*  */
 
-/* 
+/*# sourceMappingURL=modules.css.map */

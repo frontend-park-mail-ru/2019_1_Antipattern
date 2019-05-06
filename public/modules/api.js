@@ -220,12 +220,10 @@ class API {
           if (!response.ok) {
             throw response.statusText;
           }
-          return response.text().then((text) => {
-            return text ? JSON.parse(text) : null;
-          });
+          return response.json();
         })
         .then((data) => {
-          if (data && data.status !== 'success') {
+          if (!data || data.status !== 'success') {
             throw data;
           }
           return data.payload;
