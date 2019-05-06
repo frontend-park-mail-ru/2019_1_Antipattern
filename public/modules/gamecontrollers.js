@@ -153,7 +153,6 @@ export class SinglePlayerController {
   }
 
   _changeRound() {
-
     this._round++;
     if (this._round === this._pack.rounds.length) {
       this._endGame();

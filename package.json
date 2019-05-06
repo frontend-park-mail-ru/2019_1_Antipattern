@@ -27,6 +27,11 @@
     "jsdoc": "^3.5.5",
     "postcss-reporter": "^6.0.1",
     "stylelint": "^9.10.1",
-    "stylelint-config-standard": "^18.2.0"
+    "stylelint-config-standard": "^18.2.0",
+    "webpack": "^4.30.0"
+  },
+  "dependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-google": "^0.12.0"
   }
 }

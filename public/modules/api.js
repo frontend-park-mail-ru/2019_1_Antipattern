@@ -2,12 +2,15 @@
 
 import ajax from './ajax.js';
 
-const apiPrefix = ''; // use upstream api; change to blank for local
+const apiPrefix = 'https://api.kpacubo.xyz'; // use upstream api; change to blank for local
 
 /**
  * Class containing methods working with application's API
  */
 class API {
+  constructor() {
+    this._userMap = new Map();
+  }
   /**
    * doFetch wrapper that returns promises with parsed data
    * @param {String} method - GET/POST/... method
@@ -35,51 +38,51 @@ class API {
       throw new TypeError('\"required\" is not an Array');
     }
 
-    return ajax.doFetch( {
+    return ajax.doFetch({
       path: apiPrefix + url,
       body: body,
       method: method,
     })
-        .then((response) => {
-          if (!response.ok) {
-            throw response.statusText;
-          }
-          return response.text().then((text) => {
-            return text ? JSON.parse(text) : null;
-          });
-        })
-        .then((data) => {
-          if (data && data.status !== 'success') {
-            throw data;
-          }
-
-          return data;
-        })
-        .then((response) => {
-          if (!response) {
-            return response;
-          }
-
-          if (response.type !== type) {
-            throw 'wrong response type';
-          }
-
-          return response.payload;
-        })
-        .then((payload) => {
-          if (required.length === 0) {
-            return payload;
-          }
-
-          for (const attr of required) {
-            if (!payload.hasOwnProperty(attr)) {
-              console.log('Lack of property \"' + attr + '\" in payload');
-              throw 'payload is missing some required fields';
-            }
-          }
-
-          return payload;
+      .then((response) => {
+        if (!response.ok) {
+          throw response.statusText;
+        }
+        return response.text().then((text) => {
+          return text ? JSON.parse(text) : null;
         });
+      })
+      .then((data) => {
+        if (data && data.status !== 'success') {
+          throw data;
+        }
+
+        return data;
+      })
+      .then((response) => {
+        if (!response) {
+          return response;
+        }
+
+        if (response.type !== type) {
+          throw 'wrong response type';
+        }
+
+        return response.payload;
+      })
+      .then((payload) => {
+        if (required.length === 0) {
+          return payload;
+        }
+
+        for (const attr of required) {
+          if (!payload.hasOwnProperty(attr)) {
+            console.log('Lack of property \"' + attr + '\" in payload');
+            throw 'payload is missing some required fields';
+          }
+        }
+
+        return payload;
+      });
   }
 
   /**
@@ -164,10 +167,10 @@ class API {
    * @return {Promise<Object|null>} - response body
    */
   uploadAvatar(avatar) {
-    const imgUrl = '/api/upload_avatar';
+    const url = '/api/upload_avatar';
     const required = ['login', 'email', 'avatar', 'score'];
 
-    return this._sendRequest('POST', imgUrl, avatar, 'usinfo', required);
+    return this._sendRequest('POST', url, avatar, 'usinfo', required);
   }
 
   /**
@@ -175,9 +178,59 @@ class API {
    * @return {Promise<Object|null>} - response body
    */
   logout() {
-    const logoutUrl = '/api/login';
+    const url = '/api/login';
 
-    return this._sendRequest('DELETE', logoutUrl, {}, 'logout');
+    return this._sendRequest('DELETE', url, {}, 'logout');
+  }
+
+
+  getUserById(hexId) {
+    if (this._userMap.has(hexId)) {
+      return this._userMap[hexId];
+    }
+
+    const url = '/api/user/' + hexId;
+
+    return this._sendRequest('GET', url, {}, 'usinfo')
+      .then((payload) => {
+        this._userMap[hexId] = payload;
+        return payload;
+      });
+  }
+
+  getHistory() {
+    return fetch('https://chat.kpacubo.xyz:2000/messages')
+      .this((payload) => {
+        console.log(payload);
+        return payload;
+      })
+  }
+
+  getChatHistory() {
+    const method = 'GET';
+    const path = 'https://chat.kpacubo.xyz:2000/messages';
+
+    // Body must be empty with GET and HEAD requests
+    return fetch(path, {
+      method: method,
+      mode: 'cors',
+      // credentials: 'include',
+    })
+        .then((response) => {
+          if (!response.ok) {
+            throw response.statusText;
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (!data || data.status !== 'success') {
+            throw data;
+          }
+          return data.payload;
+        });
+
+
+    // return this._sendRequest('GET', url, {}, 'usinfo');
   }
 }
 

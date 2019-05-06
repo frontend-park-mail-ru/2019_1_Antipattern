@@ -1,42 +1,30 @@
 <div id="container">
     <div class="l-flex-column">
         <div class="justify-around my-2">
-            <a class="spread spread-xl neon-text-red font-xxl" href="/" >Settings</a>
+            <a class="button neon-text-cyan" href="/">Go back</a>
         </div>
-
+        <img src="{{ avatar_path }}">
         <form action="" class="l-flex-column" method="POST">
+            <fieldset>
+                <div class="group">
+                    <input required="" id="login" class="input" type="text"><span class="highlight"></span><span
+                        class="bar"></span>
+                    <label class="label" for="date">Change login</label></div>
+                <div class="error-msg"></div>
+                <!-- Text input-->
+                <div class="group">
+                    <input required="" id="password" class="input" type="password"><span class="highlight"></span><span
+                        class="bar"></span>
+                    <label class="label" for="date">New password</label></div>
+                <div class="error-msg"></div>
+                <div class="group">
+                    <input required="" id="repeat_password" class="input" type="password"><span
+                        class="highlight"></span><span class="bar"></span>
+                    <label class="label" for="date">Repeat password</label></div>
+                <div class="error-msg"></div>
+            </fieldset>
             <div class="justify-end my-4">
-                <div class="l-flex-row">
-                    <label class="spread spread-lg neon-text-yellow font-brandon font-lg" for="username">
-                        Change login
-                    </label>
-                    <input type="text" id="login"  placeholder="Login" class="spread spread-lg button-md input-dark font-md">
-                    <div class="error-msg neon-text-white font-brandon"></div>
-                </div>    
-            </div>
-
-            <div class="justify-end my-4">
-                <div class="l-flex-row">
-                    <label class="spread spread-lg neon-text-yellow font-brandon font-lg" for="password">
-                        Change password
-                    </label>
-                    <input type="password" id="password" placeholder="Password" class="spread spread-lg button-md input-dark font-md">
-                    <div class="error-msg neon-text-white font-brandon"></div>
-                </div>
-            </div>
-
-            <div class="justify-end my-4">
-                <div class="l-flex-row">
-                    <label class="spread spread-lg neon-text-yellow font-brandon font-lg" for="repeat_password">
-                        Repeat password
-                    </label>
-                    <input type="password" id="repeat_password" placeholder="Confirm password" class="spread spread-lg button-md input-dark font-md">
-                    <div class="error-msg neon-text-white font-brandon"></div>
-                </div>
-            </div>
-
-            <div class="justify-end my-4">
-                <input type="file" id="avatar" placeholder="Upload avatar">
+                <input type="file" class="button-md" id="avatar" placeholder="Upload avatar">
                 <div class="error-msg neon-text-white font-brandon"></div>
             </div>
 
@@ -44,3 +32,9 @@
         </form>
     </div>
 </div>
+
+<style>
+    body {
+        background-color: #006363;
+    }
+</style>

@@ -1,7 +1,5 @@
-/*
- *  Layout - components like menu-grid, containers, sidebars etc. (where and how displayed blocks)
- */
-
+/* *  Layout - components like menu-grid, containers, sidebars etc. (where and how displayed blocks)
+ * */
 #menu {
   display: grid;
   min-height: 100vh;
@@ -21,6 +19,10 @@
   justify-content: center;
 }
 
+.full {
+  min-height: 100vh;
+  min-width: 100vh;
+}
 
 .l-flex-column {
   display: flex;
@@ -31,3 +33,5 @@
   display: flex;
   flex-direction: row;
 }
+
+/*# sourceMappingURL=layout.css.map */

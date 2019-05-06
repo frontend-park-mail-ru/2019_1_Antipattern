@@ -52,6 +52,12 @@ function initUIFactory() {
       {
         factoryArgs: ['rootEl', 'router'],
       });
+  UIFactory.addConstructor(r.ChatRoute,
+      ['rootEl', 'router', 'controller', 'subscriber'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+        injections: {'controller': c.chatController},
+      });
   UIFactory.addConstructor(r.LogoutRoute,
       ['rootEl', 'router', 'controller', 'subscriber'],
       {
@@ -64,8 +70,25 @@ function initUIFactory() {
         factoryArgs: ['rootEl', 'router'],
         injections: {'controller': c.singlePlayerController},
       });
+  UIFactory.addConstructor(r.NotFoundRoute,
+      ['rootEl', 'router'],
+      {
+        factoryArgs: ['rootEl', 'router'],
+      });
 
   return UIFactory;
+}
+
+
+function getDefaultLocation() {
+  const loc = window.location.href;
+
+  const ds = loc.indexOf('//');
+  let newLoc = loc.slice(ds + 2);
+  const ss = newLoc.indexOf('/');
+  newLoc = newLoc.slice(ss);
+
+  return newLoc;
 }
 
 /**
@@ -83,7 +106,12 @@ function initUI(UIFactory, root, router) {
   router.addRoute('/about', UIFactory.newAboutRoute);
   router.addRoute('/logout', UIFactory.newLogoutRoute);
   router.addRoute('/singleplayer', UIFactory.newSinglePlayerRoute);
-  router.setDefaultRoute('/');
+  router.addRoute('/chat', UIFactory.newChatRoute);
+
+  router.notFoundRouteMaker = UIFactory.newNotFoundRoute;
+
+  const loc = getDefaultLocation();
+  router.setDefaultRoute(loc);
 
   router.init();
   initAnchorsRouting(root, router);
@@ -110,5 +138,5 @@ window.onload = () => {
 
   const UIFactory = initUIFactory();
   initUI(UIFactory, root, router);
-  registerServiceWorker();
+  // registerServiceWorker();
 };

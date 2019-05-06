@@ -8,50 +8,103 @@
     <div id="menu-auth" class="l-flex-column">
         {{#if isAuthorized }}
 
-            <a class="button font-lg " href='/profile'>
-                Profile
-            </a>
-            
-            <a class="button font-lg " href='/settings'>
-                Settings
-            </a>
+        <a class="button font-lg " href='/settings'>
+            Settings
+        </a>
 
-            <a class="button font-lg " href="/logout">
-                Logout
-            </a>
-          
+        <a class="button font-lg " href="/logout">
+            Logout
+        </a>
+
         {{ else }}
-            <a class="button font-lg " href='/signup'>
-                Signup
-            </a>
+        <a id="myBtn" class="button font-lg ">
+            Login/Signup
+            <a>
 
-            <a class="button font-lg " href='/login'>
-                Login
-            </a>
-    
-        {{/if }}
-    
+                <div id="myModal" class="modal">
 
-   
-        <a class="button neon-text-cyan  font-lg" href='/singleplayer'>
-            Single
-        </a>
-     
-        <a class="button font-lg" href='/'>
-            Multiplayer
-        </a>
- 
-    
+                    <div class="modal-content">
 
-        
-        <a class="button font-lg " href='/leaderboard'>
-            Leaderboard
-        </a>
-      
-        <a class="button font-lg " href='/about'>
-            About
-        </a>
-     
+
+                        <div class="l-flex-column" id="modal">
+                            <div class="tab">
+                                <button class="tablinks" onclick="openTab(event, 'Login')"
+                                    id="defaultOpen">Login</button>
+                                <button class="tablinks" onclick="openTab(event, 'Signup')" id="tabsignup">Sign
+                                    up</button>
+                            </div>
+                            <div id="Login" class="tabcontent">
+                                <form action="" class="l-flex-column" method="POST">
+                                    <fieldset>
+                                        <!-- Sign Up Form -->
+                                        <!-- Text input-->
+                                        <div class="group">
+                                            <input required="" class="input" type="text"><span
+                                                class="highlight"></span><span class="bar"></span>
+                                            <label class="label" for="date">Login</label></div>
+
+                                        <!-- Text input-->
+                                        <div class="group">
+                                            <input required="" class="input" type="password"><span
+                                                class="highlight"></span><span class="bar"></span>
+                                            <label class="label" for="date">Password</label></div>
+                                    </fieldset>
+                                    <input class="my-3 font-brandon" value="SUBMIT" type="submit" name="submit">
+                                </form>
+                            </div>
+
+                            <div id="Signup" class="tabcontent">
+                                <form action="" class="l-flex-column" method="POST">
+                                    <fieldset>
+                                        <!-- Sign Up Form -->
+                                        <!-- Text input-->
+                                        <div class="group">
+                                            <input required="" class="input" type="text"><span
+                                                class="highlight"></span><span class="bar"></span>
+                                            <label class="label" for="date">Login</label></div>
+                                        <div class="group">
+                                            <input required="" class="input" type="email"><span
+                                                class="highlight"></span><span class="bar"></span>
+                                            <label class="label" for="date">Email</label></div>
+
+                                        <div class="group">
+                                            <input required="" class="input" type="password"><span
+                                                class="highlight"></span><span class="bar"></span>
+                                            <label class="label" for="date">Password</label></div>
+                                        <!-- Text input-->
+                                        <div class="group">
+                                            <input required="" class="input" type="password" id="repeat_password"><span
+                                                class="highlight"></span><span class="bar"></span>
+                                            <label class="label" for="date">Repeat password</label></div>
+                                    </fieldset>
+                                    <input class="my-3 font-brandon" value="SUBMIT" type="submit" name="submit">
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                {{/if }}
+
+
+
+                <a class="button neon-text-cyan  font-lg" href='/singleplayer'>
+                    Single
+                </a>
+
+                <a class="button font-lg" href='/'>
+                    Multiplayer
+                </a>
+
+                <a class="button font-lg " href='/about'>
+                    About
+                </a>
+
     </div>
 
 </div>

@@ -25,6 +25,8 @@ const STATIC = [
   '/public/modules/models.js',
   '/public/modules/router.js',
   '/public/modules/routes.js',
+  '/public/modules/controllers.js',
+  '/public/modules/gamecontrollers.js',
   '/public/modules/utils.js',
   '/public/templates/build/all.js',
   '/public/templates/about.html',
@@ -41,7 +43,7 @@ const STATIC = [
   '/public/img/about.jpg',
   '/public/img/avatar.jpg',
   '/public/img/settings.svg',
-  '/public/sw.js',
+  '/public/gameresources/singleplayer.json',
 ];
 
 self.addEventListener('install', (event) => {

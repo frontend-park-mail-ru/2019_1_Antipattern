@@ -1,7 +1,5 @@
-/*
- *	States - state-styles with prefix "is-" and etc.
- */
-
+/* *	States - state-styles with prefix "is-" and etc.
+ * */
 .justify-around,
 .justify-end,
 .justify-start {
@@ -22,7 +20,7 @@
 .justify-start {
   justify-content: flex-start !important;
 }
- 
+
 .space-between {
   justify-content: space-between !important;
 }
@@ -35,57 +33,33 @@
   align-items: center !important;
 }
 
-.neon-button-black:hover,
-.neon-button-blue:hover,
-.neon-button-green:hover,
-.neon-button-cyan:hover,
-.neon-button-red:hover,
-.neon-button-purple:hover,
-.neon-button-yellow:hover,
-.neon-button-white:hover {
-  box-shadow:
-    0 0 5px #fff,
-    0 0 10px #fff,
-    0 0 15px #fff,
-    0 0 20px var(--outline-color),
-    0 0 35px var(--outline-color),
-    0 0 40px var(--outline-color),
-    0 0 50px var(--outline-color),
-    0 0 75px var(--outline-color);
-  text-shadow:
-    0 0 10px #fff,
-    0 0 20px #fff,
-    0 0 30px #fff,
-    0 0 40px var(--outline-color),
-    0 0 70px var(--outline-color),
-    0 0 80px var(--outline-color),
-    0 0 100px var(--outline-color),
-    0 0 150px var(--outline-color);
+.hidden {
+  display: none !important;
 }
 
-.neon-text-black:hover,
-.neon-text-blue:hover,
-.neon-text-green:hover,
-.neon-text-cyan:hover,
-.neon-text-red:hover,
-.neon-text-purple:hover,
-.neon-text-yellow:hover,
-.neon-text-white:hover {
-  text-shadow:
-    0 0 5px #fff,
-    0 0 10px #fff,
-    0 0 15px #fff,
-    0 0 20px var(--outline-color),
-    0 0 35px var(--outline-color),
-    0 0 40px var(--outline-color),
-    0 0 50px var(--outline-color),
-    0 0 75px var(--outline-color);
+#input {
+  height: 10%;
+  width: 100%;
 }
 
-.input-dark:focus {
-  transform: translate(0);
-  box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #f17, 0 0 35px #f17, 0 0 40px #f17, 0 0 50px #f17, 0 0 75px #f17;
-
-  /* text-shadow: 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #228DFF, 0 0 1px #228DFF, 0 0 2px #228DFF, 0 0 1px #228DFF, 0 0 1px #228DFF; */
+#exit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15%;
+  width: 100%;
+  background-color: blueviolet;
 }
 
+.card {
+  width: 100%;
+}
+
+.item:nth-child(even) {
+  background-color: #27bdbd;
+}
+.item:nth-child(odd) {
+  background-color: #2eaa81;
+}
+
+/*# sourceMappingURL=states.css.map */

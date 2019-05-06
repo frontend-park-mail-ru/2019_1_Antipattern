@@ -1,8 +1,8 @@
 'use strict';
 
-import {showErrorMsg, clearErrors} from './utils.js';
-import {Router} from './router.js';
-
+import { showErrorMsg, clearErrors } from './utils.js';
+import { Router } from './router.js';
+// import {sendMsg} from './chatws.js'
 /**
  * Base view class
  */
@@ -109,6 +109,45 @@ class IndexRoute extends BaseRoute {
     this._rootEl.innerHTML = Handlebars.templates['menu.html']({
       isAuthorized: value,
     });
+
+    let modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    let btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    // let span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal 
+    btn.onclick = function () {
+      modal.style.display = "block";
+      document.getElementById("defaultOpen").click();
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    // span.onclick = function() {
+    //   modal.style.display = "none";
+    // }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    window.openTab = function (evt, cityName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
   }
 
   /**
@@ -285,12 +324,10 @@ class ProfileRoute extends BaseRoute {
     if (value) {
       /* TODO(everyone): make settings file */
       const user = value;
-      // TODO: remove this hardcode(incapsulate in user model)
-      const avatarPath = user.img || 'public/img/avatar.jpg';
       this._rootEl.innerHTML = Handlebars.templates['profile.html']({
         login: user.login,
         email: user.email,
-        avatar_path: avatarPath,
+        avatar_path: user.img,
         score: user.score,
       });
     } else {
@@ -608,6 +645,88 @@ class SinglePlayerRoute extends BaseRoute {
   }
 }
 
+class NotFoundRoute extends BaseRoute {
+  constructor(rootEl, router) {
+    super(rootEl, router);
+  }
+
+  init() {
+    console.log('NOT FND');
+    this._rootEl.innerHTML = Handlebars.templates['404.html']();
+    super.init();
+  }
+
+  deinit() {
+    super.deinit();
+  }
+}
+
+class ChatRoute extends BaseRoute {
+  /**
+   * AboutRoute constructor
+   * @param {Node} rootEl - DOM element
+   * @param {Router} router - route object
+   */
+  constructor(...args) {
+    super(...args);
+  }
+
+  render(state, key, value) {
+    if (key === 'Msg') {
+      const div = document.createElement('div');
+      let p = document.createElement('span');
+      let img = document.createElement('img');
+      img.src = value.avatar;
+      img.width = 25;
+      img.height = 25;
+      // console.log(value);
+      p.innerText = value.text;
+
+      div.appendChild(img);
+      div.appendChild(p);
+
+      document.getElementById('text-field').appendChild(div);
+    } else {
+      for (const msg of value) {
+        const p = document.createElement('p');
+        // console.log(value);
+        p.innerText = msg.uid.slice(0, 5) + ':' + msg.text;
+
+        document.getElementById('text-field').appendChild(p);
+      }
+    }
+    document.getElementById('text-field').scrollTop = 8000;
+  }
+  /**
+   * Inits route
+   */
+  init() {
+    this._subscriber.subscribeEvent('Msg', this._render);
+    this._subscriber.subscribeEvent('Msgs', this._render);
+    this._rootEl.innerHTML = Handlebars.templates['chat.html']();
+    let text = document.getElementById('pop-up');
+    text.addEventListener('submit', (event) => {
+      event.preventDefault();
+      this._form = event.target;
+      let msg = this._form.elements["text"].value;
+      console.log(msg);
+      this._controller.sendMsg(msg);
+    });
+
+    this._controller.loadHistory();
+    super.init();
+  }
+
+  /**
+   * Reverts route init
+   */
+  deinit() {
+    this._subscriber.unsubscribeEvent('Msg', this._render);
+    this._subscriber.unsubscribeEvent('Msgs', this._render);
+    super.deinit();
+  }
+}
+
 export {
   IndexRoute,
   LoginRoute,
@@ -618,4 +737,6 @@ export {
   AboutRoute,
   LogoutRoute,
   SinglePlayerRoute,
+  NotFoundRoute,
+  ChatRoute,
 };

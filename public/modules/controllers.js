@@ -5,6 +5,7 @@ import UserModel from './models.js';
 import Factory from './factory.js';
 import {SinglePlayerController} from './gamecontrollers.js';
 
+
 /**
  * Class implementing leaderboard logic
  */
@@ -106,6 +107,13 @@ class UserController {
   getUser() {
     const state = this._dispatcher.getState();
     if (state['User']) {
+      if (!state['User'].img) {
+        const us = state['User'];
+        const newUser = new this._UserModel(us.email, us.login,
+            us.score, 'public/img/avatar.jpg');
+        this._dispatcher.dispatchEvent('User', newUser);
+      }
+
       this._dispatcher.dispatchEvent('UserLoaded', state['User']);
       return;
     } else if (state['User'] === null) {
@@ -115,7 +123,7 @@ class UserController {
 
     this._apiModule.getUserInfo()
         .then((object) => {
-          const image = object.avatar || '';
+          const image = object.avatar || 'public/img/avatar.jpg';
           this._dispatcher.dispatchEvent('User', new this._UserModel(
               object.email, object.login, object.score, image
           ));
@@ -292,6 +300,71 @@ class SettingsController {
   }
 }
 
+class ChatController {
+  /**
+   * SettingsController constructor
+   * @param {DispatchAdapter} dispatcher - internal dispatcher
+   */
+  constructor(dispatcher, apiModule) {
+    this._dispatcher = dispatcher;
+    this._apiModule = apiModule;
+
+    this._socket = new WebSocket('wss://chat.kpacubo.xyz:2000/ws');
+
+    this._socket.onopen = () => {
+      console.log('Соединение установлено.');
+    };
+
+    this._socket.onclose = (event) => {
+      if (event.wasClean) {
+        console.log('Соединение закрыто чисто');
+      } else {
+        console.log('Обрыв соединения'); // например, "убит" процесс сервера
+      }
+      console.log('Код: ' + event.code + ' причина: ' + event.reason);
+    };
+
+    this._socket.onmessage = (event) => {
+      let msg = JSON.parse(event.data);
+      if (msg.uid !== '') {
+        this._apiModule.getUserById(msg.uid)
+            .then((payload) => {
+              this._dispatcher.dispatchEvent('Msg', {
+                text: payload.login + ':' + msg.text,
+                avatar: payload.avatar || 'public/img/avatar.jpg',
+              });
+            });
+      } else {
+        this._dispatcher.dispatchEvent('Msg', {
+          text: 'anon' + ':' + msg.text,
+          avatar: 'public/img/avatar.jpg',
+        });
+        
+      }
+    };
+
+    this._socket.onerror = (error) => {
+      console.log('Ошибка ' + error.message);
+    };
+  }
+
+  sendMsg(msg) {
+    this._socket.send(JSON.stringify({ text: msg }));
+  }
+
+  loadHistory() {
+    this._apiModule.getChatHistory()
+        .then((payload) => {
+          payload = payload.reverse();
+          this._dispatcher.dispatchEvent('Msgs', payload);
+          console.log(payload);
+        })
+        .catch((govno) => {
+          console.log(govno);
+        });
+  }
+}
+
 
 const controllerFactory = new Factory({
   'apiModule': apiModule,
@@ -313,6 +386,8 @@ controllerFactory.addConstructor(SettingsController,
     ['dispatcher', 'apiModule', 'validator', 'UserModel']);
 controllerFactory.addConstructor(SinglePlayerController,
     ['dispatcher', 'apiModule', 'UserModel']);
+controllerFactory.addConstructor(ChatController,
+    ['dispatcher', 'apiModule']);
 
 const leaderboardController = controllerFactory.newLeaderboardController();
 const loginController = controllerFactory.newLoginController();
@@ -321,6 +396,7 @@ const signUpController = controllerFactory.newSignUpController();
 const logoutController = controllerFactory.newLogoutController();
 const settingsController = controllerFactory.newSettingsController();
 const singlePlayerController = controllerFactory.newSinglePlayerController();
+const chatController = controllerFactory.newChatController();
 
 export {
   leaderboardController,
@@ -330,4 +406,5 @@ export {
   logoutController,
   settingsController,
   singlePlayerController,
+  chatController,
 };
