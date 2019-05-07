@@ -30,6 +30,7 @@
 }
 
 .align-center {
+  display: flex;
   align-items: center !important;
 }
 

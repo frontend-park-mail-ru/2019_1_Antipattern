@@ -109,45 +109,6 @@ class IndexRoute extends BaseRoute {
     this._rootEl.innerHTML = Handlebars.templates['menu.html']({
       isAuthorized: value,
     });
-
-    let modal = document.getElementById('myModal');
-
-    // Get the button that opens the modal
-    let btn = document.getElementById("myBtn");
-
-    // Get the <span> element that closes the modal
-    // let span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on the button, open the modal 
-    btn.onclick = function () {
-      modal.style.display = "block";
-      document.getElementById("defaultOpen").click();
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    // span.onclick = function() {
-    //   modal.style.display = "none";
-    // }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
-    window.openTab = function (evt, cityName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(cityName).style.display = "block";
-      evt.currentTarget.className += " active";
-    }
   }
 
   /**
@@ -155,6 +116,57 @@ class IndexRoute extends BaseRoute {
    */
   init() {
     this.prerender();
+
+    let openTab = function (evt) {
+      evt.preventDefault();
+      let btn = document.getElementById("myBtn");
+      let modal = document.getElementById('myModal');
+      
+      if (evt.target == modal) {
+        modal.style.display = "none";
+        return;
+      }
+      if (evt.target == btn) {
+        modal.style.display = "block";
+        document.getElementById("defaultOpen").click();
+        return;
+      }
+
+      if (evt.target.name == 'submit') {
+        console.log('true');
+        let evt = new CustomEvent('submit');
+        evt.initCustomEvent('submit', true, true);
+        document.forms['loginform'].dispatchEvent(evt);
+        return;
+      }
+
+
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName('tabcontent');
+      tablinks = document.getElementsByClassName('tablinks');
+      if (Array.prototype.slice.call(tablinks).includes(evt.target)) {
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = 'none';
+        }
+        tablinks = document.getElementsByClassName('tablinks');
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(' active', '');
+        }
+        document.getElementById(evt.target.innerText).style.display = 'block';
+        evt.currentTarget.className += ' active';
+      }
+    }
+    this._addListener('submit', (event) => {
+      this._form = event.target;
+      clearErrors(this._form);
+      
+      console.log(this._form);
+      const login = this._form.elements['login'].value;
+      const password = this._form.elements['password'].value;
+      this._controller.login(login, password);
+    });
+    this._addListener('click', openTab);
+    this._subscriber.subscribeEvent('LoggedIn', this._render);
     this._subscriber.subscribeEvent('UserLoaded', this._render);
     this._controller.getUser();
     super.init();
@@ -163,7 +175,9 @@ class IndexRoute extends BaseRoute {
    * deinitializer
    */
   deinit() {
+    this._subscriber.unsubscribeEvent('LoggedIn', this._render);
     this._subscriber.unsubscribeEvent('UserLoaded', this._render);
+    this._rootEl.innerHTML = '';
     super.deinit();
   }
 }
@@ -200,17 +214,7 @@ class LoginRoute extends BaseRoute {
    */
   init() {
     this._rootEl.innerHTML = Handlebars.templates['login.html']();
-    this._addListener('submit', (event) => {
-      event.preventDefault();
-      this._form = event.target;
-      clearErrors(this._form);
 
-      const login = this._form.elements['login'].value;
-      const password = this._form.elements['password'].value;
-      this._controller.login(login, password);
-    });
-
-    this._subscriber.subscribeEvent('LoggedIn', this._render);
     super.init();
   }
 
@@ -218,7 +222,7 @@ class LoginRoute extends BaseRoute {
    * Reverts route init
    */
   deinit() {
-    this._subscriber.unsubscribeEvent('LoggedIn', this._render);
+
     super.deinit();
   }
 }
@@ -651,7 +655,6 @@ class NotFoundRoute extends BaseRoute {
   }
 
   init() {
-    console.log('NOT FND');
     this._rootEl.innerHTML = Handlebars.templates['404.html']();
     super.init();
   }
