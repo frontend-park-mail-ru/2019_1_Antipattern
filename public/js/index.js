@@ -12,10 +12,11 @@ function initUIFactory() {
   });
 
   UIFactory.addConstructor(r.IndexRoute,
-      ['rootEl', 'router', 'controller', 'subscriber'],
+      ['rootEl', 'router', 'controller', 'subscriber', 'loginController', 'signupController'],
       {
         factoryArgs: ['rootEl', 'router'],
-        injections: {'controller': c.userController},
+        injections: {'controller': c.userController, 
+        'loginController': c.loginController, 'signupController': c.signUpController,},
       });
   UIFactory.addConstructor(r.LoginRoute,
       ['rootEl', 'router', 'controller', 'subscriber'],

@@ -48,6 +48,7 @@ class LoginController {
   constructor(dispatcher, apiModule, validator, UserModel) {
     this._dispatcher = dispatcher;
     this._apiModule = apiModule;
+    this._validator = validator;
     this._UserModel = UserModel;
   }
 
@@ -56,7 +57,34 @@ class LoginController {
    * @param {String} login - user login
    * @param {String} password - user password
    */
-  
+  login(login, password) {
+    const errorStruct = this._validator.validateLogin(login, password);
+
+    if (errorStruct.error !== null) {
+      this._dispatcher.dispatchEvent('LoggedIn', errorStruct);
+      return;
+    }
+
+    this._apiModule.authorize(login, password)
+        .then((object) => {
+          const image = object.avatar || '';
+          this._dispatcher.dispatchEvent('User', new this._UserModel(
+              object.email, object.login, object.score, image
+          ));
+          this._dispatcher.dispatchEvent('LoggedIn', 'success');
+        })
+        .catch((error) => {
+          if (typeof error === 'string') {
+            console.log(error);
+          } else {
+            error = error.payload;
+            errorStruct.error = error.message;
+            errorStruct.errorField = error.field;
+
+            this._dispatcher.dispatchEvent('LoggedIn', errorStruct);
+          }
+        });
+  }
 }
 
 /**
@@ -70,7 +98,6 @@ class UserController {
   constructor(dispatcher, apiModule, UserModel) {
     this._dispatcher = dispatcher;
     this._apiModule = apiModule;
-    this._validator = validator;
     this._UserModel = UserModel;
   }
 
@@ -107,35 +134,6 @@ class UserController {
           console.log(error);
           this._dispatcher.dispatchEvent('User', null);
           this._dispatcher.dispatchEvent('UserLoaded', null);
-        });
-  }
-
-  login(login, password) {
-    const errorStruct = this._validator.validateLogin(login, password);
-
-    if (errorStruct.error !== null) {
-      this._dispatcher.dispatchEvent('LoggedIn', errorStruct);
-      return;
-    }
-
-    this._apiModule.authorize(login, password)
-        .then((object) => {
-          const image = object.avatar || '';
-          this._dispatcher.dispatchEvent('User', new this._UserModel(
-              object.email, object.login, object.score, image
-          ));
-          this._dispatcher.dispatchEvent('LoggedIn', 'success');
-        })
-        .catch((error) => {
-          if (typeof error === 'string') {
-            console.log(error);
-          } else {
-            error = error.payload;
-            errorStruct.error = error.message;
-            errorStruct.errorField = error.field;
-
-            this._dispatcher.dispatchEvent('LoggedIn', errorStruct);
-          }
         });
   }
 }
