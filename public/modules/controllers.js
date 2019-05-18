@@ -59,7 +59,7 @@ class LoginController {
    */
   login(login, password) {
     const errorStruct = this._validator.validateLogin(login, password);
-
+    console.log(errorStruct);
     if (errorStruct.error !== null) {
       this._dispatcher.dispatchEvent('LoggedIn', errorStruct);
       return;

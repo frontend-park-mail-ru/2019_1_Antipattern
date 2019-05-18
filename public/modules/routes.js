@@ -95,11 +95,12 @@ class IndexRoute extends BaseRoute {
   /**
    * initializer
    */
-  prerender() {
-    this._rootEl.innerHTML = Handlebars.templates['menu.html']({
-      isAuthorized: null,
-    });
-  }
+  // prerender() {
+    
+  //   this._rootEl.innerHTML = Handlebars.templates['menu.html']({
+  //     isAuthorized: null,
+  //   });
+  // }
 
   /**
    * Renders route after receiving event
@@ -108,16 +109,25 @@ class IndexRoute extends BaseRoute {
    * @param {*} value - event data
    */
   render(state, key, value) {
+    console.log(arguments)
+    console.log('value', value)
+    if(state['User']) {
     this._rootEl.innerHTML = Handlebars.templates['menu.html']({
-      isAuthorized: value,
+      isAuthorized: true,
     });
+    } else if(!value){
+      this._rootEl.innerHTML = Handlebars.templates['menu.html']({
+            isAuthorized: null,
+          });
+    }
+    // showErrorMsg(this._form, value.errorField, value.error);
   }
 
   /**
    * Inits route
    */
   init() {
-    this.prerender();
+    // this.prerender();
 
     let openTab = function (evt) {
       evt.preventDefault();
