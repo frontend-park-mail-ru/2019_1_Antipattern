@@ -96,7 +96,7 @@ class IndexRoute extends BaseRoute {
    * initializer
    */
   // prerender() {
-    
+
   //   this._rootEl.innerHTML = Handlebars.templates['menu.html']({
   //     isAuthorized: null,
   //   });
@@ -109,16 +109,14 @@ class IndexRoute extends BaseRoute {
    * @param {*} value - event data
    */
   render(state, key, value) {
-    console.log(arguments)
-    console.log('value', value)
-    if(state['User']) {
-    this._rootEl.innerHTML = Handlebars.templates['menu.html']({
-      isAuthorized: true,
-    });
-    } else if(!value){
+    if (state['User']) {
       this._rootEl.innerHTML = Handlebars.templates['menu.html']({
-            isAuthorized: null,
-          });
+        isAuthorized: true,
+      });
+    } else if (!value) {
+      this._rootEl.innerHTML = Handlebars.templates['menu.html']({
+        isAuthorized: null,
+      });
     }
     // showErrorMsg(this._form, value.errorField, value.error);
   }
@@ -133,8 +131,8 @@ class IndexRoute extends BaseRoute {
       evt.preventDefault();
       let btn = document.getElementById("myBtn");
       let modal = document.getElementById('myModal');
-      
-      
+
+
       if (evt.target == modal) {
         modal.style.display = "none";
         return;
@@ -146,7 +144,6 @@ class IndexRoute extends BaseRoute {
       }
 
       if (evt.target.name == 'submit') {
-        console.log('true');
         let evt = new CustomEvent('submit');
         evt.initCustomEvent('submit', true, true);
         document.forms['loginform'].dispatchEvent(evt);
@@ -175,7 +172,6 @@ class IndexRoute extends BaseRoute {
 
       const login = this._form.elements['login'].value;
       const password = this._form.elements['password'].value;
-      console.log(login, password)
       this._loginController.login(login, password);
     });
 
@@ -677,7 +673,6 @@ class NotFoundRoute extends BaseRoute {
   }
 
   init() {
-    console.log('NOT FND');
     this._rootEl.innerHTML = Handlebars.templates['404.html']();
     super.init();
   }
@@ -705,7 +700,6 @@ class ChatRoute extends BaseRoute {
       img.src = value.avatar;
       img.width = 25;
       img.height = 25;
-      // console.log(value);
       p.innerText = value.text;
 
       div.appendChild(img);
@@ -714,11 +708,18 @@ class ChatRoute extends BaseRoute {
       document.getElementById('text-field').appendChild(div);
     } else {
       for (const msg of value) {
-        const p = document.createElement('p');
-        // console.log(value);
-        p.innerText = msg.uid.slice(0, 5) + ':' + msg.text;
+        const div = document.createElement('div');
+        const p = document.createElement('span');
+        let img = document.createElement('img');
+        img.width = 25;
+        img.height = 25;
+        img.src = msg['avatar'] || '/public/img/avatar.jpg'
+        p.innerText = msg['login'] + ':' + msg['text'];
 
-        document.getElementById('text-field').appendChild(p);
+        if (msg['login'] != undefined) div.appendChild(img);
+        div.appendChild(p);
+
+        document.getElementById('text-field').appendChild(div);
       }
     }
     document.getElementById('text-field').scrollTop = 8000;
@@ -735,7 +736,6 @@ class ChatRoute extends BaseRoute {
       event.preventDefault();
       this._form = event.target;
       let msg = this._form.elements["text"].value;
-      console.log(msg);
       this._controller.sendMsg(msg);
     });
 

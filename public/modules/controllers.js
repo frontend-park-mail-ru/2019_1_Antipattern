@@ -329,6 +329,7 @@ class ChatController {
       if (msg.uid !== '') {
         this._apiModule.getUserById(msg.uid)
             .then((payload) => {
+              
               this._dispatcher.dispatchEvent('Msg', {
                 text: payload.login + ':' + msg.text,
                 avatar: payload.avatar || 'public/img/avatar.jpg',
