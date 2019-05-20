@@ -1,27 +1,27 @@
 const STORAGE_NAME = 'kpacubo_storage';
 const STATIC = [
   '/',
-  '/index.html',
-  '/css/base.css',
-  '/css/layout.css',
-  '/css/fonts.css',
-  '/js/index.js',
-  '/css/modules.css',
-  '/fonts/BrandonGrotesque-Regular.eot',
-  '/fonts/BrandonGrotesque-Regular.woff',
-  '/fonts/BrandonGrotesque-Regular.ttf',
-  '/css/states.css',
-  '/css/themes.css',
-  'js/lib/handlebars.runtime-v4.1.0.js',
-  '/templates/build/all.js',
-  '/modules/basevalidator.js',
-  '/modules/ajax.js',
-  '/modules/models.js',
-  '/modules/routes.js',
-  '/modules/router.js',
-  '/modules/utils.js',
-  '/modules/api.js',
-  '/modules/factory.js',
+  '/public/index.html',
+  '/public/css/base.css',
+  '/public/css/layout.css',
+  '/public/css/fonts.css',
+  '/public/js/index.js',
+  '/public/css/modules.css',
+  '/public/fonts/BrandonGrotesque-Regular.eot',
+  '/public/fonts/BrandonGrotesque-Regular.woff',
+  '/public/fonts/BrandonGrotesque-Regular.ttf',
+  '/public/css/states.css',
+  '/public/css/themes.css',
+  '/public/js/lib/handlebars.runtime-v4.1.0.js',
+  '/public/templates/build/all.js',
+  '/public/modules/basevalidator.js',
+  '/public/modules/ajax.js',
+  '/public/modules/models.js',
+  '/public/modules/routes.js',
+  '/public/modules/router.js',
+  '/public/modules/utils.js',
+  '/public/modules/api.js',
+  '/public/modules/factory.js',
 ];
 
 self.addEventListener('install', (event) => {
@@ -43,7 +43,7 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.open(cacheName)
+    caches.open(STORAGE_NAME)
       .then(cache => cache.match(event.request, {ignoreSearch: true}))
       .then(response => {
       return response || fetch(event.request);
