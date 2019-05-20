@@ -8,6 +8,8 @@
     "test": "eslint . --fix",
     "css-lint": "stylelint 'public/css/*.css' --fix",
     "dock": "rm -rf out/ | jsdoc public/modules/*.js\n",
+    "build": "webpack -p",
+    "watch": "webpack --watch",
     "build-templates": "mkdir -p public/templates/build && handlebars public/templates/*.html -f public/templates/build/all.js -m"
   },
   "repository": {

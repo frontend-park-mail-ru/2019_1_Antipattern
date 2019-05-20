@@ -98,17 +98,16 @@ function getDefaultLocation() {
  * @param {Router} router - route object
  */
 function initUI(UIFactory, root, router) {
-  router.addRoute('/', UIFactory.newIndexRoute);
-  router.addRoute('/login', UIFactory.newLoginRoute);
-  router.addRoute('/profile', UIFactory.newProfileRoute);
-  router.addRoute('/settings', UIFactory.newSettingsRoute);
-  router.addRoute('/signup', UIFactory.newSignUpRoute);
-  router.addRoute('/leaderboard', UIFactory.newLeaderBoardRoute);
-  router.addRoute('/about', UIFactory.newAboutRoute);
-  router.addRoute('/logout', UIFactory.newLogoutRoute);
-  router.addRoute('/singleplayer', UIFactory.newSinglePlayerRoute);
-  router.addRoute('/chat', UIFactory.newChatRoute);
-
+  router.addRoute('/', UIFactory.getFabricator(r.IndexRoute));
+  router.addRoute('/login', UIFactory.getFabricator(r.LoginRoute));
+  router.addRoute('/profile', UIFactory.getFabricator(r.ProfileRoute));
+  router.addRoute('/settings', UIFactory.getFabricator(r.SettingsRoute));
+  router.addRoute('/signup', UIFactory.getFabricator(r.SignUpRoute));
+  router.addRoute('/leaderboard', UIFactory.getFabricator(r.LeaderBoardRoute));
+  router.addRoute('/about', UIFactory.getFabricator(r.AboutRoute));
+  router.addRoute('/logout', UIFactory.getFabricator(r.LogoutRoute));
+  router.addRoute('/singleplayer', UIFactory.getFabricator(r.SinglePlayerRoute));
+  router.addRoute('/chat', UIFactory.getFabricator(r.ChatRoute));
   router.notFoundRouteMaker = UIFactory.newNotFoundRoute;
 
   const loc = getDefaultLocation();

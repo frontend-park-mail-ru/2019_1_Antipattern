@@ -390,14 +390,14 @@ controllerFactory.addConstructor(SinglePlayerController,
 controllerFactory.addConstructor(ChatController,
     ['dispatcher', 'apiModule']);
 
-const leaderboardController = controllerFactory.newLeaderboardController();
-const loginController = controllerFactory.newLoginController();
-const userController = controllerFactory.newUserController();
-const signUpController = controllerFactory.newSignUpController();
-const logoutController = controllerFactory.newLogoutController();
-const settingsController = controllerFactory.newSettingsController();
-const singlePlayerController = controllerFactory.newSinglePlayerController();
-const chatController = controllerFactory.newChatController();
+const leaderboardController = controllerFactory.getFabricator(LeaderboardController)();
+const loginController = controllerFactory.getFabricator(LoginController)();
+const userController = controllerFactory.getFabricator(UserController)();
+const signUpController = controllerFactory.getFabricator(SignUpController)();
+const logoutController = controllerFactory.getFabricator(LogoutController)();
+const settingsController = controllerFactory.getFabricator(SettingsController)();
+const singlePlayerController = controllerFactory.getFabricator(SinglePlayerController)();
+const chatController = controllerFactory.getFabricator(ChatController)();
 
 export {
   leaderboardController,

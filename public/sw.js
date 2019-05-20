@@ -22,6 +22,9 @@ const STATIC = [
   '/public/modules/utils.js',
   '/public/modules/api.js',
   '/public/modules/factory.js',
+  '/public/modules/gamecontrollers.js',
+  '/public/modules/dispatcher.js',
+  '/public/modules/controllers.js',
 ];
 
 self.addEventListener('install', (event) => {
