@@ -2,10 +2,7 @@ language: node_js
 node_js:
   - "10"
 install:
-  - sudo npm install
-  - sudo npm install eslint
-  - sudo npm install webpack
-  - sudo npm install babel-cli
+  - npm install
 script:
-  - sudo npm run test
-  - sudo npm run build
+  - npm run test
+  - npm run build
