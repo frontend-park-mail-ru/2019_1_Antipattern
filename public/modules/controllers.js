@@ -363,6 +363,9 @@ class ChatController {
           console.log(govno);
         });
   }
+  getLogin() {
+    return this._apiModule.getUserInfo();
+  }
 }
 
 

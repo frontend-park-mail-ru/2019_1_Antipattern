@@ -696,7 +696,8 @@ class ChatRoute extends BaseRoute {
 
   render(state, key, value) {
     if (key === 'Msg') {
-      const div = document.createElement('div');
+      let div = document.createElement('div');
+      div.classList.add('message-orange');
       const p = document.createElement('span');
       const img = document.createElement('img');
       img.src = value.avatar;
@@ -708,23 +709,27 @@ class ChatRoute extends BaseRoute {
       div.appendChild(p);
 
       document.getElementById('text-field').appendChild(div);
+      document.getElementById('msgform').reset()
     } else {
       for (const msg of value) {
-        const div = document.createElement('div');
+        let div = document.createElement('div');
+        div.classList.add('message');
         const p = document.createElement('span');
         const img = document.createElement('img');
         img.width = 25;
         img.height = 25;
         img.src = msg['avatar'] || '/public/img/avatar.jpg';
+        
+        if (msg['login'] != undefined) {
+          div.appendChild(img);
+        } else msg['login'] = 'Anon'
         p.innerText = msg['login'] + ':' + msg['text'];
-
-        if (msg['login'] != undefined) div.appendChild(img);
         div.appendChild(p);
-
         document.getElementById('text-field').appendChild(div);
       }
     }
     document.getElementById('text-field').scrollTop = 8000;
+    console.log(this._controller.getLogin())
   }
   /**
    * Inits route
