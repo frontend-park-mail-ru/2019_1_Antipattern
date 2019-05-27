@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-global-assign */
+/* eslint-disable no-console */
 'use strict';
 
 import {showErrorMsg, clearErrors} from './utils.js';
