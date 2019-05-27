@@ -3,9 +3,9 @@ node_js:
   - "10"
 install:
   - sudo npm install
-  - sudo npm i eslint
-  - sudo npm i webpack
-  - sudo npm i babel-cli
+  - sudo npm install eslint
+  - sudo npm install webpack
+  - sudo npm install babel-cli
 script:
   - sudo npm run test
   - sudo npm run build
