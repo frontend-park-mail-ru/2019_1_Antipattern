@@ -698,6 +698,7 @@ class ChatRoute extends BaseRoute {
   render(state, key, value) {
     if (key === 'Msg') {
       let div = document.createElement('div');
+      div.classList.add('message');
       const p = document.createElement('span');
       const img = document.createElement('img');
       img.src = value.avatar;
