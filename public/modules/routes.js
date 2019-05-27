@@ -698,7 +698,6 @@ class ChatRoute extends BaseRoute {
   render(state, key, value) {
     if (key === 'Msg') {
       let div = document.createElement('div');
-      div.classList.add('message-orange');
       const p = document.createElement('span');
       const img = document.createElement('img');
       img.src = value.avatar;
@@ -710,7 +709,6 @@ class ChatRoute extends BaseRoute {
       div.appendChild(p);
 
       document.getElementById('text-field').appendChild(div);
-      document.getElementById('msgform').reset()
     } else {
       for (const msg of value) {
         let div = document.createElement('div');
