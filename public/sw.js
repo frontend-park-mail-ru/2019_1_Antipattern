@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const STORAGE_NAME = 'kpacubo_storage';
 const STATIC = [
   '/',
@@ -17,36 +18,28 @@ const STATIC = [
 ];
 
 self.addEventListener('install', (event) => {
-  console.log('service worker');
   event.waitUntil(
       caches.open(STORAGE_NAME)
-      .then(function(cache) {
-        console.log('Opened cache');
-        return cache.addAll(STATIC)
-      })
-      .catch(err => console.log(err) ) 
+          .then(function(cache) {
+            return cache.addAll(STATIC);
+          })
+          .catch((err) => console.log(err) )
   );
 });
 
-self.addEventListener('activate', event => {
-  console.log('claiming control')
+self.addEventListener('activate', (event) => {
   event.waitUntil(self.clients.claim());
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.open(STORAGE_NAME)
-      .then(cache => cache.match(event.request, {ignoreSearch: true}))
-      .then(response => {
-      return response || fetch(event.request);
-    })
+      caches.open(STORAGE_NAME)
+          .then((cache) => cache.match(event.request, {ignoreSearch: true}))
+          .then((response) => {
+            return response || fetch(event.request);
+          })
   );
 });
-
-
-
-
-
 
 
 /**

@@ -4,7 +4,7 @@ import validator from './basevalidator.js';
 import UserModel from './models.js';
 import Factory from './factory.js';
 import {SinglePlayerController} from './gamecontrollers.js';
-
+/* eslint-disable no-console */
 
 /**
  * Class implementing leaderboard logic
@@ -16,6 +16,7 @@ class LeaderboardController {
    */
   constructor(dispatcher, apiModule) {
     this._dispatcher = dispatcher;
+    this._apiModule = apiModule;
   }
 
   /**
@@ -325,11 +326,10 @@ class ChatController {
     };
 
     this._socket.onmessage = (event) => {
-      let msg = JSON.parse(event.data);
+      const msg = JSON.parse(event.data);
       if (msg.uid !== '') {
         this._apiModule.getUserById(msg.uid)
             .then((payload) => {
-              
               this._dispatcher.dispatchEvent('Msg', {
                 text: payload.login + ':' + msg.text,
                 avatar: payload.avatar || 'public/img/avatar.jpg',
@@ -340,7 +340,6 @@ class ChatController {
           text: 'anon' + ':' + msg.text,
           avatar: 'public/img/avatar.jpg',
         });
-        
       }
     };
 
@@ -350,7 +349,7 @@ class ChatController {
   }
 
   sendMsg(msg) {
-    this._socket.send(JSON.stringify({ text: msg }));
+    this._socket.send(JSON.stringify({text: msg}));
   }
 
   loadHistory() {

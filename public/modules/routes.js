@@ -1,7 +1,9 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-global-assign */
 'use strict';
 
-import { showErrorMsg, clearErrors } from './utils.js';
-import { Router } from './router.js';
+import {showErrorMsg, clearErrors} from './utils.js';
+import {Router} from './router.js';
 // import {sendMsg} from './chatws.js'
 /**
  * Base view class
@@ -127,30 +129,30 @@ class IndexRoute extends BaseRoute {
   init() {
     // this.prerender();
 
-    let openTab = function (evt) {
+    const openTab = function(evt) {
       evt.preventDefault();
-      let btn = document.getElementById("myBtn");
-      let modal = document.getElementById('myModal');
+      const btn = document.getElementById('myBtn');
+      const modal = document.getElementById('myModal');
 
 
       if (evt.target == modal) {
-        modal.style.display = "none";
+        modal.style.display = 'none';
         return;
       }
       if (evt.target == btn) {
-        modal.style.display = "block";
-        document.getElementById("defaultOpen").click();
+        modal.style.display = 'block';
+        document.getElementById('defaultOpen').click();
         return;
       }
 
       if (evt.target.name == 'submit') {
-        let evt = new CustomEvent('submit');
+        const evt = new CustomEvent('submit');
         evt.initCustomEvent('submit', true, true);
         document.forms['loginform'].dispatchEvent(evt);
         return;
       }
 
-      var i, tabcontent, tablinks;
+      let i; let tabcontent; let tablinks;
       tabcontent = document.getElementsByClassName('tabcontent');
       tablinks = document.getElementsByClassName('tablinks');
       if (Array.prototype.slice.call(tablinks).includes(evt.target)) {
@@ -164,7 +166,7 @@ class IndexRoute extends BaseRoute {
         document.getElementById(evt.target.innerText).style.display = 'block';
         evt.currentTarget.className += ' active';
       }
-    }
+    };
     this._addListener('submit', (event) => {
       event.preventDefault();
       this._form = event.target;
@@ -695,8 +697,8 @@ class ChatRoute extends BaseRoute {
   render(state, key, value) {
     if (key === 'Msg') {
       const div = document.createElement('div');
-      let p = document.createElement('span');
-      let img = document.createElement('img');
+      const p = document.createElement('span');
+      const img = document.createElement('img');
       img.src = value.avatar;
       img.width = 25;
       img.height = 25;
@@ -710,10 +712,10 @@ class ChatRoute extends BaseRoute {
       for (const msg of value) {
         const div = document.createElement('div');
         const p = document.createElement('span');
-        let img = document.createElement('img');
+        const img = document.createElement('img');
         img.width = 25;
         img.height = 25;
-        img.src = msg['avatar'] || '/public/img/avatar.jpg'
+        img.src = msg['avatar'] || '/public/img/avatar.jpg';
         p.innerText = msg['login'] + ':' + msg['text'];
 
         if (msg['login'] != undefined) div.appendChild(img);
@@ -731,11 +733,11 @@ class ChatRoute extends BaseRoute {
     this._subscriber.subscribeEvent('Msg', this._render);
     this._subscriber.subscribeEvent('Msgs', this._render);
     this._rootEl.innerHTML = Handlebars.templates['chat.html']();
-    let text = document.getElementById('pop-up');
+    const text = document.getElementById('pop-up');
     text.addEventListener('submit', (event) => {
       event.preventDefault();
       this._form = event.target;
-      let msg = this._form.elements["text"].value;
+      const msg = this._form.elements['text'].value;
       this._controller.sendMsg(msg);
     });
 

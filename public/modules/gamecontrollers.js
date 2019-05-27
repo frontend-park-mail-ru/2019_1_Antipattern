@@ -1,5 +1,5 @@
 'use strict';
-
+/* eslint-disable no-console */
 export class SinglePlayerController {
   constructor(dispatcher, apiModule, UserModel) {
     this._dispatcher = dispatcher;
@@ -66,7 +66,7 @@ export class SinglePlayerController {
   }
 
   displayQuestion(tile) {
-    if (!tile instanceof Node) {
+    if (!(tile instanceof Node)) {
       throw new TypeError('node expected');
     }
 

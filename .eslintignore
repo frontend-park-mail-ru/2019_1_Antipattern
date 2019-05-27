@@ -1,3 +1,6 @@
 public/templates/build/all.js
+public/dist/bundle.js
 public/js/lib/*.js
 out/
+webpack.config.js
+server/server.js

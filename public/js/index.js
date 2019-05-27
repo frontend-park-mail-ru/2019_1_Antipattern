@@ -1,5 +1,5 @@
 'use strict';
-
+/* eslint-disable no-console */
 import * as r from '../modules/routes.js';
 import {Router, initAnchorsRouting} from '../modules/router.js';
 import * as c from '../modules/controllers.js';
@@ -15,8 +15,8 @@ function initUIFactory() {
       ['rootEl', 'router', 'controller', 'subscriber', 'loginController', 'signupController'],
       {
         factoryArgs: ['rootEl', 'router'],
-        injections: {'controller': c.userController, 
-        'loginController': c.loginController, 'signupController': c.signUpController,},
+        injections: {'controller': c.userController,
+          'loginController': c.loginController, 'signupController': c.signUpController},
       });
   UIFactory.addConstructor(r.LoginRoute,
       ['rootEl', 'router', 'controller', 'subscriber'],
@@ -153,5 +153,7 @@ window.onload = () => {
   const UIFactory = initUIFactory();
   initUI(UIFactory, root, router);
   // registerServiceWorker();
-  window.addEventListener('fetch', (request) => { console.log(request)})
+  window.addEventListener('fetch', (request) => {
+    console.log(request);
+  });
 };

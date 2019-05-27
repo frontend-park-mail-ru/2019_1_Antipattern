@@ -97,7 +97,7 @@ class DispatchAdapter {
    * @param {Dispatcher} dispatcher - dispatcher to be adapted
    */
   constructor(dispatcher) {
-    if (!dispatcher instanceof Dispatcher) {
+    if (!(dispatcher instanceof Dispatcher)) {
       throw new TypeError('instance of Dispatcher expected');
     }
 
@@ -131,7 +131,7 @@ class SubscribeAdapter {
    * @param {Dispatcher} dispatcher - dispatcher to be adapted
    */
   constructor(dispatcher) {
-    if (!dispatcher instanceof Dispatcher) {
+    if (!(dispatcher instanceof Dispatcher)) {
       throw new TypeError('instance of Dispatcher expected');
     }
 
