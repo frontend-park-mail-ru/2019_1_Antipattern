@@ -1,33 +1,112 @@
-
+<div id="chat">
     <div id="pop-up">
         <div id="text-field">
         </div>
-    <form id="msgform">
-        <input id="message" name="text" type="text">
-        <input type="submit" value="send"></form>
+        <form id="msgform">
+            <input id="message" name="text" type="text">
+            <input id="send-chat" type="submit" value=""></form>
 
     </div>
+</div>
 
 <style>
+    #send-chat {
+        height: 50px !important;
+        width: 50px !important;
+        border-radius: 50%;
+        border: 0;
+        background: #002b36;
+        background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/104946/ic_send_white_48dp.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        content: '' !important;
+        background-size: 30px;
+        color: white;
+    }
+
+    #msgform {
+        padding: 8px;
+        background-color: #006363;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    #send-chat:focus {
+        outline: none;
+    }
+
+    #send-chat:hover {
+        cursor: pointer;
+    }
+
+    #chat {
+        display: flex;
+        justify-content: center;
+    }
+
     #pop-up {
-        position: relative;
         width: 500px;
         height: 500px;
-        border: solid 3px cornflowerblue;
+        border: none;
+    }
+
+    @media screen and (max-width: 376px) {
+        #chat {
+            width: 100%;
+            height: 100%;
+        }
+        #pop-up {
+            width: 100%;
+        }
     }
 
     #text-field {
-        width: 100%;
+        width: auto;
         position: relative;
         height: 95%;
-        background-color: white; 
-        border: solid 1px black;
+        background-color: white;
+        border: none;
         overflow-wrap: break-word;
-        overflow:scroll;
+        overflow: scroll;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
     }
 
     #message {
-        width: 85%;
+        font-size: large;
+        width: 87%;
+        line-height: 40px;
     }
 
+
+    .message {
+        position: relative;
+        margin-left: 20px;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #A8DDFD;
+        width: 50%;
+        height: auto;
+        text-align: left;
+        font: 400 .9em 'Open Sans', sans-serif;
+        border: 1px solid #97C6E3;
+        border-radius: 10px;
+    }
+
+    .message-orange {
+        position: relative;
+        margin-bottom: 10px;
+        margin-left: calc(100% - 240px);
+        padding: 10px;
+        background-color: #f8e896;
+        width: 200px;
+        height: auto;
+        text-align: left;
+        font: 400 .9em 'Open Sans', sans-serif;
+        border: 1px solid #dfd087;
+        border-radius: 10px;
+    }
 </style>

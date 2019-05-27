@@ -4,7 +4,7 @@ import validator from './basevalidator.js';
 import UserModel from './models.js';
 import Factory from './factory.js';
 import {SinglePlayerController} from './gamecontrollers.js';
-
+/* eslint-disable no-console */
 
 /**
  * Class implementing leaderboard logic
@@ -16,6 +16,7 @@ class LeaderboardController {
    */
   constructor(dispatcher, apiModule) {
     this._dispatcher = dispatcher;
+    this._apiModule = apiModule;
   }
 
   /**
@@ -59,7 +60,7 @@ class LoginController {
    */
   login(login, password) {
     const errorStruct = this._validator.validateLogin(login, password);
-
+    console.log(errorStruct);
     if (errorStruct.error !== null) {
       this._dispatcher.dispatchEvent('LoggedIn', errorStruct);
       return;
@@ -325,7 +326,7 @@ class ChatController {
     };
 
     this._socket.onmessage = (event) => {
-      let msg = JSON.parse(event.data);
+      const msg = JSON.parse(event.data);
       if (msg.uid !== '') {
         this._apiModule.getUserById(msg.uid)
             .then((payload) => {
@@ -339,7 +340,6 @@ class ChatController {
           text: 'anon' + ':' + msg.text,
           avatar: 'public/img/avatar.jpg',
         });
-        
       }
     };
 
@@ -349,7 +349,7 @@ class ChatController {
   }
 
   sendMsg(msg) {
-    this._socket.send(JSON.stringify({ text: msg }));
+    this._socket.send(JSON.stringify({text: msg}));
   }
 
   loadHistory() {
@@ -362,6 +362,9 @@ class ChatController {
         .catch((govno) => {
           console.log(govno);
         });
+  }
+  getLogin() {
+    return this._apiModule.getUserInfo();
   }
 }
 
@@ -389,14 +392,14 @@ controllerFactory.addConstructor(SinglePlayerController,
 controllerFactory.addConstructor(ChatController,
     ['dispatcher', 'apiModule']);
 
-const leaderboardController = controllerFactory.newLeaderboardController();
-const loginController = controllerFactory.newLoginController();
-const userController = controllerFactory.newUserController();
-const signUpController = controllerFactory.newSignUpController();
-const logoutController = controllerFactory.newLogoutController();
-const settingsController = controllerFactory.newSettingsController();
-const singlePlayerController = controllerFactory.newSinglePlayerController();
-const chatController = controllerFactory.newChatController();
+const leaderboardController = controllerFactory.getFabricator(LeaderboardController)();
+const loginController = controllerFactory.getFabricator(LoginController)();
+const userController = controllerFactory.getFabricator(UserController)();
+const signUpController = controllerFactory.getFabricator(SignUpController)();
+const logoutController = controllerFactory.getFabricator(LogoutController)();
+const settingsController = controllerFactory.getFabricator(SettingsController)();
+const singlePlayerController = controllerFactory.getFabricator(SinglePlayerController)();
+const chatController = controllerFactory.getFabricator(ChatController)();
 
 export {
   leaderboardController,

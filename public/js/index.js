@@ -1,5 +1,5 @@
 'use strict';
-
+/* eslint-disable no-console */
 import * as r from '../modules/routes.js';
 import {Router, initAnchorsRouting} from '../modules/router.js';
 import * as c from '../modules/controllers.js';
@@ -12,10 +12,11 @@ function initUIFactory() {
   });
 
   UIFactory.addConstructor(r.IndexRoute,
-      ['rootEl', 'router', 'controller', 'subscriber'],
+      ['rootEl', 'router', 'controller', 'subscriber', 'loginController', 'signupController'],
       {
         factoryArgs: ['rootEl', 'router'],
-        injections: {'controller': c.userController},
+        injections: {'controller': c.userController,
+          'loginController': c.loginController, 'signupController': c.signUpController},
       });
   UIFactory.addConstructor(r.LoginRoute,
       ['rootEl', 'router', 'controller', 'subscriber'],
@@ -97,17 +98,16 @@ function getDefaultLocation() {
  * @param {Router} router - route object
  */
 function initUI(UIFactory, root, router) {
-  router.addRoute('/', UIFactory.newIndexRoute);
-  router.addRoute('/login', UIFactory.newLoginRoute);
-  router.addRoute('/profile', UIFactory.newProfileRoute);
-  router.addRoute('/settings', UIFactory.newSettingsRoute);
-  router.addRoute('/signup', UIFactory.newSignUpRoute);
-  router.addRoute('/leaderboard', UIFactory.newLeaderBoardRoute);
-  router.addRoute('/about', UIFactory.newAboutRoute);
-  router.addRoute('/logout', UIFactory.newLogoutRoute);
-  router.addRoute('/singleplayer', UIFactory.newSinglePlayerRoute);
-  router.addRoute('/chat', UIFactory.newChatRoute);
-
+  router.addRoute('/', UIFactory.getFabricator(r.IndexRoute));
+  router.addRoute('/login', UIFactory.getFabricator(r.LoginRoute));
+  router.addRoute('/profile', UIFactory.getFabricator(r.ProfileRoute));
+  router.addRoute('/settings', UIFactory.getFabricator(r.SettingsRoute));
+  router.addRoute('/signup', UIFactory.getFabricator(r.SignUpRoute));
+  router.addRoute('/leaderboard', UIFactory.getFabricator(r.LeaderBoardRoute));
+  router.addRoute('/about', UIFactory.getFabricator(r.AboutRoute));
+  router.addRoute('/logout', UIFactory.getFabricator(r.LogoutRoute));
+  router.addRoute('/singleplayer', UIFactory.getFabricator(r.SinglePlayerRoute));
+  router.addRoute('/chat', UIFactory.getFabricator(r.ChatRoute));
   router.notFoundRouteMaker = UIFactory.newNotFoundRoute;
 
   const loc = getDefaultLocation();
@@ -120,16 +120,30 @@ function initUI(UIFactory, root, router) {
 /**
  * Function registering service worker
  */
-function registerServiceWorker() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-        .then((reg) => {
-          console.log('Successfully registered:', reg);
-        })
-        .catch((err) => {
-          console.error('Error: ', err);
-        });
-  }
+// function registerServiceWorker() {
+//   if ('serviceWorker' in navigator) {
+//     window.addEventListener('load', function() {
+//       navigator.serviceWorker.register('/sw.js').then(function(registration) {
+//         // Registration was successful
+//         console.log('ServiceWorker registration successful with scope: ', registration.scope);
+//       }, function(err) {
+//         // registration failed :(
+//         console.log('ServiceWorker registration failed: ', err);
+//       });
+//     });
+//   }
+// }
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js').then(function(registration) {
+      // Registration was successful
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, function(err) {
+      // registration failed :(
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  });
 }
 
 window.onload = () => {
@@ -139,4 +153,7 @@ window.onload = () => {
   const UIFactory = initUIFactory();
   initUI(UIFactory, root, router);
   // registerServiceWorker();
+  window.addEventListener('fetch', (request) => {
+    console.log(request);
+  });
 };

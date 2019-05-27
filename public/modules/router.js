@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
 'use strict';
-
 /**
  * Class used to manage views (routes) switching
  */
@@ -122,7 +123,7 @@ function initAnchorsRouting(rootEl, router) {
     console.log(`<a> go to ${path}`);
   });
 
-  window.addEventListener('popstate', function(e) {
+  window.addEventListener('popstate', function() {
     console.log(location.pathname);
     router.routeTo(location.pathname, false);
   }, false);

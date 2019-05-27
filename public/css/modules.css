@@ -158,7 +158,7 @@ input[type=text]::placeholder, input[type=email]::placeholder, input[type=passwo
   color: #e0ffff;
 }
 
-input[type=submit] {
+.input-submit {
   background-color: #b55100;
   color: #ffac68;
   border: none;
@@ -168,7 +168,7 @@ input[type=submit] {
   display: block;
   font-size: 12px;
 }
-input[type=submit]:active {
+.input-submit:active {
   background-color: #ffcc73;
   color: #ff9033;
 }

@@ -1,7 +1,9 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-global-assign */
 'use strict';
 
-import { showErrorMsg, clearErrors } from './utils.js';
-import { Router } from './router.js';
+import {showErrorMsg, clearErrors} from './utils.js';
+import {Router} from './router.js';
 // import {sendMsg} from './chatws.js'
 /**
  * Base view class
@@ -88,16 +90,19 @@ class IndexRoute extends BaseRoute {
    */
   constructor(...args) {
     super(...args);
+    this._loginController = args[4];
+    this._signupController = args[5];
   }
 
   /**
    * initializer
    */
-  prerender() {
-    this._rootEl.innerHTML = Handlebars.templates['menu.html']({
-      isAuthorized: null,
-    });
-  }
+  // prerender() {
+
+  //   this._rootEl.innerHTML = Handlebars.templates['menu.html']({
+  //     isAuthorized: null,
+  //   });
+  // }
 
   /**
    * Renders route after receiving event
@@ -106,55 +111,74 @@ class IndexRoute extends BaseRoute {
    * @param {*} value - event data
    */
   render(state, key, value) {
-    this._rootEl.innerHTML = Handlebars.templates['menu.html']({
-      isAuthorized: value,
-    });
-
-    let modal = document.getElementById('myModal');
-
-    // Get the button that opens the modal
-    let btn = document.getElementById("myBtn");
-
-    // Get the <span> element that closes the modal
-    // let span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on the button, open the modal 
-    btn.onclick = function () {
-      modal.style.display = "block";
-      document.getElementById("defaultOpen").click();
+    if (state['User']) {
+      this._rootEl.innerHTML = Handlebars.templates['menu.html']({
+        isAuthorized: true,
+      });
+    } else if (!value) {
+      this._rootEl.innerHTML = Handlebars.templates['menu.html']({
+        isAuthorized: null,
+      });
     }
-
-    // When the user clicks on <span> (x), close the modal
-    // span.onclick = function() {
-    //   modal.style.display = "none";
-    // }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
-    window.openTab = function (evt, cityName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(cityName).style.display = "block";
-      evt.currentTarget.className += " active";
-    }
+    // showErrorMsg(this._form, value.errorField, value.error);
   }
 
   /**
    * Inits route
    */
   init() {
-    this.prerender();
+    // this.prerender();
+
+    const openTab = function(evt) {
+      evt.preventDefault();
+      const btn = document.getElementById('myBtn');
+      const modal = document.getElementById('myModal');
+
+
+      if (evt.target == modal) {
+        modal.style.display = 'none';
+        return;
+      }
+      if (evt.target == btn) {
+        modal.style.display = 'block';
+        document.getElementById('defaultOpen').click();
+        return;
+      }
+
+      if (evt.target.name == 'submit') {
+        const evt = new CustomEvent('submit');
+        evt.initCustomEvent('submit', true, true);
+        document.forms['loginform'].dispatchEvent(evt);
+        return;
+      }
+
+      let i; let tabcontent; let tablinks;
+      tabcontent = document.getElementsByClassName('tabcontent');
+      tablinks = document.getElementsByClassName('tablinks');
+      if (Array.prototype.slice.call(tablinks).includes(evt.target)) {
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = 'none';
+        }
+        tablinks = document.getElementsByClassName('tablinks');
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(' active', '');
+        }
+        document.getElementById(evt.target.innerText).style.display = 'block';
+        evt.currentTarget.className += ' active';
+      }
+    };
+    this._addListener('submit', (event) => {
+      event.preventDefault();
+      this._form = event.target;
+      clearErrors(this._form);
+
+      const login = this._form.elements['login'].value;
+      const password = this._form.elements['password'].value;
+      this._loginController.login(login, password);
+    });
+
+    this._subscriber.subscribeEvent('LoggedIn', this._render);
+    this._addListener('click', openTab);
     this._subscriber.subscribeEvent('UserLoaded', this._render);
     this._controller.getUser();
     super.init();
@@ -164,10 +188,10 @@ class IndexRoute extends BaseRoute {
    */
   deinit() {
     this._subscriber.unsubscribeEvent('UserLoaded', this._render);
+    this._rootEl.innerHTML = '';
     super.deinit();
   }
 }
-
 /**
  * BaseRoute extension for login.html render
  */
@@ -651,7 +675,6 @@ class NotFoundRoute extends BaseRoute {
   }
 
   init() {
-    console.log('NOT FND');
     this._rootEl.innerHTML = Handlebars.templates['404.html']();
     super.init();
   }
@@ -673,29 +696,40 @@ class ChatRoute extends BaseRoute {
 
   render(state, key, value) {
     if (key === 'Msg') {
-      const div = document.createElement('div');
-      let p = document.createElement('span');
-      let img = document.createElement('img');
+      let div = document.createElement('div');
+      div.classList.add('message-orange');
+      const p = document.createElement('span');
+      const img = document.createElement('img');
       img.src = value.avatar;
       img.width = 25;
       img.height = 25;
-      // console.log(value);
       p.innerText = value.text;
 
       div.appendChild(img);
       div.appendChild(p);
 
       document.getElementById('text-field').appendChild(div);
+      document.getElementById('msgform').reset()
     } else {
       for (const msg of value) {
-        const p = document.createElement('p');
-        // console.log(value);
-        p.innerText = msg.uid.slice(0, 5) + ':' + msg.text;
-
-        document.getElementById('text-field').appendChild(p);
+        let div = document.createElement('div');
+        div.classList.add('message');
+        const p = document.createElement('span');
+        const img = document.createElement('img');
+        img.width = 25;
+        img.height = 25;
+        img.src = msg['avatar'] || '/public/img/avatar.jpg';
+        
+        if (msg['login'] != undefined) {
+          div.appendChild(img);
+        } else msg['login'] = 'Anon'
+        p.innerText = msg['login'] + ':' + msg['text'];
+        div.appendChild(p);
+        document.getElementById('text-field').appendChild(div);
       }
     }
     document.getElementById('text-field').scrollTop = 8000;
+    console.log(this._controller.getLogin())
   }
   /**
    * Inits route
@@ -704,12 +738,11 @@ class ChatRoute extends BaseRoute {
     this._subscriber.subscribeEvent('Msg', this._render);
     this._subscriber.subscribeEvent('Msgs', this._render);
     this._rootEl.innerHTML = Handlebars.templates['chat.html']();
-    let text = document.getElementById('pop-up');
+    const text = document.getElementById('pop-up');
     text.addEventListener('submit', (event) => {
       event.preventDefault();
       this._form = event.target;
-      let msg = this._form.elements["text"].value;
-      console.log(msg);
+      const msg = this._form.elements['text'].value;
       this._controller.sendMsg(msg);
     });
 

@@ -28,24 +28,23 @@
 
                         <div class="l-flex-column" id="modal">
                             <div class="tab">
-                                <button class="tablinks" onclick="openTab(event, 'Login')"
+                                <button class="tablinks"
                                     id="defaultOpen">Login</button>
-                                <button class="tablinks" onclick="openTab(event, 'Signup')" id="tabsignup">Sign
-                                    up</button>
+                                <button class="tablinks"id="tabsignup">Signup</button>
                             </div>
                             <div id="Login" class="tabcontent">
-                                <form action="" class="l-flex-column" method="POST">
+                                <form action="" id="loginform" class="l-flex-column" method="POST">
                                     <fieldset>
                                         <!-- Sign Up Form -->
                                         <!-- Text input-->
                                         <div class="group">
-                                            <input required="" class="input" type="text"><span
+                                            <input required="" id="login" class="input" type="text"><span
                                                 class="highlight"></span><span class="bar"></span>
                                             <label class="label" for="date">Login</label></div>
 
                                         <!-- Text input-->
                                         <div class="group">
-                                            <input required="" class="input" type="password"><span
+                                            <input required="" class="input" id="password" type="password"><span
                                                 class="highlight"></span><span class="bar"></span>
                                             <label class="label" for="date">Password</label></div>
                                     </fieldset>
@@ -54,7 +53,7 @@
                             </div>
 
                             <div id="Signup" class="tabcontent">
-                                <form action="" class="l-flex-column" method="POST">
+                                <form action="" id = "signupform" class="l-flex-column" method="POST">
                                     <fieldset>
                                         <!-- Sign Up Form -->
                                         <!-- Text input-->
@@ -103,6 +102,10 @@
 
                 <a class="button font-lg " href='/about'>
                     About
+                </a>
+
+                <a class="button font-lg " href='/chat'>
+                    Chat
                 </a>
 
     </div>

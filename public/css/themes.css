@@ -238,3 +238,10 @@ fieldset {
         #game-field { height: 80%; width: auto; border: solid 1px white;}
         #player-field { height: 18%; width: auto; border: solid 1px white;}
         #pause-button { height: 100%; width: 8%;}
+
+        .rotate {
+          display: flex;
+  justify-content: center;
+  align-items: center;
+
+        }    
