@@ -5,7 +5,6 @@ const STATIC = [
   '/public/css/base.css',
   '/public/css/layout.css',
   '/public/css/fonts.css',
-  '/public/js/index.js',
   '/public/css/modules.css',
   '/public/fonts/BrandonGrotesque-Regular.eot',
   '/public/fonts/BrandonGrotesque-Regular.woff',
@@ -14,17 +13,7 @@ const STATIC = [
   '/public/css/themes.css',
   '/public/js/lib/handlebars.runtime-v4.1.0.js',
   '/public/templates/build/all.js',
-  '/public/modules/basevalidator.js',
-  '/public/modules/ajax.js',
-  '/public/modules/models.js',
-  '/public/modules/routes.js',
-  '/public/modules/router.js',
-  '/public/modules/utils.js',
-  '/public/modules/api.js',
-  '/public/modules/factory.js',
-  '/public/modules/gamecontrollers.js',
-  '/public/modules/dispatcher.js',
-  '/public/modules/controllers.js',
+  '/public/dist/bundle.js',
 ];
 
 self.addEventListener('install', (event) => {
